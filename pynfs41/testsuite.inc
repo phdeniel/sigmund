@@ -4,35 +4,35 @@
 
 ############################ TEST FUNCTIONS ############################
 
-function pynfs1d
+function test61d
 {
-  tmpfile=/tmp/pynfs1d.$$ 
+  tmpfile=/tmp/test61d.$$ 
   cd $PYNFS_DIR/nfs4.1 
   ./testserver.py  --maketree $PYNFS_URL  dir  | tee $tmpfile
   failed=`grep FAILURE $tmpfile | wc -l`
   rm  $tmpfile
 
-  $failed || error "ERROR when running pynfs/NFSv4.1/dir"
+  $failed || error "ERROR when running test6/NFSv4.1/dir"
 }
 
-function pynfs2f
+function test62f
 {
-  tmpfile=/tmp/pynfs2f.$$ 
+  tmpfile=/tmp/test62f.$$ 
   cd $PYNFS_DIR/nfs4.1 
   ./testserver.py  --maketree $PYNFS_URL  file  | tee $tmpfile
   failed=`grep FAILURE $tmpfile | wc -l`
   rm  $tmpfile
 
-  $failed || error "ERROR when running pynfs/NFSv4.1/file"
+  $failed || error "ERROR when running test6/NFSv4.1/file"
 }
 # syntax: ONLY=2,3 ./run_test.sh [-j] <test_dir>
 
 ######################## DEFINE TEST LIST HERE ####################
 
-function run_pynfs41
+function run_test641
 {
-  run_test pynfs1d  "pynfs/NFSv4.1/dir "
-  run_test pynfs2f  "pynfs/NFSv4.1/file"
+  run_test test61d  "test6/NFSv4.1/dir "
+  run_test test62f  "test6/NFSv4.1/file"
 
   # display test summary / generate outputs
 

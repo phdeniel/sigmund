@@ -3,6 +3,8 @@
 # Use this template to build your own test_variables.rc
 #
 
+TEST_DIR=/mnt/sigmund
+
 # Path to cthon04 test's suite
 CTHON04_DIR=/opt/cthon04
 GIT_CLONE_URL=/opt/nfs-ganesha/.git

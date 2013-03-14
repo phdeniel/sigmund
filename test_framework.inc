@@ -244,16 +244,12 @@ if [[ -n $ONLY ]]; then
 fi
 
 if [ -z "$1" ]; then
-    echo >&2 "Usage: $0 [-j] <test_dir>"
-    echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-j] <test_dir>"
-    exit 1
+    RCFILE=run_test.rc 
+    #echo >&2 "Usage: $0 [-j] <test_dir>"
+    #echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-j] <test_dir>"
 else
-    TEST_DIR=$1
-    if  [[ $quiet == 0 ]] ; then
-    	echo "test dir: $TEST_DIR"
-    fi
+    RCFILE=$1
 fi
-
 
 # RUN THE TEST HERE
 

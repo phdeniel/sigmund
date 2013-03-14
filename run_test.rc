@@ -8,6 +8,9 @@ if [[ -z $MODULES ]] ; then
   MODULES="allfs" 
 fi
 
+##### Root of test  #####
+TEST_DIR=/mnt/sigmund
+
 ##### Variables to be used by module allfs #####
 
 # Path to cthon04 test's suite
