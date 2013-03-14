@@ -214,8 +214,8 @@ while getopts "qj" opt ; do
 		j)	junit=1;;
         	q)      quiet=1;;
 		[?])
-        		echo >&2 "Usage: $0 [-j] <test_dir>"
-        		echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-j] <test_dir>"
+        		echo >&2 "Usage: $0 [-jq] [rcfile]"
+        		echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
 			exit 1;;
 	esac
 done
@@ -244,9 +244,9 @@ if [[ -n $ONLY ]]; then
 fi
 
 if [ -z "$1" ]; then
-    RCFILE=run_test.rc 
-    #echo >&2 "Usage: $0 [-j] <test_dir>"
-    #echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-j] <test_dir>"
+    RCFILE=`dirname $0`/run_test.rc 
+    #echo >&2 "Usage: $0 [-jq] [rcfile]"
+    #echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
 else
     RCFILE=$1
 fi
