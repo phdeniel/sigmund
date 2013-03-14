@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ########################## TEST HELPERS ##################
 
@@ -83,20 +83,20 @@ function create_tree
 function test1
 {
     # create user directory
-    dir="$TEST_DIR/dir.$USER.$$"
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
     file="$dir/test_file"
 
     mkdir -p $dir || error "error mkdir $dir"
-    chown $USER $dir
+    chown $TEST_USER $dir
 
     # create a file as user in this dir
-    do_as_user $USER "dd if=/dev/zero of=$file bs=1M count=1" || "error writing $file"
+    do_as_user $TEST_USER "dd if=/dev/zero of=$file bs=1M count=1" || "error writing $file"
 
     # set file 444
     chmod 444 "$file" || error "error chmod 444 $file"
 
     # copy the file as user
-    do_as_user $USER "cp $file $file.copy" || "error copying $file to $file.copy"
+    do_as_user $TEST_USER "cp $file $file.copy" || "error copying $file to $file.copy"
 
     ls -l $file.copy || error "target file $file.copy not found"
     

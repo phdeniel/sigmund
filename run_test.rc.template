@@ -10,4 +10,4 @@ CTHON04_DIR=/opt/cthon04
 GIT_CLONE_URL=/opt/nfs-ganesha/.git
 
 # Non-root user that will run part of the test
-USER=lambda
+TEST_USER=lambda

@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-CURDIR=`dirname $0`
+CURDIR=$(dirname $(readlink -m $0))
 # include test framework
 . $CURDIR/test_framework.inc
 
@@ -11,7 +11,7 @@ else
   exit 1 
 fi
 
-# The script uses "su", it has to be run as root
+ The script uses "su", it has to be run as root
 if [[ `id -u` != 0 ]] ; then
   echo "  /!\\ This script must be run as root"
   exit 1 
@@ -22,7 +22,7 @@ fi
 
 # syntax: ONLY=2,3 ./run_test.sh [-j] <test_dir>
 for m in  $MODULES ; do
-  .  $CURDIR/$MODULES/testsuite.inc
+  .  $CURDIR/modules/$m.inc
   RUN_CMD="run_$m"
   eval $RUN_CMD
 done

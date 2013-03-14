@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 NB_CPU=$(( `grep processor /proc/cpuinfo  | tail -1 | awk '{print $(NF)}'` + 1 ))
 
@@ -244,12 +244,10 @@ if [[ -n $ONLY ]]; then
 fi
 
 if [ -z "$1" ]; then
-    RCFILE=`dirname $0`/run_test.rc 
+    RCFILE=$(dirname $(readlink -m $0))/run_test.rc 
     #echo >&2 "Usage: $0 [-jq] [rcfile]"
     #echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
 else
     RCFILE=$1
 fi
-
-# RUN THE TEST HERE
 
