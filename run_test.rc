@@ -9,7 +9,7 @@ if [[ -z $MODULES ]] ; then
 fi
 
 ##### Root of test  #####
-TEST_DIR=/tmp/test
+TEST_DIR=/mnt/sigmund
 
 ##### Variables to be used by module allfs #####
 

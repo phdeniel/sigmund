@@ -29,7 +29,7 @@ function test62f
 
 ######################## DEFINE TEST LIST HERE ####################
 
-function run_test641
+function run_pynfs41
 {
   run_test test61d  "test6/NFSv4.1/dir "
   run_test test62f  "test6/NFSv4.1/file"

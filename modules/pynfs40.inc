@@ -76,7 +76,7 @@ function test56l
 
 ######################## DEFINE TEST LIST HERE ####################
 
-function run_test540
+function run_pynfs40
 {
   run_test test51a  "test5/NFSv4.0/access"
   run_test test52c  "test5/NFSv4.0/create"
