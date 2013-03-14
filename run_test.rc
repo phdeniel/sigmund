@@ -1,0 +1,26 @@
+# Configuration file for the run_test.sh framework
+# 
+# Use this template to build your own test_variables.rc
+#
+
+# Tests modules to be used
+if [[ -z $MODULES ]] ; then
+  MODULES="allfs" 
+fi
+
+##### Variables to be used by module allfs #####
+
+# Path to cthon04 test's suite
+CTHON04_DIR=/opt/cthon04
+GIT_CLONE_URL=/opt/GANESHA/.git
+
+# Non-root user that will run part of the test
+USER=root
+
+##### Variables to be used by module nfsv41 #####
+
+# path to pynfs repo
+PYNFS_DIR=/opt/pynfs
+
+# Remote URL to be used by PYNFS
+PYNFS_URL="aury62:/vfs/pynfs40"
