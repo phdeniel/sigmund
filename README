@@ -1,0 +1,13 @@
+Sigmund is a non-regression utility designed to test filesystems
+
+In order to use it:
+	- edit the run_test.rc file to fit your test configuration
+	- build tests's program by running ./build_test.sh
+	- use the ./run_test.sh command. This can be done in 3 different ways
+		- ./run_test.sh     runs it in a verbose way
+		- ./run_test.sh -j  is the same as above but produces a report file in JUnit format
+		- ./run_test.sh -q  runs the tests in quiet mode
+
+You can select a subset of tests to be run by setting the "ONLY" variable
+	- ONLY=3,4 ./run_test.sh  runs only the test3* and test4* tests
+	- ONLY=4s  ./run_test.sh  runs only the test4s 
