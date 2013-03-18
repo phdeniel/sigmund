@@ -201,14 +201,26 @@ function test4s
 }
 
 
-### test4m : use mmap() on write a file
-function test4m
+### test4r : use mmap() to read a file
+function test4r
+{
+   dir="$TEST_DIR/dir.$$"
+   mkdir -p $dir
+
+   PROG=$BUILD_TEST_DIR/test_mmap_read ;
+   echo "This is the fully useless content of a file to be read with mmap() !!!!!" >  $dir/file_mmap_read
+   $PROG $dir/file_mmap_read || error "ERROR while reading a file using mmap()"
+}
+
+
+### test4w : use mmap() to write a file
+function test4w
 {
    dir="$TEST_DIR/dir.$$"
    mkdir -p $dir
  
-   PROG=$BUILD_TEST_DIR/test_mmap ;
-   $PROG $dir/file_mmap || error "ERROR while writing a file using mmap()"
+   PROG=$BUILD_TEST_DIR/test_mmap_write ;
+   $PROG $dir/file_mmap_write || error "ERROR while writing a file using mmap()"
 }
 
 
@@ -227,7 +239,9 @@ function run_allfs
   run_test test3l  "ALLFS: cthon04's lock tests        "
   run_test test4g  "ALLFS: git clone a local repository"
   run_test test4s  "ALLFS: Tar calls utimes on symlink "
-  run_test test4m  "ALLFS: Use mmap() on write a file  "
+  run_test test4r  "ALLFS: Use mmap() to read a file   "
+  run_test test4w  "ALLFS: Use mmap() to write a file  "
+ 
 
   # display test summary / generate outputs
 
