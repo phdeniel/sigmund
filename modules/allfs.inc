@@ -207,7 +207,7 @@ function test4m
    dir="$TEST_DIR/dir.$$"
    mkdir -p $dir
  
-   PROG=$RUNDIR/test_progs/test_mmap ;
+   PROG=$BUILD_TEST_DIR/test_mmap ;
    $PROG $dir/file_mmap || error "ERROR while writing a file using mmap()"
 }
 

@@ -8,11 +8,14 @@ if [[ -z $MODULES ]] ; then
   MODULES="allfs" 
 fi
 
+##### Repo to get to build test
+GIT_PYNFS_URL=git://git.linux-nfs.org/projects/iisaman/newpynfs
+
 ##### Root of test  #####
 TEST_DIR=/mnt/sigmund
+BUILD_TEST_DIR=/tmp/sigmund
 
 ##### Variables to be used by module allfs #####
-
 # Path to cthon04 test's suite
 CTHON04_DIR=/opt/cthon04
 GIT_CLONE_URL=/opt/GANESHA/.git
@@ -21,7 +24,6 @@ GIT_CLONE_URL=/opt/GANESHA/.git
 TEST_USER=root
 
 ##### Variables to be used by module nfsv41 #####
-
 # path to pynfs repo
 PYNFS_DIR=/opt/pynfs
 

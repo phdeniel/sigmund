@@ -3,6 +3,8 @@
 CURDIR=$(dirname $(readlink -m $0))
 # include test framework
 . $CURDIR/test_framework.inc
+export BUILD_TEST_DIR
+export GIT_PYNFS_URL
 
 if [[ -r $RCFILE ]]  ; then
    .  $RCFILE
