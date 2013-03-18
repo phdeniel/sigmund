@@ -198,8 +198,20 @@ function test4s
 
    # Untar the tarball
    tar xf testln.tar.gz  || error "ERROR while forcing a utimes on symbolic link via tar"
-  
 }
+
+
+### test4m : use mmap() on write a file
+function test4m
+{
+   dir="$TEST_DIR/dir.$$"
+   mkdir -p $dir
+ 
+   PROG=$RUNDIR/test_progs/test_mmap ;
+   $PROG $dir/file_mmap || error "ERROR while writing a file using mmap()"
+}
+
+
 
 # syntax: ONLY=2,3 ./run_test.sh [-j] <test_dir>
 
@@ -215,6 +227,7 @@ function run_allfs
   run_test test3l  "ALLFS: cthon04's lock tests        "
   run_test test4g  "ALLFS: git clone a local repository"
   run_test test4s  "ALLFS: Tar calls utimes on symlink "
+  run_test test4m  "ALLFS: Use mmap() on write a file  "
 
   # display test summary / generate outputs
 
