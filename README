@@ -11,3 +11,6 @@ In order to use it:
 You can select a subset of tests to be run by setting the "ONLY" variable
 - ONLY=3,4 ./run_test.sh  runs only the test3* and test4* tests
 - ONLY=4s  ./run_test.sh  runs only the test4s 
+
+In file Sigmund_HowTO.pdf, you'll find more complete information.
+
