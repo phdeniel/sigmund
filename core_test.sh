@@ -46,16 +46,17 @@ if [[ -n $ONLY ]]; then
     ONLY="$ONLY,"
 fi
 
-export BUILD_TEST_DIR
-export RCFILE
-
-######################## DEFINE TEST LIST HERE ####################
 # Tests modules to be used
 if [[ -z $MODULES ]] ; then
   MODULES="allfs"
 fi
 
-# syntax: ONLY=2,3 ./run_test.sh [-j] <test_dir>
+MODULES=`echo $MODULES | sed -e 's/,/ /g' | tr -s " "`
+
+
+export BUILD_TEST_DIR
+export RCFILE
+
 for m in  $MODULES ; do
   .  $CURDIR/modules/$m.inc
   RUN_CMD="run_$m"
