@@ -3,11 +3,6 @@
 # Use this template to build your own test_variables.rc
 #
 
-# Tests modules to be used
-if [[ -z $MODULES ]] ; then
-  MODULES="allfs" 
-fi
-
 ##### Repo to get to build test
 GIT_PYNFS_URL=git://git.linux-nfs.org/projects/iisaman/newpynfs
 
