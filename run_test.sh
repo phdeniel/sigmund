@@ -21,11 +21,11 @@ if [[ -z $MODULES ]] ; then
 fi
 
 # syntax: ONLY=2,3 ./run_test.sh [-j] <test_dir>
-echo $MODULES
 for m in  $MODULES ; do
-  echo "==> $m"
   .  $CURDIR/modules/$m.inc
   RUN_CMD="run_$m"
   eval $RUN_CMD
 done
 
+# display test summary / generate outputs
+test_finalize
