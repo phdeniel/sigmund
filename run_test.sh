@@ -5,6 +5,23 @@ RUNDIR=$CURDIR
 # include test framework
 . $CURDIR/test_framework.inc
 
+if [ -z "$1" ]; then
+    RCFILE=$(dirname $(readlink -m $0))/run_test.rc
+    #echo >&2 "Usage: $0 [-jq] [rcfile]"
+    #echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
+else
+    RCFILE=$1
+fi
+
+# prepare ONLY variable
+# 1,2 => ,test1,test2,
+if [[ -n $ONLY ]]; then
+    ONLY=",$ONLY"
+    ONLY=`echo $ONLY | sed -e 's/,/,test/g'`
+    ONLY="$ONLY,"
+fi
+
+
 if [[ -r $RCFILE ]]  ; then
    .  $RCFILE
 else
@@ -14,18 +31,18 @@ fi
 
 export BUILD_TEST_DIR
 
-######################## DEFINE TEST LIST HERE ####################
-# Tests modules to be used
-if [[ -z $MODULES ]] ; then
-  MODULES="allfs"
+# The script uses "su", it has to be run as root
+if [[ `id -u` != 0 ]] ; then
+  echo "  /!\\ This script must be run as root"
+  exit 1 
 fi
 
-# syntax: ONLY=2,3 ./run_test.sh [-j] <test_dir>
-for m in  $MODULES ; do
-  .  $CURDIR/modules/$m.inc
-  RUN_CMD="run_$m"
-  eval $RUN_CMD
-done
+if [[ ! -z $MODULES ]] ; then
+  export MODULES
+fi
 
-# display test summary / generate outputs
-test_finalize
+if [[ ! -z $ONLY ]] ; then
+  export ONLY
+fi
+
+su $TEST_USER -c "$CURDIR/core_test.sh $savedargs"

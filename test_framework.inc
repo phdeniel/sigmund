@@ -209,6 +209,7 @@ function test_finalize
 	exit $NB_ERROR
 }
 
+savedargs=$*
 while getopts "qj" opt ; do
 	case "$opt" in
 		j)	junit=1;;
@@ -235,19 +236,4 @@ if (( $junit )); then
 	tinit=`date "+%s.%N"`
 fi
 
-# prepare ONLY variable
-# 1,2 => ,test1,test2,
-if [[ -n $ONLY ]]; then
-    ONLY=",$ONLY"
-    ONLY=`echo $ONLY | sed -e 's/,/,test/g'`
-    ONLY="$ONLY,"
-fi
-
-if [ -z "$1" ]; then
-    RCFILE=$(dirname $(readlink -m $0))/run_test.rc 
-    #echo >&2 "Usage: $0 [-jq] [rcfile]"
-    #echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
-else
-    RCFILE=$1
-fi
 
