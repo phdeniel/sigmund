@@ -143,15 +143,11 @@ function test22s
 
 function run_xattr
 {
-  run_test test21f  "XATTR: simple xattr set/get on a file      "
-  run_test test21d  "XATTR: simple xattr set/get on a directory "
-  run_test test21s  "XATTR: simple xattr set/get on a symlink   "
-  run_test test22f  "XATTR: xattr creation/deletion on file     "
-  run_test test22d  "XATTR: xattr creation/deletion on directory"
-  run_test test22s  "XATTR: xattr creation/deletion on symlink  "
-
-  # display test summary / generate outputs
-
-  test_finalize
+  run_test test21f  "XATTR: simple xattr set/get : file        "
+  run_test test21d  "XATTR: simple xattr set/get : directory   "
+  run_test test21s  "XATTR: simple xattr set/get : symlink     "
+  run_test test22f  "XATTR: xattr creation/deletion : file     "
+  run_test test22d  "XATTR: xattr creation/deletion : directory"
+  run_test test22s  "XATTR: xattr creation/deletion : symlink  "
 }
 

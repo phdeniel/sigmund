@@ -231,20 +231,16 @@ function test4w
 
 function run_allfs
 {
-  run_test test1  " ALLFS: copy file with 444 mode     "
-  run_test test2  " ALLFS: rm -rf of wide namespace    "
-  run_test test3b  "ALLFS: cthon04's basic tests       "
-  run_test test3g  "ALLFS: cthon04's general tests     "
-  run_test test3s  "ALLFS: cthon04's special tests     "
-  run_test test3l  "ALLFS: cthon04's lock tests        "
-  run_test test4g  "ALLFS: git clone a local repository"
-  run_test test4s  "ALLFS: Tar calls utimes on symlink "
-  run_test test4r  "ALLFS: Use mmap() to read a file   "
-  run_test test4w  "ALLFS: Use mmap() to write a file  "
- 
+  run_test test1  "  ALLFS: copy file with 444 mode            "
+  run_test test2  "  ALLFS: rm -rf of wide namespace           "
+  run_test test3b  " ALLFS: cthon04's basic tests              "
+  run_test test3g  " ALLFS: cthon04's general tests            "
+  run_test test3s  " ALLFS: cthon04's special tests            "
+  run_test test3l  " ALLFS: cthon04's lock tests               "
+  run_test test4g  " ALLFS: git clone a local repository       "
+  run_test test4s  " ALLFS: Tar calls utimes on symlink        "
+  run_test test4r  " ALLFS: Use mmap() to read a file          "
+  run_test test4w  " ALLFS: Use mmap() to write a file         "
 
-  # display test summary / generate outputs
-
-  test_finalize
 }
 
