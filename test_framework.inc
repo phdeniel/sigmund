@@ -209,19 +209,6 @@ function test_finalize
 	exit $NB_ERROR
 }
 
-savedargs=$*
-while getopts "qj" opt ; do
-	case "$opt" in
-		j)	junit=1;;
-        	q)      quiet=1;;
-		[?])
-        		echo >&2 "Usage: $0 [-jq] [rcfile]"
-        		echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
-			exit 1;;
-	esac
-done
-shift $(($OPTIND-1))
-
 # check backend
 if [ ! -d $BK_ROOT ]; then
     mkdir -p $BK_ROOT

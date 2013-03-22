@@ -38,13 +38,6 @@ function get_test_user
     grep -v nologin /etc/passwd | grep -v ':0:' | head -1 | cut -d ':' -f 1
 }
 
-function do_as_user
-{
-    user_arg=$1
-    action_arg=$2
-    su - $user_arg -c "$action_arg"
-}
-
 function empty_client_cache
 {
     [ "$DEBUG" = "1" ] && echo "emptying client cache (data+metadata)"
@@ -90,13 +83,13 @@ function test1
     chown $TEST_USER $dir
 
     # create a file as user in this dir
-    do_as_user $TEST_USER "dd if=/dev/zero of=$file bs=1M count=1" || "error writing $file"
+    dd if=/dev/zero of=$file bs=1M count=1 || "error writing $file"
 
     # set file 444
     chmod 444 "$file" || error "error chmod 444 $file"
 
     # copy the file as user
-    do_as_user $TEST_USER "cp $file $file.copy" || "error copying $file to $file.copy"
+    cp $file $file.copy || "error copying $file to $file.copy"
 
     ls -l $file.copy || error "target file $file.copy not found"
     
