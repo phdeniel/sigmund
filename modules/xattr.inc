@@ -21,7 +21,7 @@ function test21f
    [[ $read_value = "my_value" ]] || error "ERROR after reading xattr. Bad value read"
 }
 
-### test21f : Simple set/get on a xattr on a directory
+### test21d : Simple set/get on a xattr on a directory
 function test21d
 {
    dir="$TEST_DIR/dir.$$"
@@ -110,7 +110,7 @@ function test22d
    (( $count > 0 )) && error "ERROR xattr remain when they are all supposed to be deleted"
 }
 
-### test22d: Creates 100 xattr and then delete them on a directory
+### test22s: Creates 100 xattr and then delete them on a directory
 function test22s
 { 
    MAX=100
@@ -139,6 +139,64 @@ function test22s
    (( $count > 0 )) && error "ERROR xattr remain when they are all supposed to be deleted"
 }
 
+### test23f : Set a value several times then check value
+function test23f
+{
+   MAX=100
+   dir="$TEST_DIR/dir.$$"
+   mkdir -p $dir
+
+   rm -fr $dir/file_xattr
+   touch $dir/file_xattr
+
+   for i in `seq 1 $MAX` ; do
+      setfattr -n user.my_attribute  -v my_value$i  $dir/file_xattr || error "ERROR while setting xattr on a file"
+   done
+
+   read_value=`getfattr -n user.my_attribute --only-values $dir/file_xattr`
+
+   [[ $read_value = "my_value$MAX" ]] || error "ERROR after reading xattr. Bad value read"
+}
+
+### test23d :  Set a value several times then check value
+function test23d
+{
+   MAX=100
+   dir="$TEST_DIR/dir.$$"
+   mkdir -p $dir
+
+   rm -fr $dir/dir_xattr
+   mkdir $dir/dir_xattr
+
+   for i in `seq 1 $MAX` ; do
+     setfattr -n user.my_attribute  -v my_value$i  $dir/dir_xattr || error "ERROR while setting xattr on a file"
+   done 
+
+   read_value=`getfattr -n user.my_attribute --only-values $dir/dir_xattr`
+
+   [[ $read_value = "my_value$MAX" ]] || error "ERROR after reading xattr. Bad value read"
+}
+
+### test23s : Set a value several times then check value
+function test23s
+{
+   MAX=100
+   dir="$TEST_DIR/dir.$$"
+   mkdir -p $dir
+
+   rm -fr $dir/file_xattr  $dir/symlink_xattr
+   touch $dir/file_xattr
+   ln -s $dir/file_xattr $dir/symlink_xattr
+
+   for i in `seq 1 $MAX` ; do
+     setfattr -n user.my_attribute  -v my_value$i  $dir/symlink_xattr || error "ERROR while setting xattr on a symlink"
+   done 
+
+   read_value=`getfattr -n user.my_attribute --only-values $dir/symlink_xattr`
+
+   [[ $read_value = "my_value$MAX" ]] || error "ERROR after reading xattr. Bad value read"
+}
+
 ######################## DEFINE TEST LIST HERE ####################
 
 function run_xattr
@@ -149,5 +207,9 @@ function run_xattr
   run_test test22f  "XATTR: xattr creation/deletion : file     "
   run_test test22d  "XATTR: xattr creation/deletion : directory"
   run_test test22s  "XATTR: xattr creation/deletion : symlink  "
+  run_test test23f  "XATTR: mulitple sets + 1 check : file     "
+  run_test test23d  "XATTR: mulitple sets + 1 check : directory"
+  run_test test23s  "XATTR: mulitple sets + 1 check : symlink  "
+  
 }
 
