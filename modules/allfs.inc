@@ -72,8 +72,8 @@ function create_tree
 
 ############################ TEST FUNCTIONS ############################
 
-### test1: check that a user can copy 444 file
-function test1
+### test1m: check that a user can copy 444 file
+function test1m
 {
     # create user directory
     dir="$TEST_DIR/dir.$TEST_USER.$$"
@@ -97,8 +97,30 @@ function test1
     rm -rf $dir
 }
 
-### test2: check recursive removal of large directories
-function test2
+### test1r: check if altgroups are correctly managed by the FS
+function test1g
+{
+    # create user directory
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
+
+    
+    mkdir -p $dir || error "error mkdir $dir"
+    chown $TEST_USER $dir
+
+    cd $dir
+    mkdir -m 700 $GROUP1
+    chown  $TEST_USER:$GROUP1 $GROUP1
+
+    cd  $GROUP1
+    mkdir -m 700 $GROUP2
+    chown  $TEST_USER:$GROUP2 $GROUP2
+
+    cd  $dir
+    cd $GROUP1/$GROUP2 || "error when traversing tree with different group owners"
+}
+
+### test2r: check recursive removal of large directories
+function test2r
 {
     dir="$TEST_DIR/dir.$$"
 
@@ -224,8 +246,9 @@ function test4w
 
 function run_allfs
 {
-  run_test test1  "  ALLFS: copy file with 444 mode            "
-  run_test test2  "  ALLFS: rm -rf of wide namespace           "
+  run_test test1m  " ALLFS: copy file with 444 mode            "
+  run_test test1g  " ALLFS: traverse 700 dirs with altgroups   "
+  run_test test2r  " ALLFS: rm -rf of wide namespace           "
   run_test test3b  " ALLFS: cthon04's basic tests              "
   run_test test3g  " ALLFS: cthon04's general tests            "
   run_test test3s  " ALLFS: cthon04's special tests            "
