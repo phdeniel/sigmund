@@ -16,4 +16,8 @@ if [[ ! -z $ONLY ]] ; then
   export ONLY
 fi
 
+if [[ ! -z $EXCLUDE ]] ; then
+  export EXCLUDE
+fi
+
 su $TEST_USER -c "$CURDIR/core_test.sh $*"

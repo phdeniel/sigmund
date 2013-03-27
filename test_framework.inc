@@ -121,7 +121,23 @@ function run_test
 
     nonum_func=`echo $func | sed -e 's/[a-zA-Z]$//'`
 
-    if [[ -z "$ONLY" || $ONLY = *",$func,"* ||  $ONLY = *",$nonum_func,"*  ]]; then
+    if [[ -z "$ONLY" || $ONLY = *",$func,"* ||  $ONLY = *",$nonum_func,"*  ]] ; then
+        OK_ONLY=TRUE
+    else
+        OK_ONLY=FALSE
+    fi
+
+    if [[ -z "$EXCLUDE" ]] ; then
+	OK_EXCLUDE=TRUE
+    else
+      if [[ ! $EXCLUDE =  *",$func,"* && !  $EXCLUDE = *",$nonum_func,"*  ]] ; then
+	OK_EXCLUDE=TRUE
+      else
+	OK_EXCLUDE=FALSE
+      fi
+    fi
+
+    if [[ $OK_ONLY = "TRUE" && $OK_EXCLUDE = "TRUE" ]] ; then
         cleanup
         error_reset
         if  [[ $quiet == 0 ]] ; then 

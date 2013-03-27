@@ -46,6 +46,14 @@ if [[ -n $ONLY ]]; then
     ONLY="$ONLY,"
 fi
 
+# prepare EXCLUDE variable
+# 1,2 => ,test1,test2,
+if [[ -n $EXCLUDE ]]; then
+    EXCLUDE=",$EXCLUDE"
+    EXCLUDE=`echo $EXCLUDE | sed -e 's/,/,test/g'`
+    EXCLUDE="$EXCLUDE,"
+fi
+
 # Tests modules to be used
 if [[ -z $MODULES ]] ; then
   MODULES="allfs"
