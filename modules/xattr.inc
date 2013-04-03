@@ -57,7 +57,7 @@ function test21s
 ### test22f: Creates 100 xattr and then delete them on a file
 function test22f
 { 
-   MAX=100
+   MAX=10
    dir="$TEST_DIR/dir.$$"
    mkdir -p $dir
 
@@ -85,7 +85,7 @@ function test22f
 ### test22d: Creates 100 xattr and then delete them on a directory
 function test22d
 { 
-   MAX=100
+   MAX=10
    dir="$TEST_DIR/dir.$$"
    mkdir -p $dir
 
@@ -113,7 +113,7 @@ function test22d
 ### test22s: Creates 100 xattr and then delete them on a directory
 function test22s
 { 
-   MAX=100
+   MAX=10
    dir="$TEST_DIR/dir.$$"
    mkdir -p $dir
 
@@ -142,7 +142,7 @@ function test22s
 ### test23f : Set a value several times then check value
 function test23f
 {
-   MAX=100
+   MAX=10
    dir="$TEST_DIR/dir.$$"
    mkdir -p $dir
 
@@ -161,7 +161,7 @@ function test23f
 ### test23d :  Set a value several times then check value
 function test23d
 {
-   MAX=100
+   MAX=10
    dir="$TEST_DIR/dir.$$"
    mkdir -p $dir
 
@@ -180,7 +180,7 @@ function test23d
 ### test23s : Set a value several times then check value
 function test23s
 {
-   MAX=100
+   MAX=10
    dir="$TEST_DIR/dir.$$"
    mkdir -p $dir
 
