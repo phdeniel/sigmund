@@ -119,6 +119,23 @@ function test1g
     cd $GROUP1/$GROUP2 || "error when traversing tree with different group owners"
 }
 
+### test1w: write a 1GB large file
+function test1w
+{
+    # create user directory
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
+    file="$dir/test_file"
+
+    mkdir -p $dir || error "error mkdir $dir"
+
+    # create a file as user in this dir
+    dd if=/dev/zero of=$file bs=1M count=1024 || "error writing $file"
+
+    # clean test dir
+    rm -rf $dir
+}
+
+
 ### test2r: check recursive removal of large directories
 function test2r
 {
@@ -248,6 +265,7 @@ function run_allfs
 {
   run_test test1m  " ALLFS: copy file with 444 mode            "
   run_test test1g  " ALLFS: traverse 700 dirs with altgroups   "
+  run_test test1w  " ALLFS: writes a 1GB file                  "
   run_test test2r  " ALLFS: rm -rf of wide namespace           "
   run_test test3b  " ALLFS: cthon04's basic tests              "
   run_test test3g  " ALLFS: cthon04's general tests            "
