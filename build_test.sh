@@ -24,6 +24,9 @@ fi
 # syntax: ONLY=2,3 ./run_test.sh [-j] <test_dir>
 SAVED=`pwd`
 
+# Create BUILD_TEST_DIR
+mkdir -p $BUILD_TEST_DIR || exit 1 
+
 cd $CURDIR
 MODULES=`ls  modules/ | sed -e 's/\.inc//g'` 
 
