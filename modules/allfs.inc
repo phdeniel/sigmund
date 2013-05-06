@@ -73,6 +73,7 @@ function create_tree
 ############################ TEST FUNCTIONS ############################
 
 ### test1m: check that a user can copy 444 file
+SPEED[test1m]=fast
 function test1m
 {
     # create user directory
@@ -98,6 +99,7 @@ function test1m
 }
 
 ### test1r: check if altgroups are correctly managed by the FS
+SPEED[test1g]=fast
 function test1g
 {
     # create user directory
@@ -120,6 +122,7 @@ function test1g
 }
 
 ### test1w: write a 1GB large file
+SPEED[test1w]=slow
 function test1w
 {
     # create user directory
@@ -137,6 +140,7 @@ function test1w
 
 
 ### test2r: check recursive removal of large directories
+SPEED[test2r]=very_slow
 function test2r
 {
     dir="$TEST_DIR/dir.$$"
@@ -154,6 +158,7 @@ function test2r
 }
 
 ### test3b : cthon04's basic tests
+SPEED[test3b]=medium
 function test3b
 {
    dir="$TEST_DIR/dir.$$"
@@ -166,6 +171,7 @@ function test3b
 }
 
 ### test3g : cthon04's general tests
+SPEED[test3g]=medium
 function test3g
 {
    dir="$TEST_DIR/dir.$$"
@@ -178,6 +184,7 @@ function test3g
 }
 
 ### test3s : cthon04's special tests
+SPEED[test3s]=medium
 function test3s
 {
    dir="$TEST_DIR/dir.$$"
@@ -190,6 +197,7 @@ function test3s
 }
 
 ### test3l : cthon04's lock tests
+SPEED[test3l]=slow
 function test3l
 {
    dir="$TEST_DIR/dir.$$"
@@ -202,6 +210,7 @@ function test3l
 }
 
 ### test4g : git clone a local repository
+SPEED[test4g]=slow
 function test4g
 {
    dir="$TEST_DIR/dir.$$"
@@ -213,6 +222,7 @@ function test4g
 
 
 ### test4s : force a utimes on a symlink via a tar 
+SPEED[test4s]=fast
 function test4s
 {
   
@@ -234,6 +244,7 @@ function test4s
 
 
 ### test4r : use mmap() to read a file
+SPEED[test4r]=fast
 function test4r
 {
    dir="$TEST_DIR/dir.$$"
@@ -246,6 +257,7 @@ function test4r
 
 
 ### test4w : use mmap() to write a file
+SPEED[test4w]=fast
 function test4w
 {
    dir="$TEST_DIR/dir.$$"

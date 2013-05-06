@@ -6,6 +6,7 @@
 
 
 ### test21f : Simple set/get on a xattr on a file
+SPEED[test21f]=fast
 function test21f
 {
    dir="$TEST_DIR/dir.$$"
@@ -22,6 +23,7 @@ function test21f
 }
 
 ### test21d : Simple set/get on a xattr on a directory
+SPEED[test21d]=fast
 function test21d
 {
    dir="$TEST_DIR/dir.$$"
@@ -38,6 +40,7 @@ function test21d
 }
 
 ### test21s : Simple set/get on a xattr on a symlink
+SPEED[test21s]=fast
 function test21s
 {
    dir="$TEST_DIR/dir.$$"
@@ -55,6 +58,7 @@ function test21s
 }
 
 ### test22f: Creates 100 xattr and then delete them on a file
+SPEED[test22f]=fast
 function test22f
 { 
    MAX=10
@@ -83,6 +87,7 @@ function test22f
 }
 
 ### test22d: Creates 100 xattr and then delete them on a directory
+SPEED[test22d]=fast
 function test22d
 { 
    MAX=10
@@ -111,6 +116,7 @@ function test22d
 }
 
 ### test22s: Creates 100 xattr and then delete them on a directory
+SPEED[test22s]=fast
 function test22s
 { 
    MAX=10
@@ -140,6 +146,7 @@ function test22s
 }
 
 ### test23f : Set a value several times then check value
+SPEED[test23f]=fast
 function test23f
 {
    MAX=10
@@ -159,6 +166,7 @@ function test23f
 }
 
 ### test23d :  Set a value several times then check value
+SPEED[test23d]=fast
 function test23d
 {
    MAX=10
@@ -178,6 +186,7 @@ function test23d
 }
 
 ### test23s : Set a value several times then check value
+SPEED[test23s]=fast
 function test23s
 {
    MAX=10
