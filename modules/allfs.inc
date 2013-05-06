@@ -74,6 +74,7 @@ function create_tree
 
 ### test1m: check that a user can copy 444 file
 SPEED[test1m]=fast
+NEEDS_ROOT[test1m]=no
 function test1m
 {
     # create user directory
@@ -81,7 +82,7 @@ function test1m
     file="$dir/test_file"
 
     mkdir -p $dir || error "error mkdir $dir"
-    chown $TEST_USER $dir
+    #chown $TEST_USER $dir
 
     # create a file as user in this dir
     dd if=/dev/zero of=$file bs=1M count=1 || "error writing $file"
@@ -100,6 +101,7 @@ function test1m
 
 ### test1r: check if altgroups are correctly managed by the FS
 SPEED[test1g]=fast
+NEEDS_ROOT[test1g]=yes
 function test1g
 {
     # create user directory
@@ -123,6 +125,7 @@ function test1g
 
 ### test1w: write a 1GB large file
 SPEED[test1w]=slow
+NEEDS_ROOT[test1w]=no
 function test1w
 {
     # create user directory
@@ -141,6 +144,7 @@ function test1w
 
 ### test2r: check recursive removal of large directories
 SPEED[test2r]=very_slow
+NEEDS_ROOT[test2r]=no
 function test2r
 {
     dir="$TEST_DIR/dir.$$"
@@ -159,6 +163,7 @@ function test2r
 
 ### test3b : cthon04's basic tests
 SPEED[test3b]=medium
+NEEDS_ROOT[test3b]=no
 function test3b
 {
    dir="$TEST_DIR/dir.$$"
@@ -172,6 +177,7 @@ function test3b
 
 ### test3g : cthon04's general tests
 SPEED[test3g]=medium
+NEEDS_ROOT[test3g]=no
 function test3g
 {
    dir="$TEST_DIR/dir.$$"
@@ -185,6 +191,7 @@ function test3g
 
 ### test3s : cthon04's special tests
 SPEED[test3s]=medium
+NEEDS_ROOT[test3s]=no
 function test3s
 {
    dir="$TEST_DIR/dir.$$"
@@ -198,6 +205,7 @@ function test3s
 
 ### test3l : cthon04's lock tests
 SPEED[test3l]=slow
+NEEDS_ROOT[test3l]=no
 function test3l
 {
    dir="$TEST_DIR/dir.$$"
@@ -211,6 +219,7 @@ function test3l
 
 ### test4g : git clone a local repository
 SPEED[test4g]=slow
+NEEDS_ROOT[test4g]=no
 function test4g
 {
    dir="$TEST_DIR/dir.$$"
@@ -223,6 +232,7 @@ function test4g
 
 ### test4s : force a utimes on a symlink via a tar 
 SPEED[test4s]=fast
+NEEDS_ROOT[test4s]=no
 function test4s
 {
   
@@ -245,6 +255,7 @@ function test4s
 
 ### test4r : use mmap() to read a file
 SPEED[test4r]=fast
+NEEDS_ROOT[test4r]=no
 function test4r
 {
    dir="$TEST_DIR/dir.$$"
@@ -258,6 +269,7 @@ function test4r
 
 ### test4w : use mmap() to write a file
 SPEED[test4w]=fast
+NEEDS_ROOT[test4w]=no
 function test4w
 {
    dir="$TEST_DIR/dir.$$"

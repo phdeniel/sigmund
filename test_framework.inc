@@ -32,6 +32,8 @@ VALSPEED[slow]=2
 VALSPEED[very_slow]=1
 VALSPEED[longest]=0
 
+# declare the 'NEEDS_ROOT' array
+declare -A NEEDS_ROOT
 
 # clean error status before running a test
 function error_reset
@@ -145,6 +147,7 @@ function run_test
     fi
 
     SKIPPED=0
+    NOROOT=0
 
     # Check speed
     test_speed=${SPEED[$func]}
@@ -154,13 +157,30 @@ function run_test
         SKIPPED=1
     fi
 
+    # Check "NEEDS_ROOT"
+    if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
+        my_id=i`id -u`
+	if [[ $my_id != "0" ]] ; then 
+        	NOROOT=1
+		SKIPPED=1
+	fi
+    fi 
+
     if (( $SKIPPED )); then
 		echo "($func : skipped)" >> $SUMMARY
 		NB_SKIPPED=$(($NB_SKIPPED+1))
 		 if (( $junit )); then
-                        junit_report_failure "sigmund" "$func: $descr" "$dur" "SKIPPED"
+			if [[ $NOROOT = "1" ]] ; then
+                  		junit_report_failure "sigmund" "$func: $descr" "$dur" "SKIPPED (NEEDS ROOT)"
+			else
+                        	junit_report_failure "sigmund" "$func: $descr" "$dur" "SKIPPED"
+			fi
                 elif (( $quiet )) ; then
-                        echo -e "$func : $descr [${BROWN} SKIP ${NORMAL}]"
+			if [[ $NOROOT = "1" ]] ; then
+                  		echo -e "$func : $descr [${BLUE}NOROOT${NORMAL}]"
+			else
+                        	echo -e "$func : $descr [${BROWN} SKIP ${NORMAL}]"
+			fi
                 fi
     fi
 
