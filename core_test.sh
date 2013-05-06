@@ -6,17 +6,27 @@ RUNDIR=$CURDIR
 # include test framework
 . $CURDIR/test_framework.inc
 
-while getopts "qj" opt ; do
+# By default, speed allows every test
+speed=longest
+
+while getopts "qjs:" opt ; do
         case "$opt" in
                 j)      export junit=1;;
                 q)      export quiet=1;;
+                s)	export speed=$OPTARG;;
                 [?])
-                        echo >&2 "Usage: $0 [-jq] [rcfile]"
-                        echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
+                        echo >&2 "Usage: $0 [-s speed] [-jq] [rcfile]"
+                        echo >&2 "For running a subset of tests:  ONLY=2,5 $0i [-s speed] [-jq] [rcfile]"
                         exit 1;;
         esac
 done
 shift $(($OPTIND-1))
+
+export in_valspeed=${VALSPEED[$speed]}
+if [ -z "$in_valspeed" ]; then
+	echo "$speed is not a valid input. Allowed speed are longest|very_slow|slow|medium|fast"
+	exit 1 
+fi
 
 if [ -z "$1" ]; then
     RCFILE=$(dirname $(readlink -m $0))/run_test.rc

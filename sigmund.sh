@@ -9,8 +9,8 @@ if [[ `id -u` != 0 ]] ; then
 fi
 
 if [[ $# = 0 ]] ; then
-  echo >&2 "Usage: $0 <behavior> [-jq] [rcfile]"
-  echo >&2 "For running a subset of tests:  ONLY=2,5 $0 <behavior> [-jq] [rcfile]"
+  echo >&2 "Usage: $0 <behavior> [-s speed] [-jq] [rcfile]"
+  echo >&2 "For running a subset of tests:  ONLY=2,5 $0 <behavior> [-s speed] [-jq] [rcfile]"
 fi
 
 # Get the behavior

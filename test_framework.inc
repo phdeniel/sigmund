@@ -17,8 +17,21 @@ BLACK='\e[0;30m'
 RED='\e[0;31m'
 GREEN='\e[1;32m'
 NORMAL='\e[0;m'
+YELLOW='\e[1;33m'
+BLUE='\e[1;34m'
+BROWN='\e[0;33m'
 
 SUMMARY="/tmp/test_summary.$$"
+
+# Set the value of the speeds
+declare -A SPEED
+declare -A VALSPEED
+VALSPEED[fast]=4
+VALSPEED[medium]=3
+VALSPEED[slow]=2
+VALSPEED[very_slow]=1
+VALSPEED[longest]=0
+
 
 # clean error status before running a test
 function error_reset
@@ -41,12 +54,6 @@ function error
         rm -f $TEST_ERR_FILE
         #exit 1
     fi
-}
-
-# set current test skipped
-function skip_test
-{
-    TEST_SKIPPED=1
 }
 
 ######################## JUNIT HELPERS (do not modify) #####################
@@ -101,7 +108,7 @@ function junit_write_xml # (time, nb_failure, tests)
 	
 	cp /dev/null $XML
 	echo "<?xml version=\"1.0\" encoding=\"ISO8859-2\" ?>" > $XML
-	echo "<testsuite name=\"thomasthon.tests\" errors=\"0\" failures=\"$failure\" tests=\"$tests\" time=\"$time\">" >> $XML
+	echo "<testsuite name=\"sigmund.tests\" errors=\"0\" failures=\"$failure\" tests=\"$tests\" time=\"$time\">" >> $XML
 	cat $TMPXML_PREFIX.tc 		>> $XML
 	echo -n "<system-out><![CDATA[" >> $XML
 	cat $TMPXML_PREFIX.stdout 	>> $XML
@@ -137,7 +144,27 @@ function run_test
       fi
     fi
 
-    if [[ $OK_ONLY = "TRUE" && $OK_EXCLUDE = "TRUE" ]] ; then
+    SKIPPED=0
+
+    # Check speed
+    test_speed=${SPEED[$func]}
+    test_valspeed=${VALSPEED[$test_speed]}
+
+    if [[ "$in_valspeed" -gt  "$test_valspeed" ]] ; then
+        SKIPPED=1
+    fi
+
+    if (( $SKIPPED )); then
+		echo "($func : skipped)" >> $SUMMARY
+		NB_SKIPPED=$(($NB_SKIPPED+1))
+		 if (( $junit )); then
+                        junit_report_failure "sigmund" "$func: $descr" "$dur" "SKIPPED"
+                elif (( $quiet )) ; then
+                        echo -e "$func : $descr [${BROWN} SKIP ${NORMAL}]"
+                fi
+    fi
+
+    if [[ $OK_ONLY = "TRUE" && $OK_EXCLUDE = "TRUE" && $SKIPPED = "0" ]] ; then
         cleanup
         error_reset
         if  [[ $quiet == 0 ]] ; then 
@@ -162,14 +189,11 @@ function run_test
         	echo "duration: $dur sec"
 	fi
 
-	if (( $TEST_SKIPPED )); then
-		echo "($func : skipped)" >> $SUMMARY
-		NB_SKIPPED=$(($NB_SKIPPED+1))
-	elif (( $TEST_ERROR > 0 )); then
+	if (( $TEST_ERROR > 0 )); then
 		echo "$func : *FAILED*" >> $SUMMARY
 		NB_ERROR=$(($NB_ERROR+1))
 		if (( $junit )); then
-			junit_report_failure "thomasthon" "$func: $descr" "$dur" "ERROR"
+			junit_report_failure "sigmund" "$func: $descr" "$dur" "ERROR"
                 elif (( $quiet )) ; then
 			echo -e "$func : $descr [${RED}FAILED${NORMAL}]"
 		fi
@@ -177,7 +201,7 @@ function run_test
 		echo "$func : OK" >> $SUMMARY
 		NB_SUCCESS=$(($NB_SUCCESS+1))
 		if (( $junit )); then
-			junit_report_success "thomasthon" "$func: $descr" "$dur"
+			junit_report_success "sigmund" "$func: $descr" "$dur"
 		elif (( $quiet )); then
 			echo -e "$func : $descr [${GREEN}  OK  ${NORMAL}]"
                 fi
