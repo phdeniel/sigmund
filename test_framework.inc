@@ -167,6 +167,7 @@ function run_test
     fi 
 
     if (( $SKIPPED )); then
+      if  [[ $OK_ONLY = "TRUE" && $OK_EXCLUDE = "TRUE" ]] ; then
 		echo "($func : skipped)" >> $SUMMARY
 		NB_SKIPPED=$(($NB_SKIPPED+1))
 		 if (( $junit )); then
@@ -182,6 +183,7 @@ function run_test
                         	echo -e "$func : $descr [${BROWN} SKIP ${NORMAL}]"
 			fi
                 fi
+       fi
     fi
 
     if [[ $OK_ONLY = "TRUE" && $OK_EXCLUDE = "TRUE" && $SKIPPED = "0" ]] ; then
