@@ -16,7 +16,7 @@ while getopts "qjs:" opt ; do
                 s)	export speed=$OPTARG;;
                 [?])
                         echo >&2 "Usage: $0 [-s speed] [-jq] [rcfile]"
-                        echo >&2 "For running a subset of tests:  ONLY=2,5 $0i [-s speed] [-jq] [rcfile]"
+                        echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-s speed] [-jq] [rcfile]"
                         exit 1;;
         esac
 done

@@ -252,6 +252,23 @@ function test4s
    tar xf testln.tar.gz  || error "ERROR while forcing a utimes on symbolic link via tar"
 }
 
+### test4k : untar a kernel tarball and compiles kernel
+SPEED[test4k]=very_slow
+NEEDS_ROOT[test4k]=no
+function test4k
+{
+  
+   dir="$TEST_DIR/dir.$$"
+   kdir=`basename  $KERNEL_TAR | sed -e 's/\.tar.*$//g'`
+   
+   mkdir -p $dir
+   cd $dir
+
+   tar xvf $KERNEL_TAR || error "ERROR while decompresssing kernel archive"
+   cd $kdir
+
+   ( make defconfig && make -j 17 && make -j 17 modules ) ||  error "ERROR while compiling kernel"
+}
 
 ### test4r : use mmap() to read a file
 SPEED[test4r]=fast
@@ -299,6 +316,7 @@ function run_allfs
   run_test test4s  " ALLFS: Tar calls utimes on symlink        "
   run_test test4r  " ALLFS: Use mmap() to read a file          "
   run_test test4w  " ALLFS: Use mmap() to write a file         "
+  run_test test4k  " ALLFS: decompress kernel tar + compilation"
 
 }
 
