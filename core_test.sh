@@ -79,7 +79,9 @@ export RCFILE
 if [[ -n $pre_script ]] ; then
   eval $pre_script 
   if [[ $? != 0 ]] ; then
-    echo "Pre-Script was faulty, I do not start the tests"
+    if [[ $quiet -eq 0 ]] ; then 
+    	echo "Pre-Script was faulty, I do not start the tests"
+    fi
     exit 1
   fi
 fi  
@@ -94,7 +96,9 @@ done
 if [[ -n $post_script ]] ; then
   eval $post_script 
   if [[ $? != 0 ]] ; then
-    echo "Post-Script was faulty"
+    if [[ $quiet -eq 0 ]] ; then 
+    	echo "Post-Script was faulty"
+    fi
     exit 1
   fi
 fi  
