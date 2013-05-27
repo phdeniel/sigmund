@@ -9,14 +9,16 @@ RUNDIR=$CURDIR
 # By default, speed allows every test
 speed=longest
 
-while getopts "qjs:" opt ; do
+while getopts "qjs:p:P:" opt ; do
         case "$opt" in
                 j)      export junit=1;;
                 q)      export quiet=1;;
                 s)	export speed=$OPTARG;;
+		p)	pre_script=$OPTARG ;; 
+		P)	post_script=$OPTARG ;;
                 [?])
-                        echo >&2 "Usage: $0 [-s speed] [-jq] [rcfile]"
-                        echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-s speed] [-jq] [rcfile]"
+                        echo >&2 "Usage: $0 [-jq] [-s speed] [-p pre_script] [-P post_script] [rcfile]"
+                        echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
                         exit 1;;
         esac
 done
@@ -30,8 +32,6 @@ fi
 
 if [ -z "$1" ]; then
     RCFILE=$(dirname $(readlink -m $0))/run_test.rc
-    #echo >&2 "Usage: $0 [-jq] [rcfile]"
-    #echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
 else
     RCFILE=$1
 fi
@@ -75,11 +75,29 @@ MODULES=`echo $MODULES | sed -e 's/,/ /g' | tr -s " "`
 export BUILD_TEST_DIR
 export RCFILE
 
+# If a pre_script is set up, run it before running the test suite
+if [[ -n $pre_script ]] ; then
+  eval $pre_script 
+  if [[ $? != 0 ]] ; then
+    echo "Pre-Script was faulty, I do not start the tests"
+    exit 1
+  fi
+fi  
+
 for m in  $MODULES ; do
   .  $CURDIR/modules/$m.inc
   RUN_CMD="run_$m"
   eval $RUN_CMD
 done
+
+# If a post_script is set up, run it after running the test suite
+if [[ -n $post_script ]] ; then
+  eval $post_script 
+  if [[ $? != 0 ]] ; then
+    echo "Post-Script was faulty"
+    exit 1
+  fi
+fi  
 
 # display test summary / generate outputs
 test_finalize
