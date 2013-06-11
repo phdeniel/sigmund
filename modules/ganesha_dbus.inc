@@ -74,7 +74,7 @@ function test92g
 {
    dbus-send --system --print-reply --dest=org.ganesha.nfsd --type=method_call \
              /org/ganesha/nfsd/ClientMgr \
-             org.ganesha.nfsd.clientstats.GetNFSv3IO string:"127.0.0.1"
+             org.ganesha.nfsd.clientstats.GetNFSv3IO string:"127.0.0.1" || error "ERROR while calling dbus-send"
 }
 
 ### test92h : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
@@ -84,7 +84,7 @@ function test92h
 {
    dbus-send --system --print-reply --dest=org.ganesha.nfsd --type=method_call \
              /org/ganesha/nfsd/ClientMgr \
-             org.ganesha.nfsd.clientstats.GetNFSv40IO string:"127.0.0.1"
+             org.ganesha.nfsd.clientstats.GetNFSv40IO string:"127.0.0.1" || error "ERROR while calling dbus-send"
 }
 
 ### test92i : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
@@ -94,7 +94,7 @@ function test92i
 {
    dbus-send --system --print-reply --dest=org.ganesha.nfsd --type=method_call \
              /org/ganesha/nfsd/ClientMgr \
-             org.ganesha.nfsd.clientstats.GetNFSv41IO string:"127.0.0.1"
+             org.ganesha.nfsd.clientstats.GetNFSv41IO string:"127.0.0.1"  || error "ERROR while calling dbus-send"
 }
 
 ### test92j : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
@@ -104,7 +104,7 @@ function test92j
 {
    dbus-send --system --print-reply --dest=org.ganesha.nfsd --type=method_call \
              /org/ganesha/nfsd/ClientMgr \
-             org.ganesha.nfsd.clientstats.GetNFSv41IO string:"127.0.0.1"
+             org.ganesha.nfsd.clientstats.GetNFSv41IO string:"127.0.0.1"  || error "ERROR while calling dbus-send"
 }
 
 function run_ganesha_dbus
