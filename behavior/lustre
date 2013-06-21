@@ -1,1 +1,1 @@
-export MODULES=allfs,xattr,dotlustre
+export MODULES=allfs,xattr,lustre
