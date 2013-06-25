@@ -33,3 +33,7 @@ PYNFS_URL="aury62:/vfs/pynfs40"
 
 # KERNEL TARBALL
 KERNEL_TAR=/opt/linux-3.6.11.tar.xz 
+
+# PATH TO THE LTP SOURCE TREE
+LTPDIR=/opt/ltp
+
