@@ -76,8 +76,21 @@ function test41c
     rm -rf $dir
 }
 
+### test42b: run bonnie++ with a reduced memory size
+SPEED[test42b]=longest
+NEEDS_ROOT[test42b]=no
+function test42b
+{
+    # create user directory
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
 
 
+    mkdir -p $dir
+    bonnie++ -d $dir -c 10  -u 0 -s 1:256 -x 1 -r 2
+	
+    # clean test dir
+    rm -rf $dir
+}
 
 ######################## DEFINE TEST LIST HERE ####################
 
