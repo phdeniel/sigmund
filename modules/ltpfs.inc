@@ -96,9 +96,9 @@ function test42b
 
 function run_ltpfs
 {
-  run_test test41a  " LTPFS: fsx-linux with no mmap             "
-  run_test test41b  " LTPFS: fsx-linux with mmap on write       "
-  run_test test41c  " LTPFS: fsx-linux with mmap on read        "
-  run_test test41c  " LTPFS: fsx-linux with mmap on read+write  "
+  run_test test41a  "LTPFS: fsx-linux with no mmap             "
+  run_test test41b  "LTPFS: fsx-linux with mmap on write       "
+  run_test test41c  "LTPFS: fsx-linux with mmap on read        "
+  run_test test41c  "LTPFS: fsx-linux with mmap on read+write  "
 }
 
