@@ -59,9 +59,9 @@ function test41c
 
 
 ### test41d: run fsx-linux with mmap on read+write
-SPEED[test41c]=medium
-NEEDS_ROOT[test41c]=no
-function test41c
+SPEED[test41d]=medium
+NEEDS_ROOT[test41d]=no
+function test41d
 {
     # create user directory
     dir="$TEST_DIR/dir.$TEST_USER.$$"
@@ -96,9 +96,10 @@ function test42b
 
 function run_ltpfs
 {
-  run_test test41a  "LTPFS: fsx-linux with no mmap             "
-  run_test test41b  "LTPFS: fsx-linux with mmap on write       "
-  run_test test41c  "LTPFS: fsx-linux with mmap on read        "
-  run_test test41c  "LTPFS: fsx-linux with mmap on read+write  "
+  run_test test41a  "LTPFS: fsx-linux with no mmap                      "
+  run_test test41b  "LTPFS: fsx-linux with mmap on write                "
+  run_test test41c  "LTPFS: fsx-linux with mmap on read                 "
+  run_test test41d  "LTPFS: fsx-linux with mmap on read+write           "
+  run_test test42b  "LTPFS: run bonnie++ with a reduced memory size     "
 }
 
