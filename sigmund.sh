@@ -26,4 +26,8 @@ fi
 .  $CURDIR/behavior/$BEHAVIOR
 
 # run the test
-. $CURDIR/run_test.sh $*
+if [[ ! -z $TEST_USER ]] ; then
+su $TEST_USER -c "$CURDIR/core_test.sh $*"
+else
+. $CURDIR/core_test.sh $*
+fi

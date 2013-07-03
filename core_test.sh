@@ -75,6 +75,18 @@ MODULES=`echo $MODULES | sed -e 's/,/ /g' | tr -s " "`
 export BUILD_TEST_DIR
 export RCFILE
 
+if [[ ! -z $MODULES ]] ; then
+  export MODULES
+fi
+
+if [[ ! -z $ONLY ]] ; then
+  export ONLY
+fi
+
+if [[ ! -z $EXCLUDE ]] ; then
+  export EXCLUDE
+fi
+
 # If a pre_script is set up, run it before running the test suite
 if [[ -n $pre_script ]] ; then
   eval $pre_script 
