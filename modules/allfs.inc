@@ -102,6 +102,7 @@ function test1m
 ### test1r: check if altgroups are correctly managed by the FS
 SPEED[test1g]=fast
 NEEDS_ROOT[test1g]=yes
+PRE_TEST[test1g]=pre_test1g
 function test1g
 {
     # create user directory

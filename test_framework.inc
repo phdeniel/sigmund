@@ -3,6 +3,7 @@
 NB_CPU=$(( `grep processor /proc/cpuinfo  | tail -1 | awk '{print $(NF)}'` + 1 ))
 
 # test framework variables
+TMP_TEST_ERROR=/tmp/testerror
 TEST_ERROR=0
 TEST_SKIPPED=0
 TEST_ERR_FILE=/tmp/test_err.$$
@@ -35,6 +36,10 @@ VALSPEED[longest]=0
 # declare the 'NEEDS_ROOT' array
 declare -A NEEDS_ROOT
 
+#declare the 'PRE_TEST' and 'POST_TEST' arrays
+declare -A PRE_TEST
+declare -A POST_TEST
+
 # clean error status before running a test
 function error_reset
 {
@@ -47,6 +52,8 @@ function error_reset
 function error
 {
     echo "ERROR: $@"
+
+    TEST_ERROR=`cat $TMP_TEST_ERROR`
     TEST_ERROR=$((TEST_ERROR+1))
 
     if (( $junit )); then
@@ -56,6 +63,8 @@ function error
         rm -f $TEST_ERR_FILE
         #exit 1
     fi
+
+    echo $TEST_ERROR > $TMP_TEST_ERROR
 }
 
 ######################## JUNIT HELPERS (do not modify) #####################
@@ -128,6 +137,14 @@ function run_test
     func=$1
     descr=$2
 
+    export -f error 
+
+    rm -f $TMP_TEST_ERROR
+    touch $TMP_TEST_ERROR
+    chmod 0666 $TMP_TEST_ERROR
+    export TMP_TEST_ERROR
+    export TEST_ERROR=0
+
     nonum_func=`echo $func | sed -e 's/[a-zA-Z]$//'`
 
     if [[ -z "$ONLY" || $ONLY = *",$func,"* ||  $ONLY = *",$nonum_func,"*  ]] ; then
@@ -187,6 +204,15 @@ function run_test
     fi
 
     if [[ $OK_ONLY = "TRUE" && $OK_EXCLUDE = "TRUE" && $SKIPPED = "0" ]] ; then
+
+        # Check "PRE_TEST"
+        if [[ ! -z ${PRE_TEST[$func]} ]] ; then
+            echo "I need to run  ${PRE_TEST[$func]}"
+        fi
+
+        # export the function, so that it could be su-ed
+	export -f $func 
+
         cleanup
         error_reset
         if  [[ $quiet == 0 ]] ; then 
@@ -198,12 +224,16 @@ function run_test
         	# write marks in junit log
 		echo "==== $func: $descr ====" >> $TMPXML_PREFIX.stdout
 		echo "==== $func: $descr ====" >> $TMPXML_PREFIX.stderr
-		$func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+		su root -c $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
         elif (( $quiet )) ; then
-		$func 2>> /tmp/output.$func.stderr >> /tmp/output.$func.stdout 
+		su root -c $func 2>> /tmp/output.$func.stderr >> /tmp/output.$func.stdout 
         else
-            $func 
+            su root -c $func 
         fi
+
+        TEST_ERROR=`cat $TMP_TEST_ERROR`
+        if [[ -z $TEST_ERROR ]] ; then TEST_ERROR=0 ; fi
+
         test_end=`date "+%s.%N"`
 	dur=`echo "($test_end-$test_start)" | bc -l`
         if  [[ $quiet == 0 ]] ; then 
@@ -228,7 +258,15 @@ function run_test
 			echo -e "$func : $descr [${GREEN}  OK  ${NORMAL}]"
                 fi
 	fi
+
+        # Check "POST_TEST"
+        if [[ ! -z ${POST_TEST[$func]} ]] ; then
+            echo "I need to run  ${POST_TEST[$func]}"
+        fi
+
     fi
+
+    rm -f $TMP_TEST_ERROR
 }
 
 function cleanup
