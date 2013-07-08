@@ -138,6 +138,8 @@ function run_test
     descr=$2
 
     export -f error 
+    export -f create_tree
+    export -f empty_client_cache
 
     rm -f $TMP_TEST_ERROR
     touch $TMP_TEST_ERROR
@@ -224,11 +226,23 @@ function run_test
         	# write marks in junit log
 		echo "==== $func: $descr ====" >> $TMPXML_PREFIX.stdout
 		echo "==== $func: $descr ====" >> $TMPXML_PREFIX.stderr
-		su root -c $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+    		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
+			$func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+                else
+			su root -c $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+                fi
         elif (( $quiet )) ; then
-		su root -c $func 2>> /tmp/output.$func.stderr >> /tmp/output.$func.stdout 
+    		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
+			$func 2>> /tmp/output.$func.stderr >> /tmp/output.$func.stdout 
+		else
+			su root -c $func 2>> /tmp/output.$func.stderr >> /tmp/output.$func.stdout 
+		fi
         else
-            su root -c $func 
+    		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
+            		$func 
+		else
+            		su root -c $func 
+		fi
         fi
 
         TEST_ERROR=`cat $TMP_TEST_ERROR`
