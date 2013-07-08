@@ -17,7 +17,7 @@ while getopts "qjs:p:P:" opt ; do
 		p)	pre_script=$OPTARG ;; 
 		P)	post_script=$OPTARG ;;
                 [?])
-                        echo >&2 "Usage: $0 [-jq] [-s speed] [-p pre_script] [-P post_script] [rcfile]"
+                        echo >&2 "Usage: $0 [-jq] [-s speed] [-p pre_script] [-P post_script] [rcdir]"
                         echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
                         exit 1;;
         esac
@@ -31,14 +31,14 @@ if [ -z "$in_valspeed" ]; then
 fi
 
 if [ -z "$1" ]; then
-    RCFILE=$(dirname $(readlink -m $0))/run_test.rc
+    RCFILE=$(dirname $(readlink -m $0))/sigmund.d/sigmund.conf
 else
-    RCFILE=$1
+    RCFILE=$1/sigmund.conf
 fi
 
 
 if [[ -z  $RCFILE ]] ; then
-	RCFILE=$(dirname $(readlink -m $0))/run_test.rc 
+	RCFILE=$(dirname $(readlink -m $0))/sigmund.d/sigmund.conf
 fi
 
 if [[ -r $RCFILE ]]  ; then
@@ -47,6 +47,7 @@ else
   echo "  /!\\ Please make test's configuration in  $RCFILE"
   exit 1 
 fi
+RCDIR=`dirname $RCFILE`
 
 # prepare ONLY variable
 # 1,2 => ,test1,test2,
@@ -74,6 +75,7 @@ MODULES=`echo $MODULES | sed -e 's/,/ /g' | tr -s " "`
 
 export BUILD_TEST_DIR
 export RCFILE
+export RCDIR
 
 if [[ ! -z $MODULES ]] ; then
   export MODULES
@@ -99,6 +101,7 @@ if [[ -n $pre_script ]] ; then
 fi  
 
 for m in  $MODULES ; do
+  . $RCDIR/$m.conf
   .  $CURDIR/modules/$m.inc
   RUN_CMD="run_$m"
   eval $RUN_CMD
