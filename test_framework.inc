@@ -209,7 +209,10 @@ function run_test
 
         # Check "PRE_TEST"
         if [[ ! -z ${PRE_TEST[$func]} ]] ; then
-            echo "I need to run  ${PRE_TEST[$func]}"
+            if  [[ $quiet == 0 ]] ; then 
+            	echo "I need to run  ${PRE_TEST[$func]}"
+	    fi
+            ${PRE_TEST[$func]} 
         fi
 
         # export the function, so that it could be su-ed
@@ -229,19 +232,19 @@ function run_test
     		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
 			$func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
                 else
-			su root -c $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+			su $TEST_USER -c $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
                 fi
         elif (( $quiet )) ; then
     		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
 			$func 2>> /tmp/output.$func.stderr >> /tmp/output.$func.stdout 
 		else
-			su root -c $func 2>> /tmp/output.$func.stderr >> /tmp/output.$func.stdout 
+			su $TEST_USER -c $func 2>> /tmp/output.$func.stderr >> /tmp/output.$func.stdout 
 		fi
         else
     		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
             		$func 
 		else
-            		su root -c $func 
+            		su $TEST_USER -c $func 
 		fi
         fi
 
@@ -275,7 +278,10 @@ function run_test
 
         # Check "POST_TEST"
         if [[ ! -z ${POST_TEST[$func]} ]] ; then
-            echo "I need to run  ${POST_TEST[$func]}"
+	    if  [[ $quiet == 0 ]] ; then 
+            	echo "I need to run  ${POST_TEST[$func]}"
+	    fi
+            ${POST_TEST[$func]} 
         fi
 
     fi

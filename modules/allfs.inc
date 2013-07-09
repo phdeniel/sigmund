@@ -101,9 +101,17 @@ function test1m
 
 ### test1r: check if altgroups are correctly managed by the FS
 SPEED[test1g]=fast
-NEEDS_ROOT[test1g]=yes
+NEEDS_ROOT[test1g]=no
 PRE_TEST[test1g]=pre_test1g
 function test1g
+{
+    # create user directoru
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
+
+    cd $dir/$GROUP1/$GROUP2 || "error when traversing tree with different group owners"
+}
+
+function pre_test1g
 {
     # create user directory
     dir="$TEST_DIR/dir.$TEST_USER.$$"
@@ -123,6 +131,8 @@ function test1g
     cd  $dir
     cd $GROUP1/$GROUP2 || "error when traversing tree with different group owners"
 }
+
+
 
 ### test1w: write a 1GB large file
 SPEED[test1w]=slow
