@@ -1,6 +1,13 @@
 #!/bin/bash 
 
 CURDIR=$(dirname $(readlink -m $0))
+
+if [[ -d /etc/sigmund.d ]] ; then
+  CONFDIR=/etc/sigmund.d
+else
+  CONFDIR=$CURDIR/sigmund.d
+fi
+
 RUNDIR=$CURDIR
 
 # The script uses "su", it has to be run as root
@@ -56,14 +63,14 @@ if [ -z "$in_valspeed" ]; then
 fi
 
 if [ -z "$1" ]; then
-    RCFILE=$(dirname $(readlink -m $0))/sigmund.d/sigmund.conf
+    RCFILE=$CONFDIR/sigmund.conf
 else
     RCFILE=$1/sigmund.conf
 fi
 
 
 if [[ -z  $RCFILE ]] ; then
-	RCFILE=$(dirname $(readlink -m $0))/sigmund.d/sigmund.conf
+	RCFILE=$CONFDIR/sigmund.conf
 fi
 
 if [[ -r $RCFILE ]]  ; then

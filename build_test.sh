@@ -1,15 +1,17 @@
 #!/bin/bash
 
 CURDIR=$(dirname $(readlink -m $0))
-# include test framework
-. $CURDIR/test_framework.inc
-export BUILD_TEST_DIR
-export GIT_PYNFS_URL
+
+if [[ -d /etc/sigmund.d ]] ; then
+  CONFDIR=/etc/sigmund.d
+else
+  CONFDIR=$CURDIR/sigmund.d
+fi
 
 if [ -z "$1" ]; then
-    RCFILE=$CURDIR/run_test.rc
+    RCFILE=$CONFDIR/sigmund.conf
 else
-    RCFILE=$1
+    RCFILE=$1/sigmund.conf
 fi
 
 if [[ -r $RCFILE ]]  ; then
@@ -32,6 +34,7 @@ MODULES=`ls  modules/ | sed -e 's/\.inc//g'`
 
 cd test_progs
 for m in  $MODULES ; do
+        . $CONFDIR/$m.conf
 	make $m
 done
 cd $SAVED
