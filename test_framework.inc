@@ -33,6 +33,10 @@ VALSPEED[slow]=2
 VALSPEED[very_slow]=1
 VALSPEED[longest]=0
 
+# declare the test types
+declare -A TEST_TYPE
+export VALID_TEST_TYPES=("dev" "admin" "prod")
+
 # declare the 'NEEDS_ROOT' array
 declare -A NEEDS_ROOT
 
@@ -184,6 +188,14 @@ function run_test
 		SKIPPED=1
 	fi
     fi 
+
+    # Check test type
+    test_type=${TEST_TYPE[$func]}
+
+    if [[ "$in_test_type" && ! "$test_type" =~ "$in_test_type" ]] ; then
+        echo "$in_test_type is set and doesn't match $test_type, skipping"
+        SKIPPED=1
+    fi
 
     if (( $SKIPPED )); then
       if  [[ $OK_ONLY = "TRUE" && $OK_EXCLUDE = "TRUE" ]] ; then

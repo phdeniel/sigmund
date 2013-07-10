@@ -5,6 +5,7 @@
 
 ### test41a: run fsx-linux with no mmap
 SPEED[test41a]=medium
+TEST_TYPE[test41a]=dev,admin,prod
 NEEDS_ROOT[test41a]=no
 function test41a
 {
@@ -23,6 +24,7 @@ function test41a
 
 ### test41b: run fsx-linux with mmap on write
 SPEED[test41b]=medium
+TEST_TYPE[test41b]=dev,admin,prod
 NEEDS_ROOT[test41b]=no
 function test41b
 {
@@ -41,6 +43,7 @@ function test41b
 
 ### test41c: run fsx-linux with mmap on read
 SPEED[test41c]=medium
+TEST_TYPE[test41c]=dev,admin,prod
 NEEDS_ROOT[test41c]=no
 function test41c
 {
@@ -60,6 +63,7 @@ function test41c
 
 ### test41d: run fsx-linux with mmap on read+write
 SPEED[test41d]=medium
+TEST_TYPE[test41d]=dev,admin,prod
 NEEDS_ROOT[test41d]=no
 function test41d
 {
@@ -78,6 +82,7 @@ function test41d
 
 ### test42b: run bonnie++ with a reduced memory size
 SPEED[test42b]=longest
+TEST_TYPE[test42b]=dev
 NEEDS_ROOT[test42b]=no
 function test42b
 {

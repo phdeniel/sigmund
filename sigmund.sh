@@ -17,8 +17,9 @@ if [[ `id -u` != 0 ]] ; then
 fi
 
 if [[ $# = 0 ]] ; then
-  echo >&2 "Usage: $0 <behavior> [-s speed] [-jq] [rcfile]"
-  echo >&2 "For running a subset of tests:  ONLY=2,5 $0 <behavior> [-s speed] [-jq] [rcdir]"
+  echo >&2 "Usage: $0 <behavior> [-s speed] [-t type] [-jq] [rcfile]"
+  echo >&2 "For running a subset of tests:  ONLY=2,5 $0 <behavior> [-s speed] [-t type] [-jq] [rcdir]"
+  exit 1
 fi
 
 # Get the behavior
@@ -40,16 +41,19 @@ fi
 
 # By default, speed allows every test
 speed=longest
+# so does test_type, enabling the most thorough ones
+test_type=dev
 
-while getopts "qjs:p:P:" opt ; do
+while getopts "qjs:t:p:P:" opt ; do
         case "$opt" in
                 j)      export junit=1;;
                 q)      export quiet=1;;
                 s)	export speed=$OPTARG;;
+                t)	export in_test_type=$OPTARG;;
 		p)	pre_script=$OPTARG ;; 
 		P)	post_script=$OPTARG ;;
                 [?])
-                        echo >&2 "Usage: $0 [-jq] [-s speed] [-p pre_script] [-P post_script] [rcdir]"
+                        echo >&2 "Usage: $0 [-jq] [-s speed] [-t type] [-p pre_script] [-P post_script] [rcdir]"
                         echo >&2 "For running a subset of tests:  ONLY=2,5 $0 [-jq] [rcfile]"
                         exit 1;;
         esac
@@ -61,6 +65,13 @@ if [ -z "$in_valspeed" ]; then
 	echo "$speed is not a valid input. Allowed speed are longest|very_slow|slow|medium|fast"
 	exit 1 
 fi
+
+if [[ ! ${VALID_TEST_TYPES[*]} =~ "$in_test_type" ]]; then
+	echo "$in_test_type is not a valid input. Allowed types are dev|admin|prod"
+	exit 1
+fi
+
+
 
 if [ -z "$1" ]; then
     RCFILE=$CONFDIR/sigmund.conf

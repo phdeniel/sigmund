@@ -7,6 +7,7 @@
 
 ### test90a : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
 SPEED[test90a]=fast
+TEST_TYPE[test90a]=dev,admin,prod
 NEEDS_ROOT[test90a]=no
 function test90a
 {
@@ -18,6 +19,7 @@ function test90a
 ### test91b : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
 ### the difference with the former test is the input parameter in dbus-send
 SPEED[test91b]=fast
+TEST_TYPE[test91b]=dev,admin,prod
 NEEDS_ROOT[test91b]=no
 function test91b
 {
@@ -28,6 +30,7 @@ function test91b
 
 ### test91b : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
 SPEED[test91c]=fast
+TEST_TYPE[test91c]=dev,admin,prod
 NEEDS_ROOT[test91c]=no
 function test91c
 {
@@ -38,6 +41,7 @@ function test91c
 
 ### test91d : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
 SPEED[test91d]=fast
+TEST_TYPE[test91d]=dev,admin,prod
 NEEDS_ROOT[test91d]=no
 function test91d
 {
@@ -48,6 +52,7 @@ function test91d
 
 ### test91e : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
 SPEED[test91e]=fast
+TEST_TYPE[test91e]=dev,admin,prod
 NEEDS_ROOT[test91e]=no
 function test91e
 {
@@ -58,6 +63,7 @@ function test91e
 
 ### test92f : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
 SPEED[test92f]=fast
+TEST_TYPE[test92f]=dev,admin,prod
 NEEDS_ROOT[test92f]=no
 function test92f
 {
@@ -69,6 +75,7 @@ function test92f
 
 ### test92g : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
 SPEED[test92g]=fast
+TEST_TYPE[test92g]=dev,admin,prod
 NEEDS_ROOT[test92g]=no
 function test92g
 {
@@ -79,6 +86,7 @@ function test92g
 
 ### test92h : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
 SPEED[test92h]=fast
+TEST_TYPE[test92h]=dev,admin,prod
 NEEDS_ROOT[test92h]=no
 function test92h
 {
@@ -89,6 +97,7 @@ function test92h
 
 ### test92i : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
 SPEED[test92i]=fast
+TEST_TYPE[test92i]=dev,admin,prod
 NEEDS_ROOT[test92i]=no
 function test92i
 {
@@ -99,6 +108,7 @@ function test92i
 
 ### test92j : Make a simple call to D-BUS to make sure Ganesha replies to D-Bus requests
 SPEED[test92j]=fast
+TEST_TYPE[test92j]=dev,admin,prod
 NEEDS_ROOT[test92j]=no
 function test92j
 {

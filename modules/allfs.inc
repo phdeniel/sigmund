@@ -74,6 +74,7 @@ function create_tree
 
 ### test1m: check that a user can copy 444 file
 SPEED[test1m]=fast
+TEST_TYPE[test1m]=dev,admin,prod
 NEEDS_ROOT[test1m]=no
 function test1m
 {
@@ -101,6 +102,7 @@ function test1m
 
 ### test1r: check if altgroups are correctly managed by the FS
 SPEED[test1g]=fast
+TEST_TYPE[test1g]=dev,admin,prod
 NEEDS_ROOT[test1g]=yes
 PRE_TEST[test1g]=pre_test1g
 function test1g
@@ -126,6 +128,7 @@ function test1g
 
 ### test1w: write a 1GB large file
 SPEED[test1w]=slow
+TEST_TYPE[test1w]=dev,admin
 NEEDS_ROOT[test1w]=no
 function test1w
 {
@@ -145,6 +148,7 @@ function test1w
 
 ### test2r: check recursive removal of large directories
 SPEED[test2r]=very_slow
+TEST_TYPE[test2r]=dev
 NEEDS_ROOT[test2r]=no
 function test2r
 {
@@ -164,6 +168,7 @@ function test2r
 
 ### test3b : cthon04's basic tests
 SPEED[test3b]=medium
+TEST_TYPE[test3b]=dev,admin,prod
 NEEDS_ROOT[test3b]=no
 function test3b
 {
@@ -178,6 +183,7 @@ function test3b
 
 ### test3g : cthon04's general tests
 SPEED[test3g]=medium
+TEST_TYPE[test3g]=dev,admin,prod
 NEEDS_ROOT[test3g]=no
 function test3g
 {
@@ -192,6 +198,7 @@ function test3g
 
 ### test3s : cthon04's special tests
 SPEED[test3s]=medium
+TEST_TYPE[test3s]=dev,admin,prod
 NEEDS_ROOT[test3s]=no
 function test3s
 {
@@ -206,6 +213,7 @@ function test3s
 
 ### test3l : cthon04's lock tests
 SPEED[test3l]=slow
+TEST_TYPE[test3l]=dev,admin
 NEEDS_ROOT[test3l]=no
 function test3l
 {
@@ -220,6 +228,7 @@ function test3l
 
 ### test4g : git clone a local repository
 SPEED[test4g]=slow
+TEST_TYPE[test4g]=dev,admin
 NEEDS_ROOT[test4g]=no
 function test4g
 {
@@ -233,6 +242,7 @@ function test4g
 
 ### test4s : force a utimes on a symlink via a tar 
 SPEED[test4s]=fast
+TEST_TYPE[test4s]=dev,admin,prod
 NEEDS_ROOT[test4s]=no
 function test4s
 {
@@ -255,6 +265,7 @@ function test4s
 
 ### test4k : untar a kernel tarball and compiles kernel
 SPEED[test4k]=very_slow
+TEST_TYPE[test4k]=dev
 NEEDS_ROOT[test4k]=no
 function test4k
 {
@@ -273,6 +284,7 @@ function test4k
 
 ### test4r : use mmap() to read a file
 SPEED[test4r]=fast
+TEST_TYPE[test4r]=dev,admin,prod
 NEEDS_ROOT[test4r]=no
 function test4r
 {
@@ -287,6 +299,7 @@ function test4r
 
 ### test4w : use mmap() to write a file
 SPEED[test4w]=fast
+TEST_TYPE[test4w]=dev,admin,prod
 NEEDS_ROOT[test4w]=no
 function test4w
 {
