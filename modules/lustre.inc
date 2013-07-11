@@ -7,6 +7,7 @@
 
 ### test71c: check that file creation is properly forbidden under .lustre/
 SPEED[test71c]=fast
+TEST_TYPE[test71c]=dev,admin,prod
 NEEDS_ROOT[test71c]=no
 function test71c
 {
@@ -20,6 +21,7 @@ function test71c
 
 ### test71d: check that directory creation is properly forbidden under .lustre/
 SPEED[test71d]=fast
+TEST_TYPE[test71d]=dev,admin,prod
 NEEDS_ROOT[test71d]=no
 function test71d
 {
@@ -33,6 +35,7 @@ function test71d
 
 ### test71h: check that hardlink creation is properly forbidden under .lustre/
 SPEED[test71h]=fast
+TEST_TYPE[test71h]=dev,admin,prod
 NEEDS_ROOT[test71h]=no
 function test71h
 {
@@ -47,6 +50,7 @@ function test71h
 
 ### test72: check that attempts to unlink .lustre/ fail
 SPEED[test72]=fast
+TEST_TYPE[test72]=dev,admin
 NEEDS_ROOT[test72]=no
 function test72
 {
@@ -55,14 +59,15 @@ function test72
 
 ### test73: Execute binaries from lustre
 SPEED[test73]=fast
+TEST_TYPE[test73]=dev,admin,prod
 NEEDS_ROOT[test73]=no
 function test73
 {
     BIN=`which ls`
-    cp $BIN $TEST_DIR
+    cp $BIN $TEST_DIR/ls
     chmod go+rw $TEST_DIR/ls
-    $DIR/ls / || error "Cannot run binaries from lustre"
-    rm -f $DIR/ls
+    $TEST_DIR/ls / >> /dev/null || error "Cannot run binaries from lustre"
+    rm -f $TEST_DIR/ls
 }
 
 

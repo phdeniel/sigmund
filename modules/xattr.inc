@@ -7,6 +7,7 @@
 
 ### test21f : Simple set/get on a xattr on a file
 SPEED[test21f]=fast
+TEST_TYPE[test21f]=dev,admin,prod
 NEEDS_ROOT[test21f]=no
 function test21f
 {
@@ -25,6 +26,7 @@ function test21f
 
 ### test21d : Simple set/get on a xattr on a directory
 SPEED[test21d]=fast
+TEST_TYPE[test21d]=dev,admin,prod
 NEEDS_ROOT[test21d]=no
 function test21d
 {
@@ -43,6 +45,7 @@ function test21d
 
 ### test21s : Simple set/get on a xattr on a symlink
 SPEED[test21s]=fast
+TEST_TYPE[test21s]=dev,admin,prod
 NEEDS_ROOT[test21s]=no
 function test21s
 {
@@ -62,6 +65,7 @@ function test21s
 
 ### test22f: Creates 100 xattr and then delete them on a file
 SPEED[test22f]=fast
+TEST_TYPE[test22f]=dev,admin,prod
 NEEDS_ROOT[test22f]=no
 function test22f
 { 
@@ -92,6 +96,7 @@ function test22f
 
 ### test22d: Creates 100 xattr and then delete them on a directory
 SPEED[test22d]=fast
+TEST_TYPE[test22d]=dev,admin,prod
 NEEDS_ROOT[test22d]=no
 function test22d
 { 
@@ -122,6 +127,7 @@ function test22d
 
 ### test22s: Creates 100 xattr and then delete them on a directory
 SPEED[test22s]=fast
+TEST_TYPE[test22s]=dev,admin,prod
 NEEDS_ROOT[test22s]=no
 function test22s
 { 
@@ -153,6 +159,7 @@ function test22s
 
 ### test23f : Set a value several times then check value
 SPEED[test23f]=fast
+TEST_TYPE[test23f]=dev,admin,prod
 NEEDS_ROOT[test23f]=no
 function test23f
 {
@@ -174,6 +181,7 @@ function test23f
 
 ### test23d :  Set a value several times then check value
 SPEED[test23d]=fast
+TEST_TYPE[test23d]=dev,admin,prod
 NEEDS_ROOT[test23d]=no
 function test23d
 {
@@ -195,6 +203,7 @@ function test23d
 
 ### test23s : Set a value several times then check value
 SPEED[test23s]=fast
+TEST_TYPE[test23s]=dev,admin,prod
 NEEDS_ROOT[test23s]=no
 function test23s
 {
