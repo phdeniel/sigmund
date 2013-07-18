@@ -193,7 +193,9 @@ function run_test
     test_type=${TEST_TYPE[$func]}
 
     if [[ "$in_test_type" && ! "$test_type" =~ "$in_test_type" ]] ; then
-        echo "$in_test_type is set and doesn't match $test_type, skipping"
+        if  [[ $quiet == 0 ]] ; then 
+        	echo "$in_test_type is set and doesn't match $test_type, skipping"
+        fi
         SKIPPED=1
     fi
 
