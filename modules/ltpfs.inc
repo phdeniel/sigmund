@@ -16,7 +16,7 @@ function test41a
     mkdir -p $dir
     touch $file
 
-    $LTPDIR/testcases/kernel/fs/fsx-linux/fsx-linux -N 10000 -c 40 -R -W $file  || error "error running fsx-linux on $file"
+    $LTPDIR/testcases/bin/fsx-linux -N 10000 -c 40 -R -W $file  || error "error running fsx-linux on $file"
 	
     # clean test dir
     rm -rf $dir
@@ -35,7 +35,7 @@ function test41b
     mkdir -p $dir
     touch $file
 
-    $LTPDIR/testcases/kernel/fs/fsx-linux/fsx-linux -N 10000 -c 40 -R $file  || error "error running fsx-linux on $file"
+    $LTPDIR/testcases/bin/fsx-linux -N 10000 -c 40 -R $file  || error "error running fsx-linux on $file"
 	
     # clean test dir
     rm -rf $dir
@@ -54,7 +54,7 @@ function test41c
     mkdir -p $dir
     touch $file
 
-    $LTPDIR/testcases/kernel/fs/fsx-linux/fsx-linux -N 10000 -c 40 -W $file  || error "error running fsx-linux on $file"
+    $LTPDIR/testcases/bin/fsx-linux -N 10000 -c 40 -W $file  || error "error running fsx-linux on $file"
 	
     # clean test dir
     rm -rf $dir
@@ -74,7 +74,7 @@ function test41d
     mkdir -p $dir
     touch $file
 
-    $LTPDIR/testcases/kernel/fs/fsx-linux/fsx-linux -N 10000 -c 40 $file  || error "error running fsx-linux on $file"
+    $LTPDIR/testcases/bin/fsx-linux -N 10000 -c 40 $file  || error "error running fsx-linux on $file"
 	
     # clean test dir
     rm -rf $dir
@@ -89,9 +89,24 @@ function test42b
     # create user directory
     dir="$TEST_DIR/dir.$TEST_USER.$$"
 
-
     mkdir -p $dir
     bonnie++ -d $dir -c 10  -u 0 -s 1:256 -x 1 -r 2
+	
+    # clean test dir
+    rm -rf $dir
+}
+
+### test43f: run fsstress on 30 procs
+SPEED[test43f]=slow
+TEST_TYPE[test43f]=dev
+NEEDS_ROOT[test43f]=no
+function test43f
+{
+    # create user directory
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
+
+    mkdir -p $dir
+    $LTPDIR/testcases/bin/fsstress -d $dir -l 10 -n 100 -p 30 -v -S || error "error running fsstress on $dir"
 	
     # clean test dir
     rm -rf $dir
@@ -106,5 +121,6 @@ function run_ltpfs
   run_test test41c  "LTPFS: fsx-linux with mmap on read                 "
   run_test test41d  "LTPFS: fsx-linux with mmap on read+write           "
   run_test test42b  "LTPFS: run bonnie++ with a reduced memory size     "
+  run_test test43f  "LTPFS: run fsstress on 30 procs                    "
 }
 
