@@ -114,7 +114,7 @@ function test43f
 
 ### test44f: run LTP's growfiles fast tests
 SPEED[test44f]=fast
-TEST_TYPE[test44f]=dev
+TEST_TYPE[test44f]=dev,admin,prod
 NEEDS_ROOT[test44f]=no
 function test44f
 {
@@ -171,6 +171,151 @@ function test44s
     rm -rf $dir
 }
 
+### test45a: run LTP's chdir tests
+SPEED[test45a]=fast
+TEST_TYPE[test45a]=dev,admin
+NEEDS_ROOT[test45a]=no
+function test45a
+{
+    # create user directory
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
+
+    mkdir -p $dir
+    cd $dir 
+
+    $LTPDIR/testcases/bin/chdir01 || error "error running chdir01"
+    $LTPDIR/testcases/bin/chdir02 || error "error running chdir02"
+    $LTPDIR/testcases/bin/chdir03 || error "error running chdir03"
+    $LTPDIR/testcases/bin/chdir04 || error "error running chdir04"
+
+    cd ..
+    # clean test dir
+    rm -rf $dir
+}
+
+### test45b: run LTP's chmod tests
+SPEED[test45b]=fast
+TEST_TYPE[test45b]=dev,admin
+NEEDS_ROOT[test45b]=no
+function test45b
+{
+    # create user directory
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
+
+    mkdir -p $dir
+    cd $dir 
+
+    $LTPDIR/testcases/bin/chmod01 || error "error running chmod01"
+    $LTPDIR/testcases/bin/symlink01 -T chmod01 || error "error running symlink01"
+    $LTPDIR/testcases/bin/chmod02 || error "error running chmod02"
+    $LTPDIR/testcases/bin/chmod03 || error "error running chmod03"
+    $LTPDIR/testcases/bin/chmod04 || error "error running chmod04"
+    $LTPDIR/testcases/bin/chmod05 || error "error running chmod04"
+    $LTPDIR/testcases/bin/chmod06 || error "error running chmod04"
+    $LTPDIR/testcases/bin/chmod07 || error "error running chmod07"
+
+    cd ..
+    # clean test dir
+    rm -rf $dir
+}
+
+### test45c: run LTP's chown tests
+SPEED[test45c]=fast
+TEST_TYPE[test45c]=dev,admin
+NEEDS_ROOT[test45c]=no
+function test45c
+{
+    # create user directory
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
+
+    mkdir -p $dir
+    cd $dir 
+
+    $LTPDIR/testcases/bin/chown01 || error "error running chown01"
+    $LTPDIR/testcases/bin/chown02 || error "error running chown02"
+    $LTPDIR/testcases/bin/chown03 || error "error running chown02"
+    $LTPDIR/testcases/bin/chown04 || error "error running chown02"
+    $LTPDIR/testcases/bin/chown05 || error "error running chown05"
+
+    $LTPDIR/testcases/bin/chown01_16 || error "error running chown01_16"
+    $LTPDIR/testcases/bin/chown02_16 || error "error running chown02_16"
+    $LTPDIR/testcases/bin/chown03_16 || error "error running chown02_16"
+    $LTPDIR/testcases/bin/chown04_16 || error "error running chown02_16"
+    $LTPDIR/testcases/bin/chown05_16 || error "error running chown05_16"
+
+    cd ..
+    # clean test dir
+    rm -rf $dir
+}
+
+### test45d: run LTP's chroot tests
+SPEED[test45d]=fast
+TEST_TYPE[test45d]=dev,admin
+NEEDS_ROOT[test45d]=no
+function test45d
+{
+    # create user directory
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
+
+    mkdir -p $dir
+    cd $dir 
+
+    $LTPDIR/testcases/bin/chroot01 || error "error running chroot01"
+    $LTPDIR/testcases/bin/chroot02 || error "error running chroot02"
+    $LTPDIR/testcases/bin/chroot03 || error "error running chroot03"
+    $LTPDIR/testcases/bin/chroot04 || error "error running chroot04"
+
+    cd ..
+    # clean test dir
+    rm -rf $dir
+}
+
+### test45e: run LTP's close tests
+SPEED[test45e]=fast
+TEST_TYPE[test45e]=dev,admin
+NEEDS_ROOT[test45e]=no
+function test45e
+{
+    # create user directory
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
+
+    mkdir -p $dir
+    cd $dir 
+
+    $LTPDIR/testcases/bin/close01 || error "error running close01"
+    $LTPDIR/testcases/bin/close02 || error "error running close02"
+    $LTPDIR/testcases/bin/close08 || error "error running close08"
+
+    cd ..	
+    # clean test dir
+    rm -rf $dir
+}
+
+### test45f: run LTP's creat tests
+SPEED[test45f]=fast
+TEST_TYPE[test45f]=dev,admin
+NEEDS_ROOT[test45f]=no
+function test45f
+{
+    # create user directory
+    dir="$TEST_DIR/dir.$TEST_USER.$$"
+
+    mkdir -p $dir
+    cd $dir 
+
+    $LTPDIR/testcases/bin/creat01 || error "error running creat01"
+    $LTPDIR/testcases/bin/creat03 || error "error running creat03"
+    $LTPDIR/testcases/bin/creat04 || error "error running creat04"
+    $LTPDIR/testcases/bin/creat05 || error "error running creat05"
+    $LTPDIR/testcases/bin/creat06 || error "error running creat06"
+    $LTPDIR/testcases/bin/creat08 || error "error running creat08"
+    $LTPDIR/testcases/bin/creat09 || error "error running creat07"
+
+    cd ..	
+    # clean test dir
+    rm -rf $dir
+}
+
 ######################## DEFINE TEST LIST HERE ####################
 
 function run_ltpfs
@@ -183,5 +328,11 @@ function run_ltpfs
   run_test test43f  "LTPFS: run fsstress on 30 procs                    "
   run_test test44f  "LTPFS: run LTP's growfiles fast tests              "
   run_test test44s  "LTPFS: run LTP's growfiles slow tests              "
+  run_test test45a  "LTPFS: run LTP's chdir tests                       "
+  run_test test45b  "LTPFS: run LTP's chmod tests                       "
+  run_test test45c  "LTPFS: run LTP's chown tests                       "
+  run_test test45d  "LTPFS: run LTP's chroot tests                      "
+  run_test test45e  "LTPFS: run LTP's close tests                       "
+  run_test test45f  "LTPFS: run LTP's creat tests                       "
 }
 
