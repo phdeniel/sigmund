@@ -10,16 +10,16 @@ fi
 
 RUNDIR=$CURDIR
 
+if [[ $# = 0 ]] ; then
+  echo >&2 "Usage: $0 <behavior> [-s speed] [-t type] [-jq] [sigmund conf dir]"
+  echo >&2 "For running a subset of tests:  ONLY=2,5 $0 <behavior> [-s speed] [-t type] [-jq] [sigmund conf dir]"
+  exit 1
+fi
+
 # The script uses "su", it has to be run as root
 if [[ `id -u` != 0 ]] ; then
   echo "  /!\\ This script must be run as root"
   exit 1 
-fi
-
-if [[ $# = 0 ]] ; then
-  echo >&2 "Usage: $0 <behavior> [-s speed] [-t type] [-jq] [rcfile]"
-  echo >&2 "For running a subset of tests:  ONLY=2,5 $0 <behavior> [-s speed] [-t type] [-jq] [rcdir]"
-  exit 1
 fi
 
 # Get the behavior
