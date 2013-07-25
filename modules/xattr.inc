@@ -224,6 +224,45 @@ function test23s
    [[ $read_value = "my_value$MAX" ]] || error "ERROR after reading xattr. Bad value read"
 }
 
+### test24f : Set a trusted.* xattr on a file
+SPEED[test24f]=fast
+TEST_TYPE[test24f]=dev,admin,prod
+NEEDS_ROOT[test24f]=yes
+function test24f
+{
+   dir="$TEST_DIR/dir.$$"
+   mkdir -p $dir
+
+   rm -fr $dir/file_xattr
+   touch $dir/file_xattr
+
+   setfattr -n trusted.my_attribute  -v my_value  $dir/file_xattr || error "ERROR while setting xattr on a file"
+
+   read_value=`getfattr -n trusted.my_attribute --only-values $dir/file_xattr`
+
+   [[ $read_value = "my_value" ]] || error "ERROR after reading xattr. Bad value read"
+}
+
+### test25f : Set a security.* xattr on a file
+SPEED[test25f]=fast
+TEST_TYPE[test25f]=dev,admin,prod
+NEEDS_ROOT[test25f]=yes
+function test25f
+{
+   dir="$TEST_DIR/dir.$$"
+   mkdir -p $dir
+
+   rm -fr $dir/file_xattr
+   touch $dir/file_xattr
+
+   setfattr -n security.my_attribute  -v my_value  $dir/file_xattr || error "ERROR while setting xattr on a file"
+
+   read_value=`getfattr -n security.my_attribute --only-values $dir/file_xattr`
+
+   [[ $read_value = "my_value" ]] || error "ERROR after reading xattr. Bad value read"
+}
+
+
 ######################## DEFINE TEST LIST HERE ####################
 
 function run_xattr
@@ -237,6 +276,7 @@ function run_xattr
   run_test test23f  "XATTR: mulitple sets + 1 check : file     "
   run_test test23d  "XATTR: mulitple sets + 1 check : directory"
   run_test test23s  "XATTR: mulitple sets + 1 check : symlink  "
-  
+  run_test test24f  "XATTR: Set a trusted.* xattr on a file    "
+  run_test test25f  "XATTR: Set a security.* xattr on a file   "
 }
 
