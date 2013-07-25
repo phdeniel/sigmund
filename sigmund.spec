@@ -12,6 +12,7 @@ Requires:  filesystem, bash, grep
 Url: http://github.com/phdeniel/sigmund/
 Source0: sigmund.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Prefix: /opt
 
 %description
 Sigmund test suite.
@@ -32,6 +33,9 @@ mv %{buildroot}/opt/sigmund/sigmund.d %{buildroot}%{_sysconfdir}/sigmund.d/
 
 rm %{buildroot}/opt/sigmund/sigmund.spec
 rm %{buildroot}/opt/sigmund/do_rpm.sh
+rm %{buildroot}/opt/sigmund/README
+rm %{buildroot}/opt/sigmund/Sigmund_HowTO.pdf
+rm -fr %{buildroot}/opt/sigmund/wiki 
 
 
 %files
@@ -44,9 +48,6 @@ rm %{buildroot}/opt/sigmund/do_rpm.sh
 /opt/sigmund/test_framework.inc
 %dir %{_sysconfdir}/sigmund.d/
 %config(noreplace) %{_sysconfdir}/sigmund.d/*
-%doc README Sigmund_HowTO.pdf
-/opt/sigmund/Sigmund_HowTO.pdf
-/opt/sigmund/README
 
 %post
 
