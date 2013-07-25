@@ -113,7 +113,7 @@ function test43f
 }
 
 ### test44f: run LTP's growfiles fast tests
-SPEED[test44f]=fast
+SPEED[test44f]=medium
 TEST_TYPE[test44f]=dev,admin,prod
 NEEDS_ROOT[test44f]=no
 function test44f
