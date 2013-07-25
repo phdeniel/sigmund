@@ -153,6 +153,11 @@ function run_test
 
     nonum_func=`echo $func | sed -e 's/[a-zA-Z]$//'`
 
+    my_id=`id -u`
+    outputdir=/tmp/sigmund.$$.$my_id
+
+    mkdir -p $outputdir
+
     if [[ -z "$ONLY" || $ONLY = *",$func,"* ||  $ONLY = *",$nonum_func,"*  ]] ; then
         OK_ONLY=TRUE
     else
@@ -182,8 +187,7 @@ function run_test
 
     # Check "NEEDS_ROOT"
     if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
-        my_id=i`id -u`
-	if [[ $my_id != "0" ]] ; then 
+       	if [[ "$my_id" != "0" ]] ; then 
         	NOROOT=1
 		SKIPPED=1
 	fi
@@ -246,19 +250,31 @@ function run_test
     		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
 			$func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
                 else
-			su $TEST_USER -c $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+                        if [[ "$my_id" != 0 ]] ; then
+			   $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+                        else
+			   su $TEST_USER -c $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+                        fi
                 fi
         elif (( $quiet )) ; then
     		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
-			$func 2>> /tmp/output.$func.stderr >> /tmp/output.$func.stdout 
+			$func 2>> $outputdir/$func.stderr >> $outputdir/$func.stdout 
 		else
-			su $TEST_USER -c $func 2>> /tmp/output.$func.stderr >> /tmp/output.$func.stdout 
+                        if [[ "$my_id" != 0 ]] ; then
+			  $func 2>> $outputdir/$func.stderr >> $outputdir/$func.stdout 
+			else
+			  su $TEST_USER -c $func 2>> $outputdir/$func.stderr >> $outputdir/$func.stdout 
+			fi
 		fi
         else
     		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
             		$func 
 		else
-            		su $TEST_USER -c $func 
+                        if [[ "$my_id" != 0 ]] ; then
+            		  $func 
+			else
+            		  su $TEST_USER -c $func 
+			fi
 		fi
         fi
 

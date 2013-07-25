@@ -16,12 +16,6 @@ if [[ $# = 0 ]] ; then
   exit 1
 fi
 
-# The script uses "su", it has to be run as root
-if [[ `id -u` != 0 ]] ; then
-  echo "  /!\\ This script must be run as root"
-  exit 1 
-fi
-
 # Get the behavior
 BEHAVIOR=$1
 shift 
