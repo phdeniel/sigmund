@@ -83,7 +83,6 @@ function test1m
     file="$dir/test_file"
 
     mkdir -p $dir || error "error mkdir $dir"
-    #chown $TEST_USER $dir
 
     # create a file as user in this dir
     dd if=/dev/zero of=$file bs=1M count=1 || "error writing $file"
@@ -103,12 +102,12 @@ function test1m
 ### test1r: check if altgroups are correctly managed by the FS
 SPEED[test1g]=fast
 TEST_TYPE[test1g]=dev,admin,prod
-NEEDS_ROOT[test1g]=no
+NEEDS_ROOT[test1g]=yes
 PRE_TEST[test1g]=pre_test1g
 function test1g
 {
     # create user directoru
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
+    dir="$TEST_DIR/dir.$TEST_USER.test1g"
 
     cd $dir/$GROUP1/$GROUP2 || "error when traversing tree with different group owners"
 }
@@ -116,9 +115,9 @@ function test1g
 function pre_test1g
 {
     # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
+    dir="$TEST_DIR/dir.$TEST_USER.test1g"
 
-    
+    rm -fr $dir 
     mkdir -p $dir || error "error mkdir $dir"
     chown $TEST_USER $dir
 
@@ -129,9 +128,6 @@ function pre_test1g
     cd  $GROUP1
     mkdir -m 700 $GROUP2
     chown  $TEST_USER:$GROUP2 $GROUP2
-
-    cd  $dir
-    cd $GROUP1/$GROUP2 || "error when traversing tree with different group owners"
 }
 
 
