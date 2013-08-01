@@ -36,6 +36,7 @@ rm %{buildroot}/opt/sigmund/do_rpm.sh
 rm %{buildroot}/opt/sigmund/README
 rm %{buildroot}/opt/sigmund/Sigmund_HowTO.pdf
 rm -fr %{buildroot}/opt/sigmund/wiki 
+rm -fr %{buildroot}/opt/sigmund/sides 
 
 
 %files
