@@ -6,6 +6,11 @@ WRITE THE CONFIGURATION FILE
 In sigmund's root directory, edit the run_test.rc file
 It will look like this:
 
+ # Used for sshing to server for setup of pseudofs tests
+ SERVERHOSTNAME=ganesha.domain.com
+ FS_DIR=/fs0
+ TEST_ROOT_DIR=/mnt/sigmund_root
+
  TEST_DIR=/mnt/sigmund
  BUILD_TEST_DIR=/tmp/sigmund
 
@@ -27,6 +32,9 @@ Important variables are
 - TEST_USER: the user whose identity will be used to run the tests
 - GROUP1: Primary group for TEST_USER
 - GROUP2: one of the secondary groups (or alternate groups) for TEST_USER
+- SERVERHOSTNAME: hostname or ip of the ganesha server that the local machine can ssh to for setting up tests.
+- FS_DIR: Location of filesystem on the Ganesha server which is being exported as ${TEST_DIR}. This is used for creating export entries.
+- TEST_ROOT_DIR: the directory where Sigmund pseudofs tests will be run. This directory must be the "/" export and must be a pseudofs node.
 - TEST_DIR: the directory, inside the mount point to be tested, were Sigmund will be run. Make sure that TEST_USERcan read and write in it
 - BUILD_TEST_DIR: a temporary directory where a few C programs will be generated. Make sure that TEST_USERcan read and write in it
 - CTHON04_DIR: the directory where ctho04 was installed. TEST_USER must be abe to read/execute in it.

@@ -16,6 +16,13 @@ test_mmap_write: test_mmap_write.c
 	@mv test_mmap_write $$BUILD_TEST_DIR
 	@echo "test_mmap_write compiled and moved to  $$BUILD_TEST_DIR"
 
+test_pseudofs:
+	@cc -o test_pseudofs test_pseudofs.c
+	@rm  -f $$BUILD_TEST_DIR/test_pseudofs
+	@mv test_pseudofs $$BUILD_TEST_DIR
+	@mv setup_pseudofs.pl $$BUILD_TEST_DIR
+	@echo "test_pseudofs compiled and moved to  $$BUILD_TEST_DIR"
+
 allfs: test_mmap_read test_mmap_write
 
 xattr:
@@ -26,6 +33,4 @@ pynfs40:
 
 pynfs41:
 	@echo "Nothing to build for pynfs41"
-
-
 
