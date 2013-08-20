@@ -6,10 +6,14 @@ WRITE THE CONFIGURATION FILE
 In sigmund's root directory, edit the run_test.rc file
 It will look like this:
 
- # Used for sshing to server for setup of pseudofs tests
+ # Used for pseudofs tests
+ EXPORTDIR=/etc/ganesha
+ FSAL=gpfs
+ EXPORTFILE=gpfs.ganesha.exports.conf
  SERVERHOSTNAME=ganesha.domain.com
  FS_DIR=/fs0
  TEST_ROOT_DIR=/mnt/sigmund_root
+ GANVERSION=2.0
 
  TEST_DIR=/mnt/sigmund
  BUILD_TEST_DIR=/tmp/sigmund
