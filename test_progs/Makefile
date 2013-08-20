@@ -7,7 +7,7 @@ test_pseudofs: createmanyexports.pl
 	@cp createmanyexports.pl $$BUILD_TEST_DIR
 	@echo "createmanyexports.pl copied to  $$BUILD_TEST_DIR"
 
-allfs: test_mmap_read test_mmap_write test_pseudofs
+allfs: test_pseudofs
 
 xattr:
 	@echo "Nothing to build for xattr"

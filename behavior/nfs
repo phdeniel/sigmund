@@ -1,1 +1,1 @@
-export MODULES=allfs,ltpfs
+export MODULES=allfs,ltpfs,pseudofs
