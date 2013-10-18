@@ -172,6 +172,23 @@ function test2r
     rm -r $dir || error "couldn't remove $dir"
 }
 
+### test2s: does a very small write io and check size
+SPEED[test2s]=fast
+TEST_TYPE[test2s]=dev,admin,prod
+NEEDS_ROOT[test2s]=no
+function test2s
+{
+    dir="$TEST_DIR/dir.$$"
+   
+    mkdir -p $dir
+
+    # Write 5 bytes (4 numerical characters and a CR at the end)
+    echo "1234" > $dir/small_file.$$
+    mysize=`stat --format="%s" $dir/small_file.$$`
+
+    [ $mysize = 5 ] || error "Size is $mysize, should be 5"
+}
+
 ### test3b : cthon04's basic tests
 SPEED[test3b]=medium
 TEST_TYPE[test3b]=dev,admin,prod
@@ -328,6 +345,7 @@ function run_allfs
   run_test test1g  " ALLFS: traverse 700 dirs with altgroups   "
   run_test test1w  " ALLFS: writes a 1GB file                  "
   run_test test2r  " ALLFS: rm -rf of wide namespace           "
+  run_test test2s  " ALLFS: writes 5 bytes and check file size "
   run_test test3b  " ALLFS: cthon04's basic tests              "
   run_test test3g  " ALLFS: cthon04's general tests            "
   run_test test3s  " ALLFS: cthon04's special tests            "
