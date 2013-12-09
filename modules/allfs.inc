@@ -85,13 +85,13 @@ function test1m
     mkdir -p $dir || error "error mkdir $dir"
 
     # create a file as user in this dir
-    dd if=/dev/zero of=$file bs=1M count=1 || "error writing $file"
+    dd if=/dev/zero of=$file bs=1M count=1 || error "error writing $file"
 
     # set file 444
     chmod 444 "$file" || error "error chmod 444 $file"
 
     # copy the file as user
-    cp $file $file.copy || "error copying $file to $file.copy"
+    cp $file $file.copy || error "error copying $file to $file.copy"
 
     ls -l $file.copy || error "target file $file.copy not found"
     
@@ -109,7 +109,7 @@ function test1g
     # create user directoru
     dir="$TEST_DIR/dir.$TEST_USER.test1g"
 
-    cd $dir/$GROUP1/$GROUP2 || "error when traversing tree with different group owners"
+    cd $dir/$GROUP1/$GROUP2 || error "error when traversing tree with different group owners"
 }
 
 function pre_test1g
@@ -145,7 +145,7 @@ function test1w
     mkdir -p $dir || error "error mkdir $dir"
 
     # create a file as user in this dir
-    dd if=/dev/zero of=$file bs=1M count=1024 || "error writing $file"
+    dd if=/dev/zero of=$file bs=1M count=1024 || error "error writing $file"
 
     # clean test dir
     rm -rf $dir
