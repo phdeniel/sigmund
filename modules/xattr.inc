@@ -11,15 +11,11 @@ TEST_TYPE[test21f]=dev,admin,prod
 NEEDS_ROOT[test21f]=no
 function test21f
 {
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
+   touch file_xattr
 
-   rm -fr $dir/file_xattr
-   touch $dir/file_xattr
+   setfattr -n user.my_attribute  -v my_value  file_xattr || error "ERROR while setting xattr on a file"
 
-   setfattr -n user.my_attribute  -v my_value  $dir/file_xattr || error "ERROR while setting xattr on a file"
-
-   read_value=`getfattr -n user.my_attribute --only-values $dir/file_xattr`
+   read_value=`getfattr -n user.my_attribute --only-values file_xattr`
 
    [[ $read_value = "my_value" ]] || error "ERROR after reading xattr. Bad value read"
 }
@@ -30,15 +26,11 @@ TEST_TYPE[test21d]=dev,admin,prod
 NEEDS_ROOT[test21d]=no
 function test21d
 {
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
+   mkdir dir_xattr
 
-   rm -fr $dir/dir_xattr
-   mkdir $dir/dir_xattr
+   setfattr -n user.my_attribute  -v my_value  dir_xattr || error "ERROR while setting xattr on a file"
 
-   setfattr -n user.my_attribute  -v my_value  $dir/dir_xattr || error "ERROR while setting xattr on a file"
-
-   read_value=`getfattr -n user.my_attribute --only-values $dir/dir_xattr`
+   read_value=`getfattr -n user.my_attribute --only-values dir_xattr`
 
    [[ $read_value = "my_value" ]] || error "ERROR after reading xattr. Bad value read"
 }
@@ -49,16 +41,12 @@ TEST_TYPE[test21s]=dev,admin,prod
 NEEDS_ROOT[test21s]=no
 function test21s
 {
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
+   touch file_xattr
+   ln -s file_xattr symlink_xattr
 
-   rm -fr $dir/file_xattr  $dir/symlink_xattr
-   touch $dir/file_xattr
-   ln -s $dir/file_xattr $dir/symlink_xattr
+   setfattr -n user.my_attribute  -v my_value  symlink_xattr || error "ERROR while setting xattr on a symlink"
 
-   setfattr -n user.my_attribute  -v my_value  $dir/symlink_xattr || error "ERROR while setting xattr on a symlink"
-
-   read_value=`getfattr -n user.my_attribute --only-values $dir/symlink_xattr`
+   read_value=`getfattr -n user.my_attribute --only-values symlink_xattr`
 
    [[ $read_value = "my_value" ]] || error "ERROR after reading xattr. Bad value read"
 }
@@ -70,27 +58,23 @@ NEEDS_ROOT[test22f]=no
 function test22f
 { 
    MAX=10
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
-
-   rm -fr $dir/file_xattr
-   touch $dir/file_xattr
+   touch file_xattr
 
    for i in `seq 1 $MAX` ; do 
-      setfattr -n user.attr$i  -v my_value$i  $dir/file_xattr || error "ERROR while setting xattr on a file"
+      setfattr -n user.attr$i  -v my_value$i  file_xattr || error "ERROR while setting xattr on a file"
    done
 
    # List xattr and then delete them one by one
    for i in `seq 1 $MAX` ; do 
-     count=`getfattr -d  $dir/file_xattr 2>&1 | grep "user." | wc -l`
+     count=`getfattr -d  file_xattr 2>&1 | grep "user." | wc -l`
      remain=`echo "$MAX-$i+1" | bc`
      [[ $count = $remain ]] || error "ERROR bad count when deleting xattr"
-     setfattr -x  user.attr$i  $dir/file_xattr 
+     setfattr -x  user.attr$i  file_xattr
      echo "$i xattr deleted, $remain remains"
    done
 
    # Make sure no xattr remain 
-   count=`getfattr -d  $dir/file_xattr | grep "user." | wc -l`
+   count=`getfattr -d  file_xattr | grep "user." | wc -l`
    (( $count > 0 )) && error "ERROR xattr remain when they are all supposed to be deleted"
 }
 
@@ -101,27 +85,23 @@ NEEDS_ROOT[test22d]=no
 function test22d
 { 
    MAX=10
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
-
-   rm -fr $dir/dir_xattr
-   mkdir $dir/dir_xattr
+   mkdir dir_xattr
 
    for i in `seq 1 $MAX` ; do 
-      setfattr -n user.attr$i  -v my_value$i  $dir/dir_xattr || error "ERROR while setting xattr on a directory"
+      setfattr -n user.attr$i  -v my_value$i  dir_xattr || error "ERROR while setting xattr on a directory"
    done
 
    # List xattr and then delete them one by one
    for i in `seq 1 $MAX` ; do 
-     count=`getfattr -d  $dir/dir_xattr 2>&1 | grep "user." | wc -l`
+     count=`getfattr -d  dir_xattr 2>&1 | grep "user." | wc -l`
      remain=`echo "$MAX-$i+1" | bc`
      [[ $count = $remain ]] || error "ERROR bad count when deleting xattr"
-     setfattr -x  user.attr$i  $dir/dir_xattr 
+     setfattr -x  user.attr$i  dir_xattr
      echo "$i xattr deleted, $remain remains"
    done
 
    # Make sure no xattr remain 
-   count=`getfattr -d  $dir/dir_xattr | grep "user." | wc -l`
+   count=`getfattr -d  dir_xattr | grep "user." | wc -l`
    (( $count > 0 )) && error "ERROR xattr remain when they are all supposed to be deleted"
 }
 
@@ -132,28 +112,24 @@ NEEDS_ROOT[test22s]=no
 function test22s
 { 
    MAX=10
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
-
-   rm -fr $dir/file_xattr  $dir/symlink_xattr
-   touch $dir/file_xattr
-   ln -s $dir/file_xattr $dir/symlink_xattr
+   touch file_xattr
+   ln -s file_xattr symlink_xattr
 
    for i in `seq 1 $MAX` ; do 
-      setfattr -n user.attr$i  -v my_value$i  $dir/symlink_xattr || error "ERROR while setting xattr on a symlink"
+      setfattr -n user.attr$i  -v my_value$i  symlink_xattr || error "ERROR while setting xattr on a symlink"
    done
 
    # List xattr and then delete them one by one
    for i in `seq 1 $MAX` ; do 
-     count=`getfattr -d  $dir/symlink_xattr 2>&1 | grep "user." | wc -l`
+     count=`getfattr -d  symlink_xattr 2>&1 | grep "user." | wc -l`
      remain=`echo "$MAX-$i+1" | bc`
      [[ $count = $remain ]] || error "ERROR bad count when deleting xattr"
-     setfattr -x  user.attr$i  $dir/symlink_xattr 
+     setfattr -x  user.attr$i  symlink_xattr
      echo "$i xattr deleted, $remain remains"
    done
 
    # Make sure no xattr remain 
-   count=`getfattr -d  $dir/symlink_xattr | grep "user." | wc -l`
+   count=`getfattr -d  symlink_xattr | grep "user." | wc -l`
    (( $count > 0 )) && error "ERROR xattr remain when they are all supposed to be deleted"
 }
 
@@ -164,17 +140,13 @@ NEEDS_ROOT[test23f]=no
 function test23f
 {
    MAX=10
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
-
-   rm -fr $dir/file_xattr
-   touch $dir/file_xattr
+   touch file_xattr
 
    for i in `seq 1 $MAX` ; do
-      setfattr -n user.my_attribute  -v my_value$i  $dir/file_xattr || error "ERROR while setting xattr on a file"
+      setfattr -n user.my_attribute  -v my_value$i  file_xattr || error "ERROR while setting xattr on a file"
    done
 
-   read_value=`getfattr -n user.my_attribute --only-values $dir/file_xattr`
+   read_value=`getfattr -n user.my_attribute --only-values file_xattr`
 
    [[ $read_value = "my_value$MAX" ]] || error "ERROR after reading xattr. Bad value read"
 }
@@ -186,17 +158,13 @@ NEEDS_ROOT[test23d]=no
 function test23d
 {
    MAX=10
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
-
-   rm -fr $dir/dir_xattr
-   mkdir $dir/dir_xattr
+   mkdir dir_xattr
 
    for i in `seq 1 $MAX` ; do
-     setfattr -n user.my_attribute  -v my_value$i  $dir/dir_xattr || error "ERROR while setting xattr on a file"
+     setfattr -n user.my_attribute  -v my_value$i  dir_xattr || error "ERROR while setting xattr on a file"
    done 
 
-   read_value=`getfattr -n user.my_attribute --only-values $dir/dir_xattr`
+   read_value=`getfattr -n user.my_attribute --only-values dir_xattr`
 
    [[ $read_value = "my_value$MAX" ]] || error "ERROR after reading xattr. Bad value read"
 }
@@ -208,18 +176,14 @@ NEEDS_ROOT[test23s]=no
 function test23s
 {
    MAX=10
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
-
-   rm -fr $dir/file_xattr  $dir/symlink_xattr
-   touch $dir/file_xattr
-   ln -s $dir/file_xattr $dir/symlink_xattr
+   touch file_xattr
+   ln -s file_xattr symlink_xattr
 
    for i in `seq 1 $MAX` ; do
-     setfattr -n user.my_attribute  -v my_value$i  $dir/symlink_xattr || error "ERROR while setting xattr on a symlink"
+     setfattr -n user.my_attribute  -v my_value$i  symlink_xattr || error "ERROR while setting xattr on a symlink"
    done 
 
-   read_value=`getfattr -n user.my_attribute --only-values $dir/symlink_xattr`
+   read_value=`getfattr -n user.my_attribute --only-values symlink_xattr`
 
    [[ $read_value = "my_value$MAX" ]] || error "ERROR after reading xattr. Bad value read"
 }
@@ -230,15 +194,11 @@ TEST_TYPE[test24f]=dev,admin,prod
 NEEDS_ROOT[test24f]=yes
 function test24f
 {
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
+   touch file_xattr
 
-   rm -fr $dir/file_xattr
-   touch $dir/file_xattr
+   setfattr -n trusted.my_attribute  -v my_value  file_xattr || error "ERROR while setting xattr on a file"
 
-   setfattr -n trusted.my_attribute  -v my_value  $dir/file_xattr || error "ERROR while setting xattr on a file"
-
-   read_value=`getfattr -n trusted.my_attribute --only-values $dir/file_xattr`
+   read_value=`getfattr -n trusted.my_attribute --only-values file_xattr`
 
    [[ $read_value = "my_value" ]] || error "ERROR after reading xattr. Bad value read"
 }
@@ -249,15 +209,11 @@ TEST_TYPE[test25f]=dev,admin,prod
 NEEDS_ROOT[test25f]=yes
 function test25f
 {
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
+   touch file_xattr
 
-   rm -fr $dir/file_xattr
-   touch $dir/file_xattr
+   setfattr -n security.my_attribute  -v my_value  file_xattr || error "ERROR while setting xattr on a file"
 
-   setfattr -n security.my_attribute  -v my_value  $dir/file_xattr || error "ERROR while setting xattr on a file"
-
-   read_value=`getfattr -n security.my_attribute --only-values $dir/file_xattr`
+   read_value=`getfattr -n security.my_attribute --only-values file_xattr`
 
    [[ $read_value = "my_value" ]] || error "ERROR after reading xattr. Bad value read"
 }

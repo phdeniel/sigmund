@@ -57,7 +57,7 @@ function error
 {
     echo "ERROR: $@"
 
-    TEST_ERROR=`cat $TMP_TEST_ERROR`
+    TEST_ERROR=$(cat $TMP_TEST_ERROR 2>/dev/null)
     TEST_ERROR=$((TEST_ERROR+1))
 
     if (( $junit )); then
@@ -224,19 +224,31 @@ function run_test
     fi
 
     if [[ $OK_ONLY = "TRUE" && $OK_EXCLUDE = "TRUE" && $SKIPPED = "0" ]] ; then
+        mkdir -p "$TEST_DIR"
+        RUN_DIR=$(mktemp -d "$TEST_DIR/$func.XXXXXXX")
+        cleanup
 
+        mkdir -p "$RUN_DIR"
+        if [[ ${NEEDS_ROOT[$func]} != "yes" && "$my_id" == 0 ]] ; then
+                chown $TEST_USER: "$RUN_DIR"
+        fi
+
+        cd "$RUN_DIR"
         # Check "PRE_TEST"
-        if [[ ! -z ${PRE_TEST[$func]} ]] ; then
+        if [[ -n ${PRE_TEST[$func]} ]] ; then
             if  [[ $quiet == 0 ]] ; then 
             	echo "I need to run  ${PRE_TEST[$func]}"
 	    fi
             ${PRE_TEST[$func]} 
+
+	    # assume the user is an idiot and need to be put in the right directory again.
+	    # This probably is true.
+	    cd "$RUN_DIR"
         fi
 
         # export the function, so that it could be su-ed
 	export -f $func 
 
-        cleanup
         error_reset
         if  [[ $quiet == 0 ]] ; then 
         echo
@@ -278,10 +290,10 @@ function run_test
 		fi
         fi
 
-        TEST_ERROR=`cat $TMP_TEST_ERROR`
+        TEST_ERROR=$(cat $TMP_TEST_ERROR 2>/dev/null)
         if [[ -z $TEST_ERROR ]] ; then TEST_ERROR=0 ; fi
 
-        test_end=`date "+%s.%N"`
+        test_end=$(date "+%s.%N")
 	dur=`echo "($test_end-$test_start)" | bc -l`
         if  [[ $quiet == 0 ]] ; then 
         	echo
@@ -311,9 +323,11 @@ function run_test
 	    if  [[ $quiet == 0 ]] ; then 
             	echo "I need to run  ${POST_TEST[$func]}"
 	    fi
+	    cd "$RUN_DIR"
             ${POST_TEST[$func]} 
         fi
 
+        cleanup
     fi
 
     rm -f $TMP_TEST_ERROR
@@ -322,10 +336,11 @@ function run_test
 function cleanup
 {
     if  [[ $quiet == 0 ]] ; then
-    	echo "test cleanup..."
+        echo "$func cleanup..."
     fi
+
     # cleaning test dir
-    # TODO
+    [[ -n "$RUN_DIR" ]] && rm -rf "$RUN_DIR"
 }
 
 function test_finalize
