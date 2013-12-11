@@ -78,11 +78,7 @@ TEST_TYPE[test1m]=dev,admin,prod
 NEEDS_ROOT[test1m]=no
 function test1m
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-    file="$dir/test_file"
-
-    mkdir -p $dir || error "error mkdir $dir"
+    file="test_file"
 
     # create a file as user in this dir
     dd if=/dev/zero of=$file bs=1M count=1 || error "error writing $file"
@@ -94,9 +90,6 @@ function test1m
     cp $file $file.copy || error "error copying $file to $file.copy"
 
     ls -l $file.copy || error "target file $file.copy not found"
-    
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test1r: check if altgroups are correctly managed by the FS
@@ -106,22 +99,11 @@ NEEDS_ROOT[test1g]=yes
 PRE_TEST[test1g]=pre_test1g
 function test1g
 {
-    # create user directoru
-    dir="$TEST_DIR/dir.$TEST_USER.test1g"
-
-    cd $dir/$GROUP1/$GROUP2 || error "error when traversing tree with different group owners"
+    cd $GROUP1/$GROUP2 || error "error when traversing tree with different group owners"
 }
 
 function pre_test1g
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.test1g"
-
-    rm -fr $dir 
-    mkdir -p $dir || error "error mkdir $dir"
-    chown $TEST_USER $dir
-
-    cd $dir
     mkdir -m 700 $GROUP1
     chown  $TEST_USER:$GROUP1 $GROUP1
 
@@ -138,17 +120,10 @@ TEST_TYPE[test1w]=dev,admin
 NEEDS_ROOT[test1w]=no
 function test1w
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-    file="$dir/test_file"
-
-    mkdir -p $dir || error "error mkdir $dir"
+    file="test_file"
 
     # create a file as user in this dir
     dd if=/dev/zero of=$file bs=1M count=1024 || error "error writing $file"
-
-    # clean test dir
-    rm -rf $dir
 }
 
 
@@ -158,7 +133,7 @@ TEST_TYPE[test2r]=dev
 NEEDS_ROOT[test2r]=no
 function test2r
 {
-    dir="$TEST_DIR/dir.$$"
+    dir="tree"
 
     mkdir -p $dir
 
@@ -178,13 +153,9 @@ TEST_TYPE[test2s]=dev,admin,prod
 NEEDS_ROOT[test2s]=no
 function test2s
 {
-    dir="$TEST_DIR/dir.$$"
-   
-    mkdir -p $dir
-
     # Write 5 bytes (4 numerical characters and a CR at the end)
-    echo "1234" > $dir/small_file.$$
-    mysize=`stat --format="%s" $dir/small_file.$$`
+    echo "1234" > small_file.$$
+    mysize=`stat --format="%s" small_file.$$`
 
     [ $mysize = 5 ] || error "Size is $mysize, should be 5"
 }
@@ -195,11 +166,9 @@ TEST_TYPE[test3b]=dev,admin,prod
 NEEDS_ROOT[test3b]=no
 function test3b
 {
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
+   export NFSTESTDIR=$(pwd)/cthon-b
 
    cd $CTHON04_DIR/basic
-   export NFSTESTDIR=$dir   
 
    timeout -s KILL 5m ./runtests || error "ERROR while running cthon04's basic tests"
 }
@@ -210,11 +179,9 @@ TEST_TYPE[test3g]=dev,admin,prod
 NEEDS_ROOT[test3g]=no
 function test3g
 {
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
+   export NFSTESTDIR=$(pwd)/cthon-g
 
    cd $CTHON04_DIR/general
-   export NFSTESTDIR=$dir   
 
    timeout -s KILL 5m ./runtests || error "ERROR while running cthon04's general tests"
 }
@@ -225,11 +192,8 @@ TEST_TYPE[test3s]=dev,admin,prod
 NEEDS_ROOT[test3s]=no
 function test3s
 {
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
-
+   export NFSTESTDIR=$(pwd)/cthon-s
    cd $CTHON04_DIR/special
-   export NFSTESTDIR=$dir   
 
    timeout -s KILL 5m ./runtests || error "ERROR while running cthon04's special tests"
 }
@@ -240,11 +204,8 @@ TEST_TYPE[test3l]=dev,admin
 NEEDS_ROOT[test3l]=no
 function test3l
 {
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
-
+   export NFSTESTDIR=$(pwd)/cthon-l
    cd $CTHON04_DIR/lock
-   export NFSTESTDIR=$dir   
 
    timeout -s KILL 5m ./runtests || error "ERROR while running cthon04's lock tests"
 }
@@ -255,10 +216,6 @@ TEST_TYPE[test4g]=dev,admin
 NEEDS_ROOT[test4g]=no
 function test4g
 {
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
-
-   cd $dir
    git clone $GIT_CLONE_URL || error "ERROR while cloning a git repository"
 }
 
@@ -270,11 +227,6 @@ NEEDS_ROOT[test4s]=no
 function test4s
 {
   
-   dir="$TEST_DIR/dir.$$"
-   mkdir -p $dir
-
-   cd $dir
-
    # build the tar
    mkdir testln
    touch testln/file
@@ -293,12 +245,8 @@ NEEDS_ROOT[test4k]=no
 function test4k
 {
   
-   dir="$TEST_DIR/dir.$$"
-   kdir=`basename  $KERNEL_TAR | sed -e 's/\.tar.*$//g'`
+   kdir=`basename $KERNEL_TAR | sed -e 's/\.tar.*$//g'`
    
-   mkdir -p $dir
-   cd $dir
-
    tar xvf $KERNEL_TAR || error "ERROR while decompresssing kernel archive"
    cd $kdir
 
@@ -323,6 +271,5 @@ function run_allfs
   run_test test4g  " ALLFS: git clone a local repository       "
   run_test test4s  " ALLFS: Tar calls utimes on symlink        "
   run_test test4k  " ALLFS: decompress kernel tar + compilation"
-
 }
 

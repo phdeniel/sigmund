@@ -9,17 +9,11 @@ TEST_TYPE[test41a]=dev,admin,prod
 NEEDS_ROOT[test41a]=no
 function test41a
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-    file="$dir/test_file"
+    file="test_file"
 
-    mkdir -p $dir
     touch $file
 
     $LTPDIR/testcases/bin/fsx-linux -N 10000 -c 40 -R -W $file  || error "error running fsx-linux on $file"
-	
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test41b: run fsx-linux with mmap on write
@@ -28,17 +22,11 @@ TEST_TYPE[test41b]=dev,admin,prod
 NEEDS_ROOT[test41b]=no
 function test41b
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-    file="$dir/test_file"
+    file="test_file"
 
-    mkdir -p $dir
     touch $file
 
     $LTPDIR/testcases/bin/fsx-linux -N 10000 -c 40 -R $file  || error "error running fsx-linux on $file"
-	
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test41c: run fsx-linux with mmap on read
@@ -47,17 +35,11 @@ TEST_TYPE[test41c]=dev,admin,prod
 NEEDS_ROOT[test41c]=no
 function test41c
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-    file="$dir/test_file"
+    file="test_file"
 
-    mkdir -p $dir
     touch $file
 
     $LTPDIR/testcases/bin/fsx-linux -N 10000 -c 40 -W $file  || error "error running fsx-linux on $file"
-	
-    # clean test dir
-    rm -rf $dir
 }
 
 
@@ -67,17 +49,11 @@ TEST_TYPE[test41d]=dev,admin,prod
 NEEDS_ROOT[test41d]=no
 function test41d
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-    file="$dir/test_file"
+    file="test_file"
 
-    mkdir -p $dir
     touch $file
 
     $LTPDIR/testcases/bin/fsx-linux -N 10000 -c 40 $file  || error "error running fsx-linux on $file"
-	
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test42b: run bonnie++ with a reduced memory size
@@ -86,14 +62,10 @@ TEST_TYPE[test42b]=dev
 NEEDS_ROOT[test42b]=no
 function test42b
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
+    dir="test_dir"
 
     mkdir -p $dir
     bonnie++ -d $dir -c 10  -u 0 -s 1:256 -x 1 -r 2
-	
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test43f: run fsstress on 30 procs
@@ -103,13 +75,10 @@ NEEDS_ROOT[test43f]=no
 function test43f
 {
     # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
+    dir="test_dir"
 
     mkdir -p $dir
     $LTPDIR/testcases/bin/fsstress -d $dir -l 10 -n 100 -p 30 -v -S || error "error running fsstress on $dir"
-	
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test44f: run LTP's growfiles fast tests
@@ -119,7 +88,7 @@ NEEDS_ROOT[test44f]=no
 function test44f
 {
     # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
+    dir="test_dir"
 
     mkdir -p $dir
     $LTPDIR/testcases/bin/growfiles -W gf02 -b -e 1 -L 10 -i 100 -I p -S 2 -u -f gf03_ -d $dir || error "error running growfiles's gf02"
@@ -135,9 +104,6 @@ function test44f
     $LTPDIR/testcases/bin/growfiles -W gf28 -b -D 0 -w -g 16b -C 1 -b -i 1000 -u -f gfsparse-2-$$ -d $dir || error "error running growfiles's gf28"
     $LTPDIR/testcases/bin/growfiles -W gf30 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -o O_RDWR,O_CREAT,O_SYNC -g 20480 -T 10 -t 20480 -f gf-sync-$$ -d $dir || error "error running growfiles's gf30"
     $LTPDIR/testcases/bin/growfiles -W gf30 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -o O_RDWR,O_CREAT,O_SYNC -g 20480 -T 10 -t 20480 -f gf-sync-$$ -d $dir || error "error running growfiles's gf30"
-	
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test44s: run LTP's growfiles slow tests
@@ -147,7 +113,7 @@ NEEDS_ROOT[test44s]=no
 function test44s
 {
     # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
+    dir="test_dir"
 
     mkdir -p $dir
     $LTPDIR/testcases/bin/growfiles -W gf01 -b -e 1 -u -i 0 -L 20 -w -C 1 -l -I r -T 10 -f glseek20 -S 2 -d $dir || error "error running growfiles's gf01"
@@ -166,9 +132,6 @@ function test44s
     $LTPDIR/testcases/bin/growfiles -W gf23 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 512-64000:1024 -R 1-384000 -T 4 -f gf-inf-$$ -d $dir || error "error running growfiles's gf23"
     $LTPDIR/testcases/bin/growfiles -W gf26 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 128-32768:128 -R 512-64000 -T 4 -f gfsmallio-$$ -d $dir || error "error running growfiles's gf26"
     $LTPDIR/testcases/bin/growfiles -W gf29 -b -D 0 -r 1-4096 -R 0-33554432 -i 0 -L 60 -C 1 -u -f gfsparse-3-$$ -d $dir || error "error running growfiles's gf29"
-	
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test45a: run LTP's chdir tests
@@ -177,34 +140,18 @@ TEST_TYPE[test45a]=dev,admin
 NEEDS_ROOT[test45a]=no
 function test45a
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-
-    mkdir -p $dir
-    cd $dir 
-
     $LTPDIR/testcases/bin/chdir01 || error "error running chdir01"
     $LTPDIR/testcases/bin/chdir02 || error "error running chdir02"
     $LTPDIR/testcases/bin/chdir03 || error "error running chdir03"
     $LTPDIR/testcases/bin/chdir04 || error "error running chdir04"
-
-    cd ..
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test45b: run LTP's chmod tests
 SPEED[test45b]=fast
 TEST_TYPE[test45b]=dev,admin
-NEEDS_ROOT[test45b]=no
+NEEDS_ROOT[test45b]=yes
 function test45b
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-
-    mkdir -p $dir
-    cd $dir 
-
     $LTPDIR/testcases/bin/chmod01 || error "error running chmod01"
     $LTPDIR/testcases/bin/symlink01 -T chmod01 || error "error running symlink01"
     $LTPDIR/testcases/bin/chmod02 || error "error running chmod02"
@@ -213,10 +160,6 @@ function test45b
     $LTPDIR/testcases/bin/chmod05 || error "error running chmod04"
     $LTPDIR/testcases/bin/chmod06 || error "error running chmod04"
     $LTPDIR/testcases/bin/chmod07 || error "error running chmod07"
-
-    cd ..
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test45c: run LTP's chown tests
@@ -225,12 +168,6 @@ TEST_TYPE[test45c]=dev,admin
 NEEDS_ROOT[test45c]=no
 function test45c
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-
-    mkdir -p $dir
-    cd $dir 
-
     $LTPDIR/testcases/bin/chown01 || error "error running chown01"
     $LTPDIR/testcases/bin/chown02 || error "error running chown02"
     $LTPDIR/testcases/bin/chown03 || error "error running chown02"
@@ -242,32 +179,18 @@ function test45c
     $LTPDIR/testcases/bin/chown03_16 || error "error running chown02_16"
     $LTPDIR/testcases/bin/chown04_16 || error "error running chown02_16"
     $LTPDIR/testcases/bin/chown05_16 || error "error running chown05_16"
-
-    cd ..
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test45d: run LTP's chroot tests
 SPEED[test45d]=fast
 TEST_TYPE[test45d]=dev,admin
-NEEDS_ROOT[test45d]=no
+NEEDS_ROOT[test45d]=yes
 function test45d
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-
-    mkdir -p $dir
-    cd $dir 
-
     $LTPDIR/testcases/bin/chroot01 || error "error running chroot01"
     $LTPDIR/testcases/bin/chroot02 || error "error running chroot02"
     $LTPDIR/testcases/bin/chroot03 || error "error running chroot03"
     $LTPDIR/testcases/bin/chroot04 || error "error running chroot04"
-
-    cd ..
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test45e: run LTP's close tests
@@ -276,19 +199,9 @@ TEST_TYPE[test45e]=dev,admin
 NEEDS_ROOT[test45e]=no
 function test45e
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-
-    mkdir -p $dir
-    cd $dir 
-
     $LTPDIR/testcases/bin/close01 || error "error running close01"
     $LTPDIR/testcases/bin/close02 || error "error running close02"
     $LTPDIR/testcases/bin/close08 || error "error running close08"
-
-    cd ..	
-    # clean test dir
-    rm -rf $dir
 }
 
 ### test45f: run LTP's creat tests
@@ -297,12 +210,6 @@ TEST_TYPE[test45f]=dev,admin
 NEEDS_ROOT[test45f]=no
 function test45f
 {
-    # create user directory
-    dir="$TEST_DIR/dir.$TEST_USER.$$"
-
-    mkdir -p $dir
-    cd $dir 
-
     $LTPDIR/testcases/bin/creat01 || error "error running creat01"
     $LTPDIR/testcases/bin/creat03 || error "error running creat03"
     $LTPDIR/testcases/bin/creat04 || error "error running creat04"
@@ -310,10 +217,6 @@ function test45f
     $LTPDIR/testcases/bin/creat06 || error "error running creat06"
     $LTPDIR/testcases/bin/creat08 || error "error running creat08"
     $LTPDIR/testcases/bin/creat09 || error "error running creat07"
-
-    cd ..	
-    # clean test dir
-    rm -rf $dir
 }
 
 ######################## DEFINE TEST LIST HERE ####################
