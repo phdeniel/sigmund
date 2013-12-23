@@ -246,23 +246,45 @@ function test4k
    ( make defconfig && make -j 17 && make -j 17 modules ) ||  error "ERROR while compiling kernel"
 }
 
+### test5r: open and read a single file multiple times in parallel
+SPEED[test5r]=fast
+TEST_TYPE[test5r]=dev,admin,prod
+NEEDS_ROOT[test5r]=no
+function test5r
+{
+   dd if=/dev/urandom of=input bs=1k count=3
+   seq 1 1000 | xargs -n 1 -P 25 -I{} cat input > /dev/null
+}
+
+### test5m: open and read multiple files in parallel
+SPEED[test5m]=medium
+TEST_TYPE[test5m]=dev,admin
+NEEDS_ROOT[test5m]=no
+function test5m
+{
+   for file in {01..50}; do touch f.${file}; done
+   seq 1 1000 | xargs -n 1 -P 25 -I{} cat f.* > /dev/null
+}
+
 # syntax: ONLY=2,3 ./run_test.sh [-j] <test_dir>
 
 ######################## DEFINE TEST LIST HERE ####################
 
 function run_allfs
 {
-  run_test test1m  " ALLFS: copy file with 444 mode            "
-  run_test test1g  " ALLFS: traverse 700 dirs with altgroups   "
-  run_test test1w  " ALLFS: writes a 1GB file                  "
-  run_test test2r  " ALLFS: rm -rf of wide namespace           "
-  run_test test2s  " ALLFS: writes 5 bytes and check file size "
-  run_test test3b  " ALLFS: cthon04's basic tests              "
-  run_test test3g  " ALLFS: cthon04's general tests            "
-  run_test test3s  " ALLFS: cthon04's special tests            "
-  run_test test3l  " ALLFS: cthon04's lock tests               "
-  run_test test4g  " ALLFS: git clone a local repository       "
-  run_test test4s  " ALLFS: Tar calls utimes on symlink        "
-  run_test test4k  " ALLFS: decompress kernel tar + compilation"
+  run_test test1m  "ALLFS: copy file with 444 mode            "
+  run_test test1g  "ALLFS: traverse 700 dirs with altgroups   "
+  run_test test1w  "ALLFS: writes a 1GB file                  "
+  run_test test2r  "ALLFS: rm -rf of wide namespace           "
+  run_test test2s  "ALLFS: writes 5 bytes and check file size "
+  run_test test3b  "ALLFS: cthon04's basic tests              "
+  run_test test3g  "ALLFS: cthon04's general tests            "
+  run_test test3s  "ALLFS: cthon04's special tests            "
+  run_test test3l  "ALLFS: cthon04's lock tests               "
+  run_test test4g  "ALLFS: git clone a local repository       "
+  run_test test4s  "ALLFS: Tar calls utimes on symlink        "
+  run_test test4k  "ALLFS: decompress kernel tar + compilation"
+  run_test test5r  "ALLFS: parallel open/read of a single file"
+  run_test test5m  "ALLFS: parallel open/read of a many files "
 }
 
