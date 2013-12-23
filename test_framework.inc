@@ -143,7 +143,6 @@ function run_test
 
     export -f error 
     export -f create_tree
-    export -f empty_client_cache
 
     rm -f $TMP_TEST_ERROR
     touch $TMP_TEST_ERROR

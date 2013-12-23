@@ -38,12 +38,6 @@ function get_test_user
     grep -v nologin /etc/passwd | grep -v ':0:' | head -1 | cut -d ':' -f 1
 }
 
-function empty_client_cache
-{
-    [ "$DEBUG" = "1" ] && echo "emptying client cache (data+metadata)"
-    echo 3 > /proc/sys/vm/drop_caches
-}
-
 function create_tree
 {
     local ROOT=$1
@@ -139,7 +133,6 @@ function test2r
 
     echo "creating wide namespace..."
     create_tree $dir 2 10000
-    empty_client_cache
 
     count=$(find $dir | wc -l)
     [ $count = 30003 ] || error "unexpected entry count in $dir"
