@@ -107,5 +107,49 @@ if ($VERSION == "1.5") {
 
        print $ENTRY . "\n";
     }
+} elsif ($VERSION == "2.1") {
+    foreach(1..${NUMBER}) {
+        $num = $_;
+
+        # Scan SKIP list and skip that entry if found.
+        $skipthisentry = 0;
+        foreach(@SKIP) {
+            if ($_ == $num) {
+                $skipthisentry = 1;
+            }
+        }
+        if($skipthisentry == 1) {
+	    next;
+        }
+
+        my $ENTRY =  "EXPORT
+{
+    Export_Id = 5${_} ;
+    Path = \"${LOCALROOTDIR}/${PREFIX}${_}\";
+    Pseudo = \"/many/${PREFIX}${_}\";
+    Root_Access = \"*\";
+    Access_Type=\"RW\";
+    Access=\"*\";
+    Anonymous_uid = -2 ;
+    Anonymous_gid = -2 ;
+    Make_All_Users_Anonymous = FALSE;
+    NFS_Protocols = \"3,4\" ;
+    Transport_Protocols = \"UDP,TCP\" ;
+    SecType = \"sys,krb5,krb5i,krb5p\";
+    MaxRead = 1048576;
+    MaxWrite = 1048576;
+    PrefRead = 1048576;
+    PrefWrite = 1048576;
+    PrefReaddir = 0;
+    Filesystem_id = 564.152 ;
+    Tag = \"${PREFIX}${_}\";
+    UseCookieVerifier=FALSE;
+    FSAL=\"${FSAL}\";
+}
+
+";
+
+       print $ENTRY . "\n";
+    }
 }
 

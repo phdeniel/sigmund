@@ -371,6 +371,7 @@ function testremove_readdir
     cp $BUILD_TEST_DIR/$EXPORTFILE $BUILD_TEST_DIR/$newexportconfig
     
     # generate new exports and append to server's export config
+    echo "** Generating new export configuration but removing export ${removedexport}"
     $BUILD_TEST_DIR/createmanyexports.pl \
         $FS_DIR \
         $PREFIX \
