@@ -29,6 +29,10 @@ TEST_TYPE[test31d]=dev,admin,prod
 NEEDS_ROOT[test31d]=no
 function test31d
 {
+   set -o xtrace
+   rm -fr dir_acl
+   mkdir dir_acl
+
    setfacl -m user:8989:rw,group:8989:rw dir_acl || error "ERROR while setting acl on a file"
 
    read_value_user=`getfacl -n dir_acl | grep "user:8989:"`
