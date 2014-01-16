@@ -216,14 +216,14 @@ function test33s
 
 function run_acl
 {
-  run_test test31f  "ACL: simple acl set/get : file        "
-  run_test test31d  "ACL: simple acl set/get : directory   "
-  run_test test31s  "ACL: simple acl set/get : symlink     "
-  run_test test32f  "ACL: acl creation/deletion : file     "
-  run_test test32d  "ACL: acl creation/deletion : directory"
-  run_test test32s  "ACL: acl creation/deletion : symlink  "
-  run_test test33f  "ACL: mulitple sets + 1 check : file     "
-  run_test test33d  "ACL: mulitple sets + 1 check : directory"
-  run_test test33s  "ACL: mulitple sets + 1 check : symlink  "
+  run_test test31f  "simple acl set/get: file"
+  run_test test31d  "simple acl set/get: directory"
+  run_test test31s  "simple acl set/get: symlink"
+  run_test test32f  "acl creation/deletion: file"
+  run_test test32d  "acl creation/deletion: directory"
+  run_test test32s  "acl creation/deletion: symlink"
+  run_test test33f  "mulitple sets + 1 check: file"
+  run_test test33d  "mulitple sets + 1 check: directory"
+  run_test test33s  "mulitple sets + 1 check: symlink"
 }
 

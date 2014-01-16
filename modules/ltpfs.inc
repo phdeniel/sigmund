@@ -223,19 +223,19 @@ function test45f
 
 function run_ltpfs
 {
-  run_test test41a  "LTPFS: fsx-linux with no mmap                      "
-  run_test test41b  "LTPFS: fsx-linux with mmap on write                "
-  run_test test41c  "LTPFS: fsx-linux with mmap on read                 "
-  run_test test41d  "LTPFS: fsx-linux with mmap on read+write           "
-  run_test test42b  "LTPFS: run bonnie++ with a reduced memory size     "
-  run_test test43f  "LTPFS: run fsstress on 30 procs                    "
-  run_test test44f  "LTPFS: run LTP's growfiles fast tests              "
-  run_test test44s  "LTPFS: run LTP's growfiles slow tests              "
-  run_test test45a  "LTPFS: run LTP's chdir tests                       "
-  run_test test45b  "LTPFS: run LTP's chmod tests                       "
-  run_test test45c  "LTPFS: run LTP's chown tests                       "
-  run_test test45d  "LTPFS: run LTP's chroot tests                      "
-  run_test test45e  "LTPFS: run LTP's close tests                       "
-  run_test test45f  "LTPFS: run LTP's creat tests                       "
+  run_test test41a  "fsx-linux with no mmap"
+  run_test test41b  "fsx-linux with mmap on write"
+  run_test test41c  "fsx-linux with mmap on read"
+  run_test test41d  "fsx-linux with mmap on read+write"
+  run_test test42b  "run bonnie++ with a reduced memory size"
+  run_test test43f  "run fsstress on 30 procs"
+  run_test test44f  "run LTP's growfiles fast tests"
+  run_test test44s  "run LTP's growfiles slow tests"
+  run_test test45a  "run LTP's chdir tests"
+  run_test test45b  "run LTP's chmod tests"
+  run_test test45c  "run LTP's chown tests"
+  run_test test45d  "run LTP's chroot tests"
+  run_test test45e  "run LTP's close tests"
+  run_test test45f  "run LTP's creat tests"
 }
 

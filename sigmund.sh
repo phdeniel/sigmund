@@ -137,10 +137,10 @@ if [[ -n $pre_script ]] ; then
   fi
 fi  
 
-for m in  $MODULES ; do
-  . $RCDIR/$m.conf
-  .  $CURDIR/modules/$m.inc
-  RUN_CMD="run_$m"
+for MODULE in  $MODULES ; do
+  . $RCDIR/$MODULE.conf
+  .  $CURDIR/modules/$MODULE.inc
+  RUN_CMD="run_$MODULE"
   eval $RUN_CMD
 done
 

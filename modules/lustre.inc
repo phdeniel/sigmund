@@ -77,10 +77,10 @@ function test73
 
 function run_lustre
 {
-  run_test test71c  " LUSTRE: file creation forbidden under .lustre       "
-  run_test test71d  " LUSTRE: directory creation forbidden under .lustre  "
-  run_test test71h  " LUSTRE: hardlinking forbidden under .lustre         "
-  run_test test72   " LUSTRE: unlinking .lustre should fail               "
-  run_test test73   " LUSTRE: running binaries from lustre                "
+  run_test test71c  "file creation forbidden under .lustre"
+  run_test test71d  "directory creation forbidden under .lustre"
+  run_test test71h  "hardlinking forbidden under .lustre"
+  run_test test72   "unlinking .lustre should fail"
+  run_test test73   "running binaries from lustre"
 }
 

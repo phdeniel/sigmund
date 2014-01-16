@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NB_CPU=$(( `grep processor /proc/cpuinfo  | tail -1 | awk '{print $(NF)}'` + 1 ))
+NB_CPU=$(grep -c "processor" /proc/cpuinfo)
 
 # test framework variables
 TMP_TEST_ERROR=/tmp/testerror
@@ -208,15 +208,15 @@ function run_test
 		NB_SKIPPED=$(($NB_SKIPPED+1))
 		 if (( $junit )); then
 			if [[ $NOROOT = "1" ]] ; then
-                  		junit_report_failure "sigmund" "$func: $descr" "$dur" "SKIPPED (NEEDS ROOT)"
+                                junit_report_failure "sigmund" "$MODULE: $func: $descr" "$dur" "SKIPPED (NEEDS ROOT)"
 			else
-                        	junit_report_failure "sigmund" "$func: $descr" "$dur" "SKIPPED"
+                                junit_report_failure "sigmund" "$MODULE: $func: $descr" "$dur" "SKIPPED"
 			fi
                 elif (( $quiet )) ; then
 			if [[ $NOROOT = "1" ]] ; then
-                  		echo -e "$func : $descr [${BLUE}NOROOT${NORMAL}]"
+                                printf "%-9s %-9s %-51s [${BLUE}NOROOT${NORMAL}]\n:" "$func:" "${descr:0:51}"
 			else
-                        	echo -e "$func : $descr [${BROWN} SKIP ${NORMAL}]"
+                                printf "%-9s %-9s %-51s [${BROWN} SKIP ${NORMAL}]\n" "$MODULE:" "$func:" "${descr:0:51}"
 			fi
                 fi
        fi
@@ -236,12 +236,11 @@ function run_test
         # Check "PRE_TEST"
         if [[ -n ${PRE_TEST[$func]} ]] ; then
             if  [[ $quiet == 0 ]] ; then 
-            	echo "I need to run  ${PRE_TEST[$func]}"
+                echo "Running ${PRE_TEST[$func]}"
 	    fi
             ${PRE_TEST[$func]} 
 
-	    # assume the user is an idiot and need to be put in the right directory again.
-	    # This probably is true.
+	    # put the user in the right directory again.
 	    cd "$RUN_DIR"
         fi
 
@@ -303,24 +302,24 @@ function run_test
 		echo "$func : *FAILED*" >> $SUMMARY
 		NB_ERROR=$(($NB_ERROR+1))
 		if (( $junit )); then
-			junit_report_failure "sigmund" "$func: $descr" "$dur" "ERROR"
+			junit_report_failure "sigmund" "$MODULE: $func: $descr" "$dur" "ERROR"
                 elif (( $quiet )) ; then
-			echo -e "$func : $descr [${RED}FAILED${NORMAL}]"
+			printf "%-9s %-9s %-43s %6.1fs [${RED}FAILED${NORMAL}]\n" "$MODULE:" "$func:" "${descr:0:43}" "$dur"
 		fi
 	else
 		echo "$func : OK" >> $SUMMARY
 		NB_SUCCESS=$(($NB_SUCCESS+1))
 		if (( $junit )); then
-			junit_report_success "sigmund" "$func: $descr" "$dur"
+			junit_report_success "sigmund" "$MODULE: $func: $descr" "$dur"
 		elif (( $quiet )); then
-			echo -e "$func : $descr [${GREEN}  OK  ${NORMAL}]"
+			printf "%-9s %-9s %-43s %6.1fs [${GREEN}  OK  ${NORMAL}]\n" "$MODULE:" "$func:" "${descr:0:43}" "$dur"
                 fi
 	fi
 
         # Check "POST_TEST"
         if [[ ! -z ${POST_TEST[$func]} ]] ; then
 	    if  [[ $quiet == 0 ]] ; then 
-            	echo "I need to run  ${POST_TEST[$func]}"
+                echo "Running ${POST_TEST[$func]}"
 	    fi
 	    cd "$RUN_DIR"
             ${POST_TEST[$func]} 
