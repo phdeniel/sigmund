@@ -75,7 +75,7 @@ function test22f
 
    # Make sure no xattr remain 
    count=`getfattr -d  file_xattr | grep "user." | wc -l`
-   (( $count > 0 )) && error "ERROR xattr remain when they are all supposed to be deleted"
+   (( $count == 0 )) || error "ERROR xattr remain when they are all supposed to be deleted"
 }
 
 ### test22d: Creates 100 xattr and then delete them on a directory
@@ -102,7 +102,7 @@ function test22d
 
    # Make sure no xattr remain 
    count=`getfattr -d  dir_xattr | grep "user." | wc -l`
-   (( $count > 0 )) && error "ERROR xattr remain when they are all supposed to be deleted"
+   (( $count == 0 )) || error "ERROR xattr remain when they are all supposed to be deleted"
 }
 
 ### test22s: Creates 100 xattr and then delete them on a directory
@@ -130,7 +130,7 @@ function test22s
 
    # Make sure no xattr remain 
    count=`getfattr -d  symlink_xattr | grep "user." | wc -l`
-   (( $count > 0 )) && error "ERROR xattr remain when they are all supposed to be deleted"
+   (( $count == 0 )) || error "ERROR xattr remain when they are all supposed to be deleted"
 }
 
 ### test23f : Set a value several times then check value

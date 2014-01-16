@@ -87,6 +87,10 @@ TEST_TYPE[test44f]=dev,admin,prod
 NEEDS_ROOT[test44f]=no
 function test44f
 {
+    # growfiles catches sigint and exits OK, thus keeps on running.
+    # catch it so we don't need to continue
+    trap "exit 1" INT
+
     # create user directory
     dir="test_dir"
 
@@ -112,6 +116,10 @@ TEST_TYPE[test44s]=dev
 NEEDS_ROOT[test44s]=no
 function test44s
 {
+    # growfiles catches sigint and exits OK, thus keeps on running.
+    # catch it so we don't need to continue
+    trap "exit 1" INT
+
     # create user directory
     dir="test_dir"
 
