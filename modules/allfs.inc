@@ -51,7 +51,6 @@ function create_tree
     if (($DEPTH > 0)); then
         # create a subdir
         ((nb_file=$WIDTH - 1))
-        [ "$DEBUG" = "1" ] && echo "mkdir $ROOT/subdir"
         mkdir $ROOT/subdir
         create_tree $ROOT/subdir $(($DEPTH - 1)) $WIDTH
     else
@@ -59,7 +58,6 @@ function create_tree
     fi
 
     for f in $(seq 1 $nb_file); do
-        [ "$DEBUG" = "1" ] && echo "touch $ROOT/file.$f"
         touch $ROOT/file.$f
     done
 }
@@ -272,6 +270,8 @@ function test5m
 
 function run_allfs
 {
+  export -f create_tree
+
   run_test test1m  "copy file with 444 mode"
   run_test test1g  "traverse 700 dirs with altgroups"
   run_test test1w  "writes a 1GB file"

@@ -117,6 +117,7 @@ MODULES=`echo $MODULES | sed -e 's/,/ /g' | tr -s " "`
 export BUILD_TEST_DIR
 export RCFILE
 export RCDIR
+export MODULE
 
 if [[ ! -z $MODULES ]] ; then
   export MODULES
@@ -129,6 +130,9 @@ fi
 if [[ ! -z $EXCLUDE ]] ; then
   export EXCLUDE
 fi
+
+# init tests
+test_init
 
 # If a pre_script is set up, run it before running the test suite
 if [[ -n $pre_script ]] ; then

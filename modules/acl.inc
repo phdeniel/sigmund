@@ -89,7 +89,7 @@ function test32f
 
    # Make sure no acl remain 
    count=`getfacl -n  file_acl | grep "user:" | wc -l`
-   (( $count > 1 )) && error "ERROR acl remain when they are all supposed to be deleted"
+   (( $count == 1 )) || error "ERROR acl remain when they are all supposed to be deleted"
 }
 
 ### test32d: Creates 100 acl and then delete them on a directory
@@ -119,7 +119,7 @@ function test32d
 
    # Make sure no acl remain 
    count=`getfacl -n  dir_acl | grep "user:" | wc -l`
-   (( $count > 1 )) && error "ERROR acl remain when they are all supposed to be deleted"
+   (( $count == 1 )) || error "ERROR acl remain when they are all supposed to be deleted"
 }
 
 ### test32s: Creates 100 acl and then delete them on a directory
@@ -150,7 +150,7 @@ function test32s
 
    # Make sure no acl remain 
    count=`getfacl -n  symlink_acl | grep "user:" | wc -l`
-   (( $count > 1 )) && error "ERROR acl remain when they are all supposed to be deleted"
+   (( $count == 1 )) || error "ERROR acl remain when they are all supposed to be deleted"
 }
 
 ### test33f : Set a value several times then check value

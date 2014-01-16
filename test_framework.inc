@@ -3,7 +3,6 @@
 NB_CPU=$(grep -c "processor" /proc/cpuinfo)
 
 # test framework variables
-TMP_TEST_ERROR=/tmp/testerror
 TEST_ERROR=0
 TEST_SKIPPED=0
 TEST_ERR_FILE=/tmp/test_err.$$
@@ -44,44 +43,33 @@ declare -A NEEDS_ROOT
 declare -A PRE_TEST
 declare -A POST_TEST
 
-# clean error status before running a test
-function error_reset
-{
-    TEST_ERROR=0
-    TEST_SKIPPED=0
-    cp /dev/null $TEST_ERR_FILE
-}
-
 # set current test errorneous
 function error
 {
-    echo "ERROR: $@"
-
-    TEST_ERROR=$(cat $TMP_TEST_ERROR 2>/dev/null)
-    TEST_ERROR=$((TEST_ERROR+1))
+    echo "ERROR: $@" 1>&2
 
     if (( $junit )); then
-        echo "ERROR: $@" >> $TEST_ERR_FILE
-    else
-        # in interactive mode, exit at first error
-        rm -f $TEST_ERR_FILE
-        #exit 1
+        test_end=$(date "+%s.%N")
+	dur=`echo "($test_end-$test_start)" | bc -l`
+	junit_report_failure "sigmund" "$MODULE: $func: $descr" "$dur" "ERROR" "$@"
     fi
 
-    echo $TEST_ERROR > $TMP_TEST_ERROR
+    return 1
 }
 
 ######################## JUNIT HELPERS (do not modify) #####################
 
 XML="/tmp/test_report.xml"
-TMPXML_PREFIX="/tmp/report.xml.$$"
+export TMPXML_PREFIX="/tmp/report.xml.$$"
+export junit
 
 # initialize tmp files for XML report
 function junit_init
 {
-	cp /dev/null $TMPXML_PREFIX.stderr
-	cp /dev/null $TMPXML_PREFIX.stdout
-	cp /dev/null $TMPXML_PREFIX.tc
+	export -f junit_report_failure
+	cp -f /dev/null $TMPXML_PREFIX.stderr
+	cp -f /dev/null $TMPXML_PREFIX.stdout
+	cp -f /dev/null $TMPXML_PREFIX.tc
 }
 
 # report a success for a test
@@ -98,19 +86,24 @@ function junit_report_success # (class, test_name, time)
 }
 
 # report a failure for a test
-function junit_report_failure # (class, test_name, time, err_type)
+function junit_report_failure # (class, test_name, time, err_type, text)
 {
 	class="$1"
 	name="$2"
 	time="$3"
 	err_type="$4"
+	shift 4
+	error_text="$@"
 
 	# remove quotes in name
 	name=`echo "$name" | sed -e 's/"//g'`
 
+	# skip this if already reported
+	grep -q "name=\"$name\"" $TMPXML_PREFIX.tc && return 0
+
 	echo "<testcase classname=\"$class\" name=\"$name\" time=\"$time\">" >> $TMPXML_PREFIX.tc
 	echo -n "<failure type=\"$err_type\"><![CDATA[" >> $TMPXML_PREFIX.tc
-	cat $TEST_ERR_FILE >> $TMPXML_PREFIX.tc
+	echo -n "$error_text" >> $TMPXML_PREFIX.tc
 	echo "]]></failure>" 	>> $TMPXML_PREFIX.tc
 	echo "</testcase>" 	>> $TMPXML_PREFIX.tc
 }
@@ -138,17 +131,10 @@ function junit_write_xml # (time, nb_failure, tests)
 
 function run_test
 {
-    func=$1
-    descr=$2
+    export func=$1
+    export descr=$2
 
-    export -f error 
-    export -f create_tree
-
-    rm -f $TMP_TEST_ERROR
-    touch $TMP_TEST_ERROR
-    chmod 0666 $TMP_TEST_ERROR
-    export TMP_TEST_ERROR
-    export TEST_ERROR=0
+    TEST_ERROR=0
 
     nonum_func=`echo $func | sed -e 's/[a-zA-Z]$//'`
 
@@ -212,7 +198,8 @@ function run_test
 			else
                                 junit_report_failure "sigmund" "$MODULE: $func: $descr" "$dur" "SKIPPED"
 			fi
-                elif (( $quiet )) ; then
+                fi
+		if (( $quiet )) ; then
 			if [[ $NOROOT = "1" ]] ; then
                                 printf "%-9s %-9s %-51s [${BLUE}NOROOT${NORMAL}]\n:" "$func:" "${descr:0:51}"
 			else
@@ -247,49 +234,48 @@ function run_test
         # export the function, so that it could be su-ed
 	export -f $func 
 
-        error_reset
         if  [[ $quiet == 0 ]] ; then 
         echo
         echo "======= $func: $descr ======="
 	fi
-        test_start=`date "+%s.%N"`
+        export test_start=`date "+%s.%N"`
 	if (($junit)); then
         	# write marks in junit log
 		echo "==== $func: $descr ====" >> $TMPXML_PREFIX.stdout
 		echo "==== $func: $descr ====" >> $TMPXML_PREFIX.stderr
     		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
-			$func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+			bash -e -u -c $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
                 else
                         if [[ "$my_id" != 0 ]] ; then
-			   $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+				bash -e -u -c $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
                         else
-			   su $TEST_USER -c $func 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
+				su $TEST_USER -c "bash -e -u -c $func" 2>> $TMPXML_PREFIX.stderr >> $TMPXML_PREFIX.stdout
                         fi
                 fi
         elif (( $quiet )) ; then
     		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
-			$func 2>> $outputdir/$func.stderr >> $outputdir/$func.stdout 
+			bash -e -u -c $func 2>> $outputdir/$func.stderr >> $outputdir/$func.stdout
 		else
                         if [[ "$my_id" != 0 ]] ; then
-			  $func 2>> $outputdir/$func.stderr >> $outputdir/$func.stdout 
+				bash -e -u -c $func 2>> $outputdir/$func.stderr >> $outputdir/$func.stdout
 			else
-			  su $TEST_USER -c $func 2>> $outputdir/$func.stderr >> $outputdir/$func.stdout 
+				su $TEST_USER -c "bash -e -u -c $func" 2>> $outputdir/$func.stderr >> $outputdir/$func.stdout
 			fi
 		fi
         else
     		if [[ ${NEEDS_ROOT[$func]} = "yes" ]] ; then
-            		$func 
+			bash -e -u -c $func
 		else
                         if [[ "$my_id" != 0 ]] ; then
-            		  $func 
+				bash -e -u -c $func
 			else
-            		  su $TEST_USER -c $func 
+				su $TEST_USER -c "bash -e -u -c $func"
 			fi
 		fi
         fi
 
-        TEST_ERROR=$(cat $TMP_TEST_ERROR 2>/dev/null)
-        if [[ -z $TEST_ERROR ]] ; then TEST_ERROR=0 ; fi
+        TEST_ERROR=$?
+	unset -f $func
 
         test_end=$(date "+%s.%N")
 	dur=`echo "($test_end-$test_start)" | bc -l`
@@ -303,7 +289,8 @@ function run_test
 		NB_ERROR=$(($NB_ERROR+1))
 		if (( $junit )); then
 			junit_report_failure "sigmund" "$MODULE: $func: $descr" "$dur" "ERROR"
-                elif (( $quiet )) ; then
+                fi
+		if (( $quiet )) ; then
 			printf "%-9s %-9s %-43s %6.1fs [${RED}FAILED${NORMAL}]\n" "$MODULE:" "$func:" "${descr:0:43}" "$dur"
 		fi
 	else
@@ -311,7 +298,8 @@ function run_test
 		NB_SUCCESS=$(($NB_SUCCESS+1))
 		if (( $junit )); then
 			junit_report_success "sigmund" "$MODULE: $func: $descr" "$dur"
-		elif (( $quiet )); then
+		fi
+		if (( $quiet )); then
 			printf "%-9s %-9s %-43s %6.1fs [${GREEN}  OK  ${NORMAL}]\n" "$MODULE:" "$func:" "${descr:0:43}" "$dur"
                 fi
 	fi
@@ -327,8 +315,6 @@ function run_test
 
         cleanup
     fi
-
-    rm -f $TMP_TEST_ERROR
 }
 
 function cleanup
@@ -352,11 +338,12 @@ function test_finalize
 		echo "============================================="
 	fi
 
+	tfinal=`date "+%s.%N"`
+	dur=`echo "($tfinal-$tinit)" | bc -l`
+	echo "total test duration: $dur sec"
+
 	#init xml report
 	if (( $junit )); then
-		tfinal=`date "+%s.%N"`
-		dur=`echo "($tfinal-$tinit)" | bc -l`
-		echo "total test duration: $dur sec"
 		junit_write_xml "$dur" $NB_ERROR $(( $NB_ERROR + $NB_SUCCESS ))
 		rm -f $TMPXML_PREFIX.stderr $TMPXML_PREFIX.stdout $TMPXML_PREFIX.tc
 	fi
@@ -372,18 +359,17 @@ function test_finalize
 	exit $NB_ERROR
 }
 
-# check backend
-if [ ! -d $BK_ROOT ]; then
-    mkdir -p $BK_ROOT
-fi
+test_init()
+{
+	export -f error
 
-# clear summary
-cp /dev/null $SUMMARY
+	export tinit=`date "+%s.%N"`
 
-#init xml report
-if (( $junit )); then
-	junit_init
-	tinit=`date "+%s.%N"`
-fi
+	# clear summary
+	cp /dev/null $SUMMARY
 
-
+	#init xml report
+	if (( $junit )); then
+		junit_init
+	fi
+}
