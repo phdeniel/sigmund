@@ -20,14 +20,18 @@ fi
 BEHAVIOR=$1
 shift 
 
-if [[ ! -x $CURDIR/behavior/$BEHAVIOR ]] ; then
-  echo >&2 "Unknown behavior $BEHAVIOR"
-  exit 1
+if [[ ! -r $CURDIR/behavior/$BEHAVIOR ]]; then
+  if [[ ! -r $CURDIR/modules/$BEHAVIOR.inc ]]; then
+    echo >&2 "Unknown behavior/module $BEHAVIOR"
+    exit 1
+  fi
+
+  # Behavior interpreted as module directly
+  export MODULES=$BEHAVIOR
+else
+  # Source the behavior
+  .  $CURDIR/behavior/$BEHAVIOR
 fi
-
-# Source the behavior
-.  $CURDIR/behavior/$BEHAVIOR
-
 
 
 # include test framework
