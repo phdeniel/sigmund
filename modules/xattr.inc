@@ -223,16 +223,16 @@ function test25f
 
 function run_xattr
 {
-  run_test test21f  "XATTR: simple xattr set/get : file        "
-  run_test test21d  "XATTR: simple xattr set/get : directory   "
-  run_test test21s  "XATTR: simple xattr set/get : symlink     "
-  run_test test22f  "XATTR: xattr creation/deletion : file     "
-  run_test test22d  "XATTR: xattr creation/deletion : directory"
-  run_test test22s  "XATTR: xattr creation/deletion : symlink  "
-  run_test test23f  "XATTR: mulitple sets + 1 check : file     "
-  run_test test23d  "XATTR: mulitple sets + 1 check : directory"
-  run_test test23s  "XATTR: mulitple sets + 1 check : symlink  "
-  run_test test24f  "XATTR: Set a trusted.* xattr on a file    "
-  run_test test25f  "XATTR: Set a security.* xattr on a file   "
+  run_test test21f  "simple xattr set/get: file"
+  run_test test21d  "simple xattr set/get: directory"
+  run_test test21s  "simple xattr set/get: symlink"
+  run_test test22f  "xattr creation/deletion: file"
+  run_test test22d  "xattr creation/deletion: directory"
+  run_test test22s  "xattr creation/deletion: symlink"
+  run_test test23f  "mulitple sets + 1 check: file"
+  run_test test23d  "mulitple sets + 1 check: directory"
+  run_test test23s  "mulitple sets + 1 check: symlink"
+  run_test test24f  "Set a trusted.* xattr on a file"
+  run_test test25f  "Set a security.* xattr on a file"
 }
 

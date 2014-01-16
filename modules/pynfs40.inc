@@ -80,9 +80,9 @@ function run_pynfs40
 {
   run_test test51a  "test5/NFSv4.0/access"
   run_test test52c  "test5/NFSv4.0/create"
-  run_test test53l  "test5/NFSv4.0/locks "
-  run_test test54a  "test5/NFSv4.0/attrs "
-  run_test test55r  "test5/NFSv4.0/rddir "
+  run_test test53l  "test5/NFSv4.0/locks"
+  run_test test54a  "test5/NFSv4.0/attrs"
+  run_test test55r  "test5/NFSv4.0/rddir"
   run_test test56l  "test5/NFSv4.0/lookup"
 
   # display test summary / generate outputs

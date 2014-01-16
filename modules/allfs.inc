@@ -272,19 +272,19 @@ function test5m
 
 function run_allfs
 {
-  run_test test1m  "ALLFS: copy file with 444 mode            "
-  run_test test1g  "ALLFS: traverse 700 dirs with altgroups   "
-  run_test test1w  "ALLFS: writes a 1GB file                  "
-  run_test test2r  "ALLFS: rm -rf of wide namespace           "
-  run_test test2s  "ALLFS: writes 5 bytes and check file size "
-  run_test test3b  "ALLFS: cthon04's basic tests              "
-  run_test test3g  "ALLFS: cthon04's general tests            "
-  run_test test3s  "ALLFS: cthon04's special tests            "
-  run_test test3l  "ALLFS: cthon04's lock tests               "
-  run_test test4g  "ALLFS: git clone a local repository       "
-  run_test test4s  "ALLFS: Tar calls utimes on symlink        "
-  run_test test4k  "ALLFS: decompress kernel tar + compilation"
-  run_test test5r  "ALLFS: parallel open/read of a single file"
-  run_test test5m  "ALLFS: parallel open/read of a many files "
+  run_test test1m  "copy file with 444 mode"
+  run_test test1g  "traverse 700 dirs with altgroups"
+  run_test test1w  "writes a 1GB file"
+  run_test test2r  "rm -rf of wide namespace"
+  run_test test2s  "writes 5 bytes and check file size"
+  run_test test3b  "cthon04's basic tests"
+  run_test test3g  "cthon04's general tests"
+  run_test test3s  "cthon04's special tests"
+  run_test test3l  "cthon04's lock tests"
+  run_test test4g  "git clone a local repository"
+  run_test test4s  "Tar calls utimes on symlink"
+  run_test test4k  "decompress kernel tar + compilation"
+  run_test test5r  "parallel open/read of a single file"
+  run_test test5m  "parallel open/read of a many files"
 }
 

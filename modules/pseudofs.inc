@@ -468,21 +468,21 @@ function testremove_stat
 
 function run_pseudofs
 {
-#  run_test testsetup          " PSEUDOFS: Preparing server for tests                             "
-  run_test testwr             " PSEUDOFS: Attempt write of pseudofs node                         "
-  run_test testrd             " PSEUDOFS: Attempt read of pseudofs node                          "
-  run_test testrm             " PSEUDOFS: Attempt removal of pseudofs node                       "
-  run_test testlookup         " PSEUDOFS: Lookup a single pseudfs node                           "
-  run_test testcheck_inode    " PSEUDOFS: Check if junction shows fs inode or pseudofs inode     "
-  run_test testremove_lookup  " PSEUDOFS: Remove export from server, make sure lookup fails      "
-  run_test testremove_readdir " PSEUDOFS: Remove export from server, make sure it's gone in dir  "
+#  run_test testsetup          "Preparing server for tests"
+  run_test testwr             "Attempt write of pseudofs node"
+  run_test testrd             "Attempt read of pseudofs node"
+  run_test testrm             "Attempt removal of pseudofs node"
+  run_test testlookup         "Lookup a single pseudfs node"
+  run_test testcheck_inode    "Check if junction shows fs inode or pseudofs inode"
+  run_test testremove_lookup  "Remove export from server, make sure lookup fails"
+  run_test testremove_readdir "Remove export from server, make sure it's gone in dir"
 
-  run_test testreaddir        " PSEUDOFS: Execute readdirplus on large directory                 "
-  run_test testls_junction    " PSEUDOFS: Cross a junction point and list directory              "
-#  run_test testremove_stat    " PSEUDOFS: Remove export from server, make sure inodes stay same  "
-#  run_test testadd_lookup     " PSEUDOFS: Add an export from server, make sure it's gone         "
-#  run_test testadd_stat       " PSEUDOFS: Add an export from server, make sure inodes stay same  "
+  run_test testreaddir        "Execute readdirplus on large directory"
+  run_test testls_junction    "Cross a junction point and list directory"
+#  run_test testremove_stat    "Remove export from server, make sure inodes stay same"
+#  run_test testadd_lookup     "Add an export from server, make sure it's gone"
+#  run_test testadd_stat       "Add an export from server, make sure inodes stay same"
 
-  run_test testcleanup         " PSEUDOFS: Cleaning up server environment                         "
+  run_test testcleanup        "Cleaning up server environment"
 }
 

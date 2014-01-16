@@ -119,15 +119,15 @@ function test92j
 
 function run_ganesha_dbus
 {
-  run_test test90a  "D-BUS: call to exprt:ShowExports          "
-  run_test test91b  "D-BUS: call to export:GetNFSv3IO          "
-  run_test test91c  "D-BUS: call to export:GetNFSv40IO         "
-  run_test test91d  "D-BUS: call to export:GetNFSv41IO         "
-  run_test test91e  "D-BUS: call to export:GetNFSv41Layouts    " 
-  run_test test92f  "D-BUS: call to client:ShowClients         "
-  run_test test92g  "D-BUS: call to client:GetNFSv3IO          "
-  run_test test92h  "D-BUS: call to client:GetNFSv40IO         "
-  run_test test92i  "D-BUS: call to client:GetNFSv41IO         "
-  run_test test92j  "D-BUS: call to client:GetNFSv41Layouts    "
+  run_test test90a  "call to exprt:ShowExports"
+  run_test test91b  "call to export:GetNFSv3IO"
+  run_test test91c  "call to export:GetNFSv40IO"
+  run_test test91d  "call to export:GetNFSv41IO"
+  run_test test91e  "call to export:GetNFSv41Layouts"
+  run_test test92f  "call to client:ShowClients"
+  run_test test92g  "call to client:GetNFSv3IO"
+  run_test test92h  "call to client:GetNFSv40IO"
+  run_test test92i  "call to client:GetNFSv41IO"
+  run_test test92j  "call to client:GetNFSv41Layouts"
 }
 
