@@ -51,7 +51,7 @@ function create_tree
     if (($DEPTH > 0)); then
         # create a subdir
         ((nb_file=$WIDTH - 1))
-        mkdir $ROOT/subdir
+        mkdir -p $ROOT/subdir
         create_tree $ROOT/subdir $(($DEPTH - 1)) $WIDTH
     else
         nb_file=$WIDTH
@@ -96,11 +96,11 @@ function test1g
 
 function pre_test1g
 {
-    mkdir -m 700 $GROUP1
+    mkdir -p  -m 700 $GROUP1
     chown  $TEST_USER:$GROUP1 $GROUP1
 
     cd  $GROUP1
-    mkdir -m 700 $GROUP2
+    mkdir -p -m 700 $GROUP2
     chown  $TEST_USER:$GROUP2 $GROUP2
 }
 
@@ -219,7 +219,7 @@ function test4s
 {
   
    # build the tar
-   mkdir testln
+   mkdir -p testln
    touch testln/file
    ln -s file testln/link
    tar czf testln.tar.gz testln

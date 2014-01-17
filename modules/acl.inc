@@ -31,7 +31,7 @@ function test31d
 {
    set -o xtrace
    rm -fr dir_acl
-   mkdir dir_acl
+   mkdir -p dir_acl
 
    setfacl -m user:8989:rw,group:8989:rw dir_acl || error "ERROR while setting acl on a file"
 
@@ -100,7 +100,7 @@ function test32d
 { 
    MAX=10
 
-   mkdir dir_acl
+   mkdir -p dir_acl
 
    for i in `seq 1 $MAX` ; do 
       setfacl -m user:$i:rw  dir_acl || error "ERROR while setting acl on a directory"
@@ -180,7 +180,7 @@ function test33d
 {
    MAX=10
 
-   mkdir dir_acl
+   mkdir -p dir_acl
 
    for i in `seq 1 $MAX` ; do
       setfacl -m user:8989:rw  dir_acl || error "ERROR while setting acl on a file"
