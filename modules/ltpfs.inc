@@ -69,7 +69,7 @@ function test42b
 }
 
 ### test43f: run fsstress on 30 procs
-SPEED[test43f]=slow
+SPEED[test43f]=medium
 TEST_TYPE[test43f]=dev
 NEEDS_ROOT[test43f]=no
 function test43f
