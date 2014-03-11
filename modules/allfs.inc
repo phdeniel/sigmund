@@ -190,7 +190,7 @@ function test3s
 }
 
 ### test3l : cthon04's lock tests
-SPEED[test3l]=slow
+SPEED[test3l]=medium
 TEST_TYPE[test3l]=dev,admin
 NEEDS_ROOT[test3l]=no
 function test3l
@@ -202,7 +202,7 @@ function test3l
 }
 
 ### test4g : git clone a local repository
-SPEED[test4g]=slow
+SPEED[test4g]=medium
 TEST_TYPE[test4g]=dev,admin
 NEEDS_ROOT[test4g]=no
 function test4g
