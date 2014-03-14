@@ -133,16 +133,6 @@ function testg074
     ./tests/generic/074 || error "error running XFSTESTS generic/074" 
 }
 
-### testg075: fsx
-SPEED[testg075]=fast
-TEST_TYPE[testg075]=dev
-NEEDS_ROOT[testg075]=no
-function testg075
-{
-    cd $XFSTESTS_DIR 
-    ./tests/generic/075 || error "error running XFSTESTS generic/075" 
-}
-
 ### testg088: test CAP_DAC_OVERRIDE and CAP_DAC_SEARCH
 SPEED[testg088]=fast
 TEST_TYPE[testg088]=dev
@@ -161,16 +151,6 @@ function testg089
 {
     cd $XFSTESTS_DIR 
     ./tests/generic/089 || error "error running XFSTESTS generic/089" 
-}
-
-### testg091: fsx with direct-io
-SPEED[testg091]=fast
-TEST_TYPE[testg091]=dev
-NEEDS_ROOT[testg091]=no
-function testg091
-{
-    cd $XFSTESTS_DIR 
-    ./tests/generic/091 || error "error running XFSTESTS generic/091" 
 }
 
 ### testg131: lockfile_simple
@@ -273,15 +253,6 @@ function testg257
     ./tests/generic/257 || error "error running XFSTESTS generic/257" 
 }
 
-### testg263: fsx with direct-io
-SPEED[testg263]=medium
-TEST_TYPE[testg263]=dev
-NEEDS_ROOT[testg263]=no
-function testg263
-{
-    cd $XFSTESTS_DIR 
-    ./tests/generic/263 || error "error running XFSTESTS generic/263" 
-}
 
 ### testg285: SEEK_DATA/SEEK_HOLE sanity tests
 SPEED[testg285]=fast
@@ -365,10 +336,8 @@ function run_xfstests
    run_test testg013  "xfstests generic/013, fsstress " 
    run_test testg014  "xfstests generic/014, truncfile " 
    run_test testg074  "xfstests generic/074, fstest " 
-   run_test testg075  "xfstests generic/075, fsx " 
    run_test testg088  "xfstests generic/088, CAP_DAC_OVERRIDE/CAP_DAC_SEARC" 
    run_test testg089  "xfstests generic/089, emulates /etc/mtab manipulation" 
-   run_test testg091  "xfstests generic/091, fsx with direct-io" 
    run_test testg131  "xfstests generic/131, lockfile_simple" 
    run_test testg184  "xfstests generic/184, mknod" 
    run_test testg215  "xfstests generic/215, c/mtimes updates after mapped writes"
@@ -379,7 +348,6 @@ function run_xfstests
    run_test testg248  "xfstests generic/248, pwrite on mapped pages " 
    run_test testg249  "xfstests generic/249, simple splice test" 
    run_test testg257  "xfstests generic/257, check if seek() works " 
-   run_test testg263  "xfstests generic/263, fsx with direct-io" 
    run_test testg285  "xfstests generic/285, SEEK_DATA/SEEK_HOLE sanity tests" 
    run_test testg286  "xfstests generic/286, SEEK_DATA/SEEK_HOLE copy tests"
    run_test testg308  "xfstests generic/308, commit" 
