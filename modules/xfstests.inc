@@ -170,7 +170,7 @@ NEEDS_ROOT[testg112]=no
 function testg112
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/112 || error "error running XFSTESTS generic/112" 
+    ./112 || error "error running XFSTESTS 112" 
 }
 
 ### testg113: aio-stress
@@ -180,7 +180,7 @@ NEEDS_ROOT[testg113]=no
 function testg113
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/113 || error "error running XFSTESTS generic/113" 
+    ./113 || error "error running XFSTESTS 113" 
 }
 
 ### testg131: lockfile_simple
@@ -210,7 +210,7 @@ NEEDS_ROOT[testg198]=no
 function testg198
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/198 || error "error running XFSTESTS generic/198" 
+    ./198 || error "error running XFSTESTS 198" 
 }
 
 ### testg208: aio-dio-invalidate-failure
@@ -220,7 +220,7 @@ NEEDS_ROOT[testg208]=no
 function testg208
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/208 || error "error running XFSTESTS generic/208" 
+    ./208 || error "error running XFSTESTS 208" 
 }
 
 ### testg209: aio-dio-invalidate-readahead -
@@ -230,7 +230,7 @@ NEEDS_ROOT[testg209]=no
 function testg209
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/209 || error "error running XFSTESTS generic/209" 
+    ./209 || error "error running XFSTESTS 209" 
 }
 
 ### testg210: aio-dio-subblock-eof-read
@@ -240,7 +240,7 @@ NEEDS_ROOT[testg210]=no
 function testg210
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/210 || error "error running XFSTESTS generic/210" 
+    ./210 || error "error running XFSTESTS 210" 
 }
 
 ### testg211: aio-free-ring-with-bogus-nr-pages
@@ -250,7 +250,7 @@ NEEDS_ROOT[testg211]=no
 function testg211
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/211 || error "error running XFSTESTS generic/211" 
+    ./211 || error "error running XFSTESTS 211" 
 }
 
 ### testg212: aio-io-setup-with-nonwritable-context-pointer
@@ -260,7 +260,7 @@ NEEDS_ROOT[testg212]=no
 function testg212
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/212 || error "error running XFSTESTS generic/212" 
+    ./212 || error "error running XFSTESTS 212" 
 }
 
 ### testg215: c/mtimes updates after mapped writes
@@ -320,7 +320,7 @@ NEEDS_ROOT[testg245]=no
 function testg245
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/245 || error "error running XFSTESTS generic/245" 
+    ./245 || error "error running XFSTESTS 245" 
 }
 
 ### testg246: truncation after failed writes
@@ -340,7 +340,7 @@ NEEDS_ROOT[testg247]=no
 function testg247
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/247 || error "error running XFSTESTS generic/247" 
+    ./247 || error "error running XFSTESTS 247" 
 }
 
 ### testg248: pwrite on mapped pages
@@ -380,7 +380,7 @@ NEEDS_ROOT[testg285]=no
 function testg285
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/285 || error "error running XFSTESTS generic/285" 
+    ./285 || error "error running XFSTESTS 285" 
 }
 
 ### testg286: SEEK_DATA/SEEK_HOLE copy tests 
@@ -390,7 +390,7 @@ NEEDS_ROOT[testg286]=no
 function testg286
 {
     cd $XFSTESTS_DIR 
-    ./tests/generic/286 || error "error running XFSTESTS generic/286" 
+    ./286 || error "error running XFSTESTS 286" 
 }
 
 function run_xfstests
@@ -425,7 +425,7 @@ function run_xfstests
    run_test testg241  "xfstests 241, dbench " 
    run_test testg245  "xfstests 245, Check that directory renames onto non-empty targets fail" 
    run_test testg246  "xfstests 246, truncation after failed writes"
-   run_test testg247  "xfstests generic/247, test for race between direct I/O and mmap"
+   run_test testg247  "xfstests 247, test for race between direct I/O and mmap"
    run_test testg248  "xfstests 248, pwrite on mapped pages " 
    run_test testg249  "xfstests 249, simple splice test" 
    run_test testg257  "xfstests 257, check if seek() works " 
