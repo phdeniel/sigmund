@@ -214,7 +214,7 @@ function testg198
 }
 
 ### testg208: aio-dio-invalidate-failure
-SPEED[testg208]=fast
+SPEED[testg208]=medium
 TEST_TYPE[testg208]=dev
 NEEDS_ROOT[testg208]=no
 function testg208
