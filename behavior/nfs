@@ -1,1 +1,1 @@
-export MODULES=allfs,ltpfs,pseudofs,xfstests
+export MODULES=allfs,ltpfs,xfstests
