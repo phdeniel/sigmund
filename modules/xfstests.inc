@@ -224,7 +224,7 @@ function testg208
 }
 
 ### testg209: aio-dio-invalidate-readahead -
-SPEED[testg209]=fast
+SPEED[testg209]=medium
 TEST_TYPE[testg209]=dev
 NEEDS_ROOT[testg209]=no
 function testg209
