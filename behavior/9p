@@ -1,1 +1,1 @@
-export MODULES=allfs,xattr,ltpfs,acl,xfstests
+export MODULES=allfs,xattr,ltpfs,acl
