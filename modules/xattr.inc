@@ -51,6 +51,23 @@ function test21s
    [[ $read_value = "my_value" ]] || error "ERROR after reading xattr. Bad value read"
 }
 
+### test21h : Simple set/get on a xattr on a symlink (no follow)
+SPEED[test21h]=fast
+TEST_TYPE[test21h]=dev,admin,prod
+NEEDS_ROOT[test21h]=no
+function test21h
+{
+	set -o xtrace
+
+   ln -s "no data" symlink_xattr
+
+   setfattr -h -n user.my_attribute  -v my_value  symlink_xattr || error "ERROR while setting xattr on a symlink"
+
+   read_value=`getfattr -h -n user.my_attribute --only-values symlink_xattr`
+
+   [[ $read_value = "my_value" ]] || error "ERROR after reading xattr. Bad value read"
+}
+
 ### test22f: Creates 100 xattr and then delete them on a file
 SPEED[test22f]=fast
 TEST_TYPE[test22f]=dev,admin,prod
@@ -188,6 +205,24 @@ function test23s
    [[ $read_value = "my_value$MAX" ]] || error "ERROR after reading xattr. Bad value read"
 }
 
+### test23h : Set a value several times then check value (no follow)
+SPEED[test23h]=fast
+TEST_TYPE[test23h]=dev,admin,prod
+NEEDS_ROOT[test23h]=no
+function test23h
+{
+   MAX=10
+   ln -s "no data" symlink_xattr
+
+   for i in `seq 1 $MAX` ; do
+     setfattr -h -n user.my_attribute  -v my_value$i  symlink_xattr || error "ERROR while setting xattr on a symlink"
+   done
+
+   read_value=`getfattr -h -n user.my_attribute --only-values symlink_xattr`
+
+   [[ $read_value = "my_value$MAX" ]] || error "ERROR after reading xattr. Bad value read"
+}
+
 ### test24f : Set a trusted.* xattr on a file
 SPEED[test24f]=fast
 TEST_TYPE[test24f]=dev,admin,prod
@@ -226,12 +261,14 @@ function run_xattr
   run_test test21f  "simple xattr set/get: file"
   run_test test21d  "simple xattr set/get: directory"
   run_test test21s  "simple xattr set/get: symlink"
+  run_test test21h  "simple xattr set/get: symlink (no follow)"
   run_test test22f  "xattr creation/deletion: file"
   run_test test22d  "xattr creation/deletion: directory"
   run_test test22s  "xattr creation/deletion: symlink"
   run_test test23f  "mulitple sets + 1 check: file"
   run_test test23d  "mulitple sets + 1 check: directory"
   run_test test23s  "mulitple sets + 1 check: symlink"
+  run_test test23h  "mulitple sets + 1 check: symlink (no follow)"
   run_test test24f  "Set a trusted.* xattr on a file"
   run_test test25f  "Set a security.* xattr on a file"
 }
