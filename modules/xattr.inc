@@ -57,8 +57,6 @@ TEST_TYPE[test21h]=dev,admin,prod
 NEEDS_ROOT[test21h]=no
 function test21h
 {
-	set -o xtrace
-
    ln -s "no data" symlink_xattr
 
    setfattr -h -n user.my_attribute  -v my_value  symlink_xattr || error "ERROR while setting xattr on a symlink"

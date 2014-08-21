@@ -405,7 +405,7 @@ function run_xfstests
    run_test testg013  "xfstests 013, fsstress " 
    run_test testg014  "xfstests 014, truncfile " 
    run_test testg074  "xfstests 074, fstest " 
-   run_test testg074  "xfstests 075, fsx (non-AIO variant) " 
+   run_test testg075  "xfstests 075, fsx (non-AIO variant) " 
    run_test testg088  "xfstests 088, CAP_DAC_OVERRIDE/CAP_DAC_SEARC" 
    run_test testg089  "xfstests 089, emulates /etc/mtab manipulation" 
    run_test testg112  "xfstests 112, fsx (AIO variant)" 
