@@ -14,7 +14,7 @@ function test31f
    rm -fr file_acl
    touch file_acl
 
-   setfacl -m user:8989:rw,group:8989:rw file_acl || error "ERROR while setting acl on a file"
+   setfacl -m user:8989:rw,group:8989:rw file_acl 
 
    read_value_user=`getfacl -n file_acl | grep "user:8989:"`
    read_value_group=`getfacl -n file_acl | grep "group:8989:"`
@@ -29,17 +29,18 @@ TEST_TYPE[test31d]=dev,admin,prod
 NEEDS_ROOT[test31d]=no
 function test31d
 {
-   set -o xtrace
    rm -fr dir_acl
    mkdir -p dir_acl
 
-   setfacl -m user:8989:rw,group:8989:rw dir_acl || error "ERROR while setting acl on a file"
+   setfacl -m user:8989:rw,group:8989:rw dir_acl 
 
    read_value_user=`getfacl -n dir_acl | grep "user:8989:"`
    read_value_group=`getfacl -n dir_acl | grep "group:8989:"`
 
    [[ $read_value_user = "user:8989:rw-" ]] || error "ERROR after reading acl. Bad value read"
    [[ $read_value_group = "group:8989:rw-" ]] || error "ERROR after reading acl. Bad value read"
+
+   echo 
 }
 
 ### test31s : Simple set/get on a acl on a symlink
@@ -51,7 +52,7 @@ function test31s
    touch file_acl
    ln -s file_acl symlink_acl
 
-   setfacl -m user:8989:rw,group:8989:rw symlink_acl || error "ERROR while setting acl on a file"
+   setfacl -m user:8989:rw,group:8989:rw symlink_acl
 
    read_value_user=`getfacl -n symlink_acl | grep "user:8989:"`
    read_value_group=`getfacl -n symlink_acl | grep "group:8989:"`
@@ -71,7 +72,7 @@ function test32f
    touch file_acl
 
    for i in `seq 1 $MAX` ; do 
-      setfacl -m user:$i:rw  file_acl || error "ERROR while setting acl on a file"
+      setfacl -m user:$i:rw  file_acl 
    done
 
    # List acl and then delete them one by one
@@ -103,7 +104,7 @@ function test32d
    mkdir -p dir_acl
 
    for i in `seq 1 $MAX` ; do 
-      setfacl -m user:$i:rw  dir_acl || error "ERROR while setting acl on a directory"
+      setfacl -m user:$i:rw  dir_acl 
    done
 
    # List acl and then delete them one by one
@@ -134,7 +135,7 @@ function test32s
    ln -s file_acl symlink_acl
 
    for i in `seq 1 $MAX` ; do 
-      setfacl -m user:$i:rw  symlink_acl || error "ERROR while setting acl on a symlink"
+      setfacl -m user:$i:rw  symlink_acl
    done
 
    # List acl and then delete them one by one
@@ -164,7 +165,7 @@ function test33f
    touch file_acl
 
    for i in `seq 1 $MAX` ; do
-      setfacl -m user:8989:rw  file_acl || error "ERROR while setting acl on a file"
+      setfacl -m user:8989:rw  file_acl
    done
 
    read_value=`getfacl file_acl | grep "user:8989:"`
@@ -183,7 +184,7 @@ function test33d
    mkdir -p dir_acl
 
    for i in `seq 1 $MAX` ; do
-      setfacl -m user:8989:rw  dir_acl || error "ERROR while setting acl on a file"
+      setfacl -m user:8989:rw  dir_acl
    done 
 
    read_value=`getfacl dir_acl | grep "user:8989:"`
@@ -203,7 +204,7 @@ function test33s
    ln -s file_acl symlink_acl
 
    for i in `seq 1 $MAX` ; do
-      setfacl -m user:8989:rw  symlink_acl || error "ERROR while setting acl on a file"
+      setfacl -m user:8989:rw  symlink_acl 
    done 
 
    read_value=`getfacl symlink_acl | grep "user:8989:"`
