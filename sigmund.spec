@@ -3,7 +3,7 @@
 
 Name: sigmund
 Version: 1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: Sigmund Test Suite
 License: LGPLv3
 Group: Applications/System
