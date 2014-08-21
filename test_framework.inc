@@ -108,15 +108,38 @@ function junit_report_failure # (class, test_name, time, err_type, text)
 	echo "</testcase>" 	>> $TMPXML_PREFIX.tc
 }
 
-function junit_write_xml # (time, nb_failure, tests)
+# report a failure for a test
+function junit_report_skipped # (class, test_name, time, text)
+{
+	class="$1"
+	name="$2"
+	time="$3"
+	shift 4
+	error_text="$@"
+
+	# remove quotes in name
+	name=`echo "$name" | sed -e 's/"//g'`
+
+	# skip this if already reported
+	grep -q "name=\"$name\"" $TMPXML_PREFIX.tc && return 0
+
+	echo "<testcase classname=\"$class\" name=\"$name\" time=\"$time\">" >> $TMPXML_PREFIX.tc
+	echo -n "<skipped><![CDATA[" >> $TMPXML_PREFIX.tc
+	echo -n "$error_text" >> $TMPXML_PREFIX.tc
+	echo "]]></skipped>" 	>> $TMPXML_PREFIX.tc
+	echo "</testcase>" 	>> $TMPXML_PREFIX.tc
+}
+
+function junit_write_xml # (time, nb_failure, nb_skipped, tests)
 {
 	time=$1
 	failure=$2
-	tests=$3
+	skipped=$3
+	tests=$4
 	
 	cp /dev/null $XML
 	echo "<?xml version=\"1.0\" encoding=\"ISO8859-2\" ?>" > $XML
-	echo "<testsuite name=\"sigmund.tests\" errors=\"0\" failures=\"$failure\" tests=\"$tests\" time=\"$time\">" >> $XML
+	echo "<testsuite name=\"sigmund.tests\" errors=\"0\" failures=\"$failure\" skipped=\"$skipped\"  tests=\"$tests\" time=\"$time\">" >> $XML
 	cat $TMPXML_PREFIX.tc 		>> $XML
 	echo -n "<system-out><![CDATA[" >> $XML
 	cat $TMPXML_PREFIX.stdout 	>> $XML
@@ -194,9 +217,9 @@ function run_test
 		NB_SKIPPED=$(($NB_SKIPPED+1))
 		 if (( $junit )); then
 			if [[ $NOROOT = "1" ]] ; then
-                                junit_report_failure "sigmund" "$MODULE: $func: $descr" "$dur" "SKIPPED (NEEDS ROOT)"
+                                junit_report_skipped "sigmund" "$MODULE: $func: $descr" "$dur" "SKIPPED (NEEDS ROOT)"
 			else
-                                junit_report_failure "sigmund" "$MODULE: $func: $descr" "$dur" "SKIPPED"
+                                junit_report_skipped "sigmund" "$MODULE: $func: $descr" "$dur" "SKIPPED"
 			fi
                 fi
 		if (( $quiet )) ; then
@@ -233,7 +256,6 @@ function run_test
 
         # export the function, so that it could be su-ed
 	export -f $func 
-
         if  [[ $quiet == 0 ]] ; then 
         echo
         echo "======= $func: $descr ======="
@@ -344,7 +366,7 @@ function test_finalize
 
 	#init xml report
 	if (( $junit )); then
-		junit_write_xml "$dur" $NB_ERROR $(( $NB_ERROR + $NB_SUCCESS ))
+		junit_write_xml "$dur" $NB_ERROR $NB_SKIPPED $(( $NB_ERROR + $NB_SUCCESS + NB_SKIPPED ))
 		rm -f $TMPXML_PREFIX.stderr $TMPXML_PREFIX.stdout $TMPXML_PREFIX.tc
 	fi
 
