@@ -53,7 +53,7 @@ function test21s
 
 ### test21h : Simple set/get on a xattr on a symlink (no follow)
 SPEED[test21h]=fast
-TEST_TYPE[test21h]=dev,admin,prod
+TEST_TYPE[test21h]=dev,admin,prod,skip
 NEEDS_ROOT[test21h]=no
 function test21h
 {
@@ -205,7 +205,7 @@ function test23s
 
 ### test23h : Set a value several times then check value (no follow)
 SPEED[test23h]=fast
-TEST_TYPE[test23h]=dev,admin,prod
+TEST_TYPE[test23h]=dev,admin,prod,skip
 NEEDS_ROOT[test23h]=no
 function test23h
 {
