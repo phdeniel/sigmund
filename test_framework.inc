@@ -211,6 +211,11 @@ function run_test
         SKIPPED=1
     fi
 
+    # Skip test whose TEST_TYPE contains "skip"
+    if [[ "$test_type" =~ "skip" ]] ; then
+	SKIPPED=1
+    fi
+
     if (( $SKIPPED )); then
       if  [[ $OK_ONLY = "TRUE" && $OK_EXCLUDE = "TRUE" ]] ; then
 		echo "($func : skipped)" >> $SUMMARY
