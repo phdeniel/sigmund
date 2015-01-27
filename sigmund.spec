@@ -2,7 +2,7 @@
 %define debug_package %{nil}
 
 Name: sigmund
-Version: 1
+Version: 1.0
 Release: 4%{?dist}
 Summary: Sigmund Test Suite
 License: LGPLv3
