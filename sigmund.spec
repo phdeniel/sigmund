@@ -32,8 +32,8 @@ tar cf - . | (cd %{buildroot}/opt/sigmund; tar xfp -)
 mv %{buildroot}/opt/sigmund/sigmund.d %{buildroot}%{_sysconfdir}/sigmund.d/
 
 rm %{buildroot}/opt/sigmund/sigmund.spec
-rm %{buildroot}/opt/sigmund/do_rpm.sh
 rm %{buildroot}/opt/sigmund/README
+rm %{buildroot}/opt/sigmund/Makefile
 rm %{buildroot}/opt/sigmund/Sigmund_HowTO.pdf
 rm -fr %{buildroot}/opt/sigmund/wiki 
 rm -fr %{buildroot}/opt/sigmund/sides 
