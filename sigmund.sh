@@ -118,6 +118,7 @@ export BUILD_TEST_DIR
 export RCFILE
 export RCDIR
 export MODULE
+export MODULES
 
 if [[ ! -z $MODULES ]] ; then
   export MODULES

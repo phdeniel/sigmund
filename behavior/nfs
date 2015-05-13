@@ -1,1 +1,1 @@
-export MODULES=allfs,ltpfs,xfstests
+export MODULES=allfs,ltpfs,xfstests,pynfs
