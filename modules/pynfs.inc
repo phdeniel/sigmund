@@ -10,6 +10,7 @@ function test_pynfs40
   tmpfile=/tmp/test$name.$$ 
   cd $PYNFS_DIR/nfs4.0 
   ./testserver.py  --outfile $tmpfile --maketree $PYNFS_URL40 $mytest
+  echo "./testserver.py  --outfile $tmpfile --maketree $PYNFS_URL40 $mytest"
   failed=`$PYNFS_DIR/nfs4.0/showresults.py $tmpfile | grep FAILURE | wc -l`
   rm  $tmpfile
 
@@ -27,6 +28,7 @@ function test_pynfs41
   tmpfile=/tmp/test$name.$$ 
   cd $PYNFS_DIR/nfs4.1 
   ./testserver.py  --outfile $tmpfile --maketree $PYNFS_URL41 $mytest
+  echo "./testserver.py  --outfile $tmpfile --maketree $PYNFS_URL41 $mytest"
   failed=`$PYNFS_DIR/showresults.py $tmpfile | grep FAILURE | wc -l`
   rm  $tmpfile
 
