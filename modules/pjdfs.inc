@@ -4,8 +4,6 @@
 
 function test_pjdfs
 {
-  # path2test=$1
-
   $PROVE -v $PJDFSTEST_DIR/tests/$1 || error "ERROR: pjdfs/$1"
 }
 
