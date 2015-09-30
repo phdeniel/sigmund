@@ -1,0 +1,1 @@
+export MODULES=allfs,xattr,ltpfs,acl,nfstest_posix,pjdfs
