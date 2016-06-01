@@ -245,7 +245,8 @@ function test45f
     $LTPDIR/testcases/bin/creat05 || error "error running creat05"
     $LTPDIR/testcases/bin/creat06 || error "error running creat06"
     $LTPDIR/testcases/bin/creat08 || error "error running creat08"
-    $LTPDIR/testcases/bin/creat09 || error "error running creat07"
+    #PL 2016, 1st of june, this test doesn't exist
+    #$LTPDIR/testcases/bin/creat09 || error "error running creat09"
 }
 
 ######################## DEFINE TEST LIST HERE ####################
