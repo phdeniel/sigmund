@@ -182,11 +182,32 @@ function test45c
     $LTPDIR/testcases/bin/chown04 || error "error running chown02"
     $LTPDIR/testcases/bin/chown05 || error "error running chown05"
 
-    $LTPDIR/testcases/bin/chown01_16 || error "error running chown01_16"
-    $LTPDIR/testcases/bin/chown02_16 || error "error running chown02_16"
-    $LTPDIR/testcases/bin/chown03_16 || error "error running chown02_16"
-    $LTPDIR/testcases/bin/chown04_16 || error "error running chown02_16"
-    $LTPDIR/testcases/bin/chown05_16 || error "error running chown05_16"
+    #PL, 1 juin 2016, TCONF==32 returned by ltpfs
+    #$LTPDIR/testcases/bin/chown01_16 || error "error running chown01_16"
+    $LTPDIR/testcases/bin/chown01_16 || ret_code=$?
+    if (( ret_code != 32 && ret_code != 0 )); then
+        error "error running chown01_16"
+    fi 
+    #$LTPDIR/testcases/bin/chown02_16 || error "error running chown02_16"
+    $LTPDIR/testcases/bin/chown02_16 || ret_code=$?
+    if (( ret_code != 32 && ret_code != 0 )); then
+        error "error running chown02_16"
+    fi 
+    #$LTPDIR/testcases/bin/chown03_16 || error "error running chown02_16"
+    $LTPDIR/testcases/bin/chown03_16 || ret_code=$?
+    if (( ret_code != 32 && ret_code != 0 )); then
+        error "error running chown03_16"
+    fi 
+    #$LTPDIR/testcases/bin/chown04_16 || error "error running chown02_16"
+    $LTPDIR/testcases/bin/chown04_16 || ret_code=$?
+    if (( ret_code != 32 && ret_code != 0 )); then
+        error "error running chown04_16"
+    fi 
+    #$LTPDIR/testcases/bin/chown05_16 || error "error running chown05_16"
+    $LTPDIR/testcases/bin/chown05_16 || ret_code=$?
+    if (( ret_code != 32 && ret_code != 0 )); then
+        error "error running chown05_16"
+    fi 
 }
 
 ### test45d: run LTP's chroot tests
