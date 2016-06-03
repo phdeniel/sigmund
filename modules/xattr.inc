@@ -223,7 +223,9 @@ function test23h
 
 ### test24f : Set a trusted.* xattr on a file
 SPEED[test24f]=fast
-TEST_TYPE[test24f]=dev,admin,prod
+#PL, 3 june 2016, waiting for client patch on trusted xattr
+#TEST_TYPE[test24f]=dev,admin,prod
+TEST_TYPE[test24f]=dev,admin,prod,skip
 NEEDS_ROOT[test24f]=yes
 function test24f
 {
@@ -238,7 +240,9 @@ function test24f
 
 ### test25f : Set a security.* xattr on a file
 SPEED[test25f]=fast
-TEST_TYPE[test25f]=dev,admin,prod
+#PL, 3 june 2016, waiting for client patch on security xattr
+#TEST_TYPE[test25f]=dev,admin,prod
+TEST_TYPE[test25f]=dev,admin,prod,skip
 NEEDS_ROOT[test25f]=yes
 function test25f
 {
