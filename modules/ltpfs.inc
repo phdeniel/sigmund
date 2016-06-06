@@ -18,7 +18,9 @@ function test41a
 
 ### test41b: run fsx-linux with mmap on write
 SPEED[test41b]=medium
-TEST_TYPE[test41b]=dev,admin,prod
+#PL, 2016, 6th of june, waiting an updated 9p client with cache=mmap
+#TEST_TYPE[test41b]=dev,admin,prod
+TEST_TYPE[test41b]=dev,admin,prod,skip
 NEEDS_ROOT[test41b]=no
 function test41b
 {
@@ -31,7 +33,9 @@ function test41b
 
 ### test41c: run fsx-linux with mmap on read
 SPEED[test41c]=medium
-TEST_TYPE[test41c]=dev,admin,prod
+#PL, 2016, 6th of june, waiting an updated 9p client with cache=mmap
+#TEST_TYPE[test41c]=dev,admin,prod
+TEST_TYPE[test41c]=dev,admin,prod,skip
 NEEDS_ROOT[test41c]=no
 function test41c
 {
@@ -45,7 +49,9 @@ function test41c
 
 ### test41d: run fsx-linux with mmap on read+write
 SPEED[test41d]=medium
-TEST_TYPE[test41d]=dev,admin,prod
+#PL, 2016, 6th of june, waiting an updated 9p client with cache=mmap
+#TEST_TYPE[test41d]=dev,admin,prod
+TEST_TYPE[test41d]=dev,admin,prod,skip
 NEEDS_ROOT[test41d]=no
 function test41d
 {
