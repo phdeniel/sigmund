@@ -179,7 +179,9 @@ function test3g
 
 ### test3s : cthon04's special tests
 SPEED[test3s]=medium
-TEST_TYPE[test3s]=dev,admin,prod
+#We skip, waiting an updated 9p client with mmap
+#TEST_TYPE[test3s]=dev,admin,prod
+TEST_TYPE[test3s]=dev,admin,prod,skip
 NEEDS_ROOT[test3s]=no
 function test3s
 {
@@ -191,7 +193,9 @@ function test3s
 
 ### test3l : cthon04's lock tests
 SPEED[test3l]=medium
-TEST_TYPE[test3l]=dev,admin
+#We skip, waiting an updated 9p client with mmap
+#TEST_TYPE[test3l]=dev,admin
+TEST_TYPE[test3l]=dev,admin,skip
 NEEDS_ROOT[test3l]=no
 function test3l
 {
