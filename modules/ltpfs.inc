@@ -65,7 +65,7 @@ function test41d
 ### test42b: run bonnie++ with a reduced memory size
 SPEED[test42b]=longest
 TEST_TYPE[test42b]=dev
-NEEDS_ROOT[test42b]=no
+NEEDS_ROOT[test42b]=yes
 function test42b
 {
     dir="test_dir"

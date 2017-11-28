@@ -317,7 +317,7 @@ function test56R
 }
 
 ### test57r: pynfs4.0 tests related to renew
-SPEED[test57r]=medium
+SPEED[test57r]=slow
 TEST_TYPE[test57r]=dev,admin
 NEEDS_ROOT[test57r]=yes
 function test57r
@@ -678,7 +678,7 @@ function test59t
 }
 
 ### test59T: pynfs4.0 tests related to timed
-SPEED[test59T]=medium
+SPEED[test59T]=slow
 TEST_TYPE[test59T]=dev,admin
 NEEDS_ROOT[test59T]=yes
 function test59T

@@ -21,7 +21,7 @@ It will look like this:
  ##### Variables to be used by module allfs #####
  # Path to cthon04 test's suite
  CTHON04_DIR=/opt/cthon04
- GIT_CLONE_URL=/opt/GANESHA/.git
+ GIT_CLONE_URL=/opt/nfs-ganesha/.git
 
  # Non-root user that will run part of the test
  TEST_USER=phil
