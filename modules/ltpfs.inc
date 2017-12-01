@@ -77,7 +77,7 @@ function test42b
 ### test43f: run fsstress on 30 procs
 SPEED[test43f]=medium
 TEST_TYPE[test43f]=dev
-NEEDS_ROOT[test43f]=no
+NEEDS_ROOT[test43f]=yes
 function test43f
 {
     # create user directory
@@ -151,7 +151,7 @@ function test44s
 ### test45a: run LTP's chdir tests
 SPEED[test45a]=fast
 TEST_TYPE[test45a]=dev,admin
-NEEDS_ROOT[test45a]=no
+NEEDS_ROOT[test45a]=yes
 function test45a
 {
     $LTPDIR/testcases/bin/chdir01 || error "error running chdir01"
@@ -179,7 +179,7 @@ function test45b
 ### test45c: run LTP's chown tests
 SPEED[test45c]=fast
 TEST_TYPE[test45c]=dev,admin
-NEEDS_ROOT[test45c]=no
+NEEDS_ROOT[test45c]=yes
 function test45c
 {
     $LTPDIR/testcases/bin/chown01 || error "error running chown01"
@@ -242,7 +242,7 @@ function test45e
 ### test45f: run LTP's creat tests
 SPEED[test45f]=fast
 TEST_TYPE[test45f]=dev,admin
-NEEDS_ROOT[test45f]=no
+NEEDS_ROOT[test45f]=yes
 function test45f
 {
     $LTPDIR/testcases/bin/creat01 || error "error running creat01"
